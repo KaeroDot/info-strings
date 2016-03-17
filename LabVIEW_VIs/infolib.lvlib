@@ -46,7 +46,6 @@
 		</Item>
 		<Item Name="Get matrix polymorph parts" Type="Folder"/>
 		<Item Name="Testing" Type="Folder">
-			<Item Name="pcre tester.vi" Type="VI" URL="../../../pcre tester.vi"/>
 			<Item Name="test library.vi" Type="VI" URL="../Private/Testing/test library.vi"/>
 			<Item Name="test simple.vi" Type="VI" URL="../Private/Testing/test simple.vi"/>
 		</Item>
@@ -65,6 +64,7 @@
 			<Item Name="Get Section.vi" Type="VI" URL="../Private/Utilities/Get Section.vi"/>
 			<Item Name="Indent Size.vi" Type="VI" URL="../Private/Utilities/Indent Size.vi"/>
 			<Item Name="Insert.vi" Type="VI" URL="../Private/Utilities/Insert.vi"/>
+			<Item Name="RegExpTranslate.vi" Type="VI" URL="../Private/Utilities/RegExpTranslate.vi"/>
 			<Item Name="Remove all sections.vi" Type="VI" URL="../Private/Utilities/Remove all sections.vi"/>
 		</Item>
 	</Item>
