@@ -14,6 +14,8 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="infolib.lvlib" Type="Library" URL="../infolib.lvlib"/>
+		<Item Name="README example get.vi" Type="VI" URL="../README example get.vi"/>
+		<Item Name="README example set.vi" Type="VI" URL="../README example set.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
 				<Item Name="Check if File or Folder Exists.vi" Type="VI" URL="/&lt;vilib&gt;/Utility/libraryn.llb/Check if File or Folder Exists.vi"/>
