@@ -37,7 +37,7 @@
 				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber]</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{AA26BF06-549A-4358-8BBB-D1ACC0582C52}</Property>
-				<Property Name="Bld_version.minor" Type="Int">4</Property>
+				<Property Name="Bld_version.minor" Type="Int">5</Property>
 				<Property Name="Destination[0].destName" Type="Str">infolib.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber]/NI_AB_PROJECTNAME.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
@@ -48,7 +48,7 @@
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{C90D14FF-7133-4C16-877D-D5E53FC13BEE}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{AF5B4EA7-A081-47DE-8738-C2969C39FD5B}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
@@ -62,7 +62,7 @@
 				<Property Name="TgtF_companyName" Type="Str">CMI</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Info description files library</Property>
 				<Property Name="TgtF_internalName" Type="Str">Info description files library</Property>
-				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2013 CMI</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2017 CMI</Property>
 				<Property Name="TgtF_productName" Type="Str">Info description files library</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{8C942BDF-0848-4606-8F67-645A9B2C4600}</Property>
 				<Property Name="TgtF_targetfileName" Type="Str">infolib.lvlibp</Property>
