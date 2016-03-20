@@ -48,6 +48,7 @@
 			<Item Name="Get 1D CXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D CXT.vi"/>
 			<Item Name="Get 1D EXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D EXT.vi"/>
 			<Item Name="Get 1D I64.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D I64.vi"/>
+			<Item Name="Get 1D String.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D String.vi"/>
 			<Item Name="Get 1D U64.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D U64.vi"/>
 			<Item Name="Get 2D CXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D CXT.vi"/>
 			<Item Name="Get 2D EXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D EXT.vi"/>
