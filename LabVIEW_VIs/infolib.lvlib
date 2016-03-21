@@ -45,6 +45,7 @@
 			<Item Name="GetU64.vi" Type="VI" URL="../Private/Get key polymorph parts/GetU64.vi"/>
 		</Item>
 		<Item Name="Get matrix polymorph parts" Type="Folder">
+			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Get 1D CXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D CXT.vi"/>
 			<Item Name="Get 1D EXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D EXT.vi"/>
 			<Item Name="Get 1D I64.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 1D I64.vi"/>
@@ -55,6 +56,8 @@
 			<Item Name="Get 2D EXT.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D EXT.vi"/>
 			<Item Name="Get 2D I64.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D I64.vi"/>
 			<Item Name="Get 2D U64.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D U64.vi"/>
+			<Item Name="Get 2D String.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D String.vi"/>
+			<Item Name="Get 2D Time Stamp.vi" Type="VI" URL="../Private/Get matrix polymorph parts/Get 2D Time Stamp.vi"/>
 		</Item>
 		<Item Name="Testing" Type="Folder">
 			<Item Name="test library.vi" Type="VI" URL="../Private/Testing/test library.vi"/>
@@ -71,12 +74,14 @@
 			<Item Name="Create Table Heading.vi" Type="VI" URL="../Private/Utilities/Create Table Heading.vi"/>
 			<Item Name="EOL.vi" Type="VI" URL="../Private/Utilities/EOL.vi"/>
 			<Item Name="Exist Section.vi" Type="VI" URL="../Private/Utilities/Exist Section.vi"/>
+			<Item Name="Flatten to CSV Record.vi" Type="VI" URL="../Private/Utilities/Flatten to CSV Record.vi"/>
 			<Item Name="Get Key Line.vi" Type="VI" URL="../Private/Utilities/Get Key Line.vi"/>
 			<Item Name="Get Matrix String.vi" Type="VI" URL="../Private/Utilities/Get Matrix String.vi"/>
 			<Item Name="Get Section Indentation Length.vi" Type="VI" URL="../Private/Utilities/Get Section Indentation Length.vi"/>
 			<Item Name="Get Section.vi" Type="VI" URL="../Private/Utilities/Get Section.vi"/>
 			<Item Name="Indent Size.vi" Type="VI" URL="../Private/Utilities/Indent Size.vi"/>
 			<Item Name="Insert.vi" Type="VI" URL="../Private/Utilities/Insert.vi"/>
+			<Item Name="Parse CSV String.vi" Type="VI" URL="../Private/Utilities/Parse CSV String.vi"/>
 			<Item Name="RegExpTranslate.vi" Type="VI" URL="../Private/Utilities/RegExpTranslate.vi"/>
 			<Item Name="Remove all sections.vi" Type="VI" URL="../Private/Utilities/Remove all sections.vi"/>
 		</Item>
