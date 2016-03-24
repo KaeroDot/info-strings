@@ -8,6 +8,8 @@
 ## the value as number
 ##
 ## If @var{scell} is set, the key is searched in section(s) defined by string(s) in cell.
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## Example:
 ## @example

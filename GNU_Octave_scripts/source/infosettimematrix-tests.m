@@ -1,7 +1,9 @@
 % --------------------------- tests: %<<<1
 %!shared istxt
-%! istxt = sprintf('#startmatrix:: tmat\n        2013-12-11T22:59:30.123456\n        2013-12-11T22:59:30.123456\n#endmatrix:: tmat');
-%!assert(strcmp(infosettimematrix('tmat', [1386799170.123456; 1386799170.123456]), istxt));
+%! istxt = sprintf('#startmatrix:: tmat\n        2011-12-13T14:15:16.1700006+00:00\n        2011-12-13T14:15:16.1700006+00:00\n#endmatrix:: tmat');
+%! setenv ('TZ', 'UTC0');
+%!assert(strcmp(infosettimematrix('tmat', [1323785716.17; 1323785716.17]), istxt));
+%! unsetenv('TZ');
 %!error(infosettimematrix('a'))
 %!error(infosettimematrix(5, 'a'))
 %!error(infosettimematrix('a', 'b'))

@@ -8,6 +8,8 @@
 ## '#startsection:: key' and before line '#endsection:: key' and returns them.
 ## 
 ## If @var{scell} is set, the section is searched in section(s) defined by string(s) in cell.
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## Second output argument returns the index of end of section.
 ##

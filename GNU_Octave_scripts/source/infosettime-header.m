@@ -8,15 +8,16 @@
 ## @deftypefnx {Function File} @var{infostr} = infosettime (@var{infostr}, @var{key}, @var{val}, @var{scell})
 ## Returns info string with key @var{key} and time @var{val} in following format:
 ## @example
-## key:: %Y-%m-%dT%H:%M:%S.SSSSSS
-##
+## key:: YYYY-mm-DDTHH:MM:SS.6S(+|-)HH:MM
 ## @end example
-##
-## The time is formatted as local time according ISO 8601 with six digits in microseconds.
+## The time is formatted as local time according extended ISO 8601 with six digits in microseconds.
+## The time is expressed in local time, the time zone offset is explicitly specified.
 ## Expected input time system is a number of seconds since the epoch, as in
 ## function time().
 ##
 ## If @var{scell} is set, the key/value is enclosed by section(s) according @var{scell}.
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## If @var{infostr} is set, the key/value is put into existing @var{infostr} 
 ## sections, or sections are generated if needed and properly appended/inserted 
@@ -30,7 +31,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 4.0
+## Version: 4.1
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
