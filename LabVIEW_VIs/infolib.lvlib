@@ -78,7 +78,6 @@
 			<Item Name="Get Key Line.vi" Type="VI" URL="../Private/Utilities/Get Key Line.vi"/>
 			<Item Name="Get Matrix String.vi" Type="VI" URL="../Private/Utilities/Get Matrix String.vi"/>
 			<Item Name="Get Section Indentation Length.vi" Type="VI" URL="../Private/Utilities/Get Section Indentation Length.vi"/>
-			<Item Name="Get Section.vi" Type="VI" URL="../Private/Utilities/Get Section.vi"/>
 			<Item Name="Indent Size.vi" Type="VI" URL="../Private/Utilities/Indent Size.vi"/>
 			<Item Name="Insert.vi" Type="VI" URL="../Private/Utilities/Insert.vi"/>
 			<Item Name="Parse CSV String.vi" Type="VI" URL="../Private/Utilities/Parse CSV String.vi"/>
@@ -89,6 +88,7 @@
 	<Item Name="Public" Type="Folder">
 		<Item Name="Add Key Or Table.vi" Type="VI" URL="../Public/Add Key Or Table.vi"/>
 		<Item Name="Get Key Or Table.vi" Type="VI" URL="../Public/Get Key Or Table.vi"/>
+		<Item Name="Get Section.vi" Type="VI" URL="../Public/Get Section.vi"/>
 		<Item Name="Insert Info Data.vi" Type="VI" URL="../Public/Insert Info Data.vi"/>
 		<Item Name="Load Info.vi" Type="VI" URL="../Public/Load Info.vi"/>
 		<Item Name="Save Info.vi" Type="VI" URL="../Public/Save Info.vi"/>
