@@ -67,6 +67,7 @@
 			<Item Name="Add spaces.vi" Type="VI" URL="../Private/Utilities/Add spaces.vi"/>
 			<Item Name="Assure Newline at End.vi" Type="VI" URL="../Private/Utilities/Assure Newline at End.vi"/>
 			<Item Name="Convert String to Time Stamp.vi" Type="VI" URL="../Private/Utilities/Convert String to Time Stamp.vi"/>
+			<Item Name="Convert Time Stamp to String.vi" Type="VI" URL="../Private/Utilities/Convert Time Stamp to String.vi"/>
 			<Item Name="Create 1D Table.vi" Type="VI" URL="../Private/Utilities/Create 1D Table.vi"/>
 			<Item Name="Create 2D Table.vi" Type="VI" URL="../Private/Utilities/Create 2D Table.vi"/>
 			<Item Name="Create key line.vi" Type="VI" URL="../Private/Utilities/Create key line.vi"/>
