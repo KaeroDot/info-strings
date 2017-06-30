@@ -113,12 +113,12 @@ endfunction
 %!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
 %!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
 %!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosetesction('a'))
-%!error(infosetesction(5, 'a'))
-%!error(infosetesction('a', 5))
-%!error(infosetesction('a', 'b', 'd'))
-%!error(infosetesction('a', 'b', {5}))
-%!error(infosetesction('a', 'b', 'c', 'd'))
-%!error(infosetesction('a', 'b', 'c', {5}))
+%!error(infosettext('a'))
+%!error(infosettext(5, 'a'))
+%!error(infosettext('a', 5))
+%!error(infosettext('a', 'b', 5))
+%!error(infosettext('a', 'b', {5}))
+%!error(infosettext('a', 'b', 'c', 'd'))
+%!error(infosettext('a', 'b', 'c', {5}))
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000
