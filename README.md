@@ -76,6 +76,7 @@ All scripts contains also:
 1, tests;
 
 Number of files was kept to minimum, no auxiliary functions are needed, recursion is used a lot.
+Core functions are info(g/s)etsection.m and info(g/s)ettext.m. Other are derived from these four.
 
 ## GNU Octave package
 
