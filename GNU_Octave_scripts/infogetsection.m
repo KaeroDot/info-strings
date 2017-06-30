@@ -4,8 +4,8 @@
 ## -*- texinfo -*-
 ## @deftypefn {Function File} [@var{section}, @var{endposition}] = infogetsection (@var{infostr}, @var{key})
 ## @deftypefnx {Function File} [@var{section}, @var{endposition}]= infogetsection (@var{infostr}, @var{key}, @var{scell})
-## Parse info string @var{infostr}, finds lines enclosed by lines after 
-## '#startsection:: key' and before '#endsection:: key' and returns them.
+## Parse info string @var{infostr}, finds lines after line
+## '#startsection:: key' and before line '#endsection:: key' and returns them.
 ## 
 ## If @var{scell} is set, the section is searched in section(s) defined by string(s) in cell.
 ##

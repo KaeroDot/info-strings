@@ -82,7 +82,7 @@ function infostr = infosetnumber(varargin) %<<<1
                 error('infosetnumber: infostr and key must be strings')
         endif
         if (~isscalar(val) || ~isnumeric(val))
-                error("infosetnumber: val must be a numeric scalar")
+                error('infosetnumber: val must be a numeric scalar')
         endif
         if (~iscell(scell))
                 error('infosetnumber: scell must be a cell')
