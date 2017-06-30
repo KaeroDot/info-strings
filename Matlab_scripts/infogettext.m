@@ -1,44 +1,52 @@
-## Copyright (C) 2013 Martin Šíra %<<<1
-##
+function text = infogettext(infostr, key, varargin)%<<<1
+% -- Function File: TEXT = infogettext (INFOSTR, KEY)
+% -- Function File: TEXT = infogettext (INFOSTR, KEY, SCELL)
+%     Parse info string INFOSTR, finds line with content "key:: value"
+%     and returns the value as text.
+%
+%     If SCELL is set, the key is searched in section(s) defined by
+%     string(s) in cell.
+%
+%     Example:
+%          infostr = "A:: 1
+%          some note
+%          B([V?*.])::    !$^&*()[];::,.
+%          #startmatrix:: simple matrix
+%          1;  2; 3;
+%          4;5;         6;
+%          #endmatrix:: simple matrix
+%          C:: c without section
+%          #startsection:: section 1
+%            C:: c in section 1
+%            #startsection:: subsection
+%              C:: c in subsection
+%            #endsection:: subsection
+%          #endsection:: section 1
+%          #startsection:: section 2
+%            C:: c in section 2
+%          #endsection:: section 2
+%          "
+%          infogettext(infostr,'A')
+%          infogettext(infostr,'B([V?*.])')
+%          infogettext(infostr,'C')
+%          infogettext(infostr,'C', {'section 1', 'subsection'})
+%          infogettext(infostr,'C', {'section 2'})
 
-## -*- texinfo -*-
-## @deftypefn {Function File} @var{text} = infogettext (@var{infostr}, @var{key})
-## @deftypefnx {Function File} @var{text} = infogettext (@var{infostr}, @var{key}, @var{scell})
-## Parse info string @var{infostr}, finds line with content "key:: value" and returns 
-## the value as text.
-##
-## If @var{scell} is set, the key is searched in section(s) defined by string(s) in cell.
-##
-## White characters can be before key, after key, before or after delimiter (::) or after key.
-## Keys can contain any character but newline. Value can be anything but newline. Any text 
-## can be inserted in between lines. Matrices are stored as semicolon delimited values, space
-## characters are not important, however semicolon must be right after a numeric value. Sections
-## are used e.g. for multiple identical keys with different values.
-##
-## Example:
-## @example
-## infostr = "A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n"
-## infogettext(infostr,'A')
-## infogettext(infostr,'B([V?*.])')
-## infogettext(infostr,'C')
-## infogettext(infostr,'C', @{'section 1', 'subsection'@})
-## infogettext(infostr,'C', @{'section 2'@})
-## @end example
-## @end deftypefn
+% Copyright (C) 2013 Martin Šíra %<<<1
+%
 
-## Author: Martin Šíra <msiraATcmi.cz>
-## Created: 2013
-## Version: 2.0
-## Script quality:
-##   Tested: yes
-##   Contains help: yes
-##   Contains example in help: yes
-##   Checks inputs: yes
-##   Contains tests: yes
-##   Contains demo: no
-##   Optimized: no
+% Author: Martin Šíra <msiraATcmi.cz>
+% Created: 2013
+% Version: 2.0
+% Script quality:
+%   Tested: yes
+%   Contains help: yes
+%   Contains example in help: yes
+%   Checks inputs: yes
+%   Contains tests: yes
+%   Contains demo: no
+%   Optimized: no
 
-function text = infogettext(infostr, key, varargin) %<<<1
         % input possibilities:
         %       infostr, key,
         %       infostr, key, scell
@@ -51,27 +59,27 @@ function text = infogettext(infostr, key, varargin) %<<<1
         % check inputs %<<<2
         if (nargin < 2 || nargin > 3)
                 print_usage()
-        endif
+        end
         % set default value
         % (this is because Matlab cannot assign default value in function definition)
         if nargin < 3
                 scell = {};
         else
                 scell = varargin{1};
-        endif
+        end
         % check values of inputs
         if (~ischar(infostr) || ~ischar(key))
                 error('infogettext: infostr and key must be strings')
-        endif
+        end
         if (~all(cellfun(@ischar, scell)))
                 error('infogettext: scell must be a cell of strings')
-        endif
+        end
 
         % get text %<<<2
         % find proper section(s):
         for i = 1:length(scell)
                 infostr = infogetsection(infostr, scell{i});
-        endfor
+        end
         % remove all other sections in infostr, to prevent finding
         % key inside of some section
         while (~isempty(infostr))
@@ -86,9 +94,9 @@ function text = infogettext(infostr, key, varargin) %<<<1
                         if S-1 >= E+1
                                 % danger of infinite loop! this should never happen
                                 error('infogettext: infinite loop happened!')
-                        endif
-                endif
-        endwhile
+                        end
+                end
+        end
         % find key and get value
         % regexp for rest of line after a key:
         rol = '\s*::([^\n]*)';
@@ -105,9 +113,9 @@ function text = infogettext(infostr, key, varargin) %<<<1
                         text = strtrim(T{1}{1});
                 else
                         error(['infogettext: key `' key '` found on multiple places'])
-                endif
-        endif
-endfunction
+                end
+        end
+end
 
 function key = regexpescape(key)
         % Translate all special characters (e.g., '$', '.', '?', '[') in
@@ -124,12 +132,12 @@ function key = regexpescape(key)
                 key = regexprep(key, '\*', '\*');
                 key = regexprep(key, '\(', '\(');
                 key = regexprep(key, '\)', '\)');
-        endif
-endfunction
+        end
+end
 
 % --------------------------- tests: %<<<1
 %!shared infostr
-%! infostr = "A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n";
+%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
 %!assert(strcmp(infogettext(infostr,'A'),'1'))
 %!assert(strcmp(infogettext(infostr,'B([V?*.])'),'!$^&*()[];::,.'));
 %!assert(strcmp(infogettext(infostr,'C'),'c without section'))
@@ -141,12 +149,9 @@ endfunction
 %!error(infogettext(infostr, ''));
 %!error(infogettext(infostr, 'A', {'section 1'}));
 
-
-
 % NOVY TESTOVACI INFOSTR:
 % 
 % infostr = "A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n"
-
 
 % A:: 1
 % some note

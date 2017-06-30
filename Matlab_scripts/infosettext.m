@@ -1,43 +1,38 @@
-## Copyright (C) 2014 Martin Šíra %<<<1
-##
+function infostr = infosettext(varargin)%<<<1
+% -- Function File: INFOSTR = infosettext (KEY, VAL)
+% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
+%     Returns info string with key KEY and text VAL in following format:
+%          key:: val
+%
+%     If SCELL is set, the key/value is enclosed by section(s) according
+%     SCELL.
+%
+%     If INFOSTR is set, the key/value is put into existing INFOSTR
+%     sections, or sections are generated if needed and properly
+%     appended/inserted into INFOSTR.
+%
+%     Example:
+%          infosettext('key', 'value')
+%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
+%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
 
-## -*- texinfo -*-
-## @deftypefn {Function File} @var{infostr} = infosettext (@var{key}, @var{val})
-## @deftypefnx {Function File} @var{infostr} = infosettext (@var{key}, @var{val}, @var{scell})
-## @deftypefnx {Function File} @var{infostr} = infosettext (@var{infostr}, @var{key}, @var{val})
-## @deftypefnx {Function File} @var{infostr} = infosettext (@var{infostr}, @var{key}, @var{val}, @var{scell})
-## Returns info string with key @var{key} and text @var{val} in following format:
-## @example
-## key:: val
-##
-## @end example
-## If @var{scell} is set, the key/value is enclosed by section(s) according @var{scell}.
-##
-## If @var{infostr} is set, the key/value is put into existing @var{infostr} 
-## sections, or sections are generated if needed and properly appended/inserted 
-## into @var{infostr}.
-##
-## Example:
-## @example
-## infosettext('key', 'value')
-## infostr = infosettext('key', 'value', @{'section key', 'subsection key'@})
-## infosettext(infostr, 'other key', 'other value', @{'section key', 'subsection key'@})
-## @end example
-## @end deftypefn
+% Copyright (C) 2014 Martin Šíra %<<<1
+%
 
-## Author: Martin Šíra <msiraATcmi.cz>
-## Created: 2014
-## Version: 2.0
-## Script quality:
-##   Tested: yes
-##   Contains help: yes
-##   Contains example in help: yes
-##   Checks inputs: yes
-##   Contains tests: yes
-##   Contains demo: no
-##   Optimized: no
+% Author: Martin Šíra <msiraATcmi.cz>
+% Created: 2014
+% Version: 2.0
+% Script quality:
+%   Tested: yes
+%   Contains help: yes
+%   Contains example in help: yes
+%   Checks inputs: yes
+%   Contains tests: yes
+%   Contains demo: no
+%   Optimized: no
 
-function infostr = infosettext(varargin) %<<<1
         % input possibilities:
         %       key, val
         %       key, val, scell
@@ -52,7 +47,7 @@ function infostr = infosettext(varargin) %<<<1
         % check inputs %<<<2
         if (nargin < 2 || nargin > 4)
                 print_usage()
-        endif
+        end
         % identify inputs
         if nargin == 4
                 infostr = varargin{1};
@@ -75,18 +70,18 @@ function infostr = infosettext(varargin) %<<<1
                         key = varargin{2};
                         val = varargin{3};
                         scell = {};
-                endif
-        endif
+                end
+        end
         % check values of inputs
         if (~ischar(infostr) || ~ischar(key) || ~ischar(val))
                 error('infosettext: infostr, key and val must be strings')
-        endif
+        end
         if (~iscell(scell))
                 error('infosettext: scell must be a cell')
-        endif
+        end
         if (~all(cellfun(@ischar, scell)))
                 error('infosettext: scell must be a cell of strings')
-        endif
+        end
 
         % make infostr %<<<2
         % generate new line with key and val:
@@ -97,12 +92,12 @@ function infostr = infosettext(varargin) %<<<1
                         before = '';
                 else
                         before = [deblank(infostr) NL];
-                endif
+                end
                 infostr = [before newline];
         else
                 infostr = infosetsection(infostr, newline, scell);
-        endif
-endfunction
+        end
+end
 
 % --------------------------- tests: %<<<1
 %!shared istxt, iskey, iskeydbl

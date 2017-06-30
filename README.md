@@ -75,6 +75,8 @@ All scripts contains also:
 1, examples in help;
 1, tests;
 
+Number of files was kept to minimum, no auxiliary functions are needed, recursion is used a lot.
+
 ## GNU Octave package
 
 ## Matlab scripts

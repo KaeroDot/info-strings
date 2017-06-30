@@ -1,47 +1,44 @@
-## Copyright (C) 2014 Martin Šíra %<<<1
-##
+function infostr = infosetsection(varargin)%<<<1
+% -- Function File: INFOSTR = infosetsection (KEY, VAL)
+% -- Function File: INFOSTR = infosetsection (VAL, SCELL)
+% -- Function File: INFOSTR = infosetsection (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosetsection (INFOSTR, VAL, SCELL)
+% -- Function File: INFOSTR = infosetsection (INFOSTR, KEY, VAL, SCELL)
+%     Returns info string with a section made from KEY and string VAL in
+%     following format:
+%          #startsection:: key
+%               val
+%          #endsection:: key
+%
+%     If SCELL is set, the section is put into subsections according
+%     SCELL.  If KEY is not specified, last element of SCELL is
+%     considered as KEY.
+%
+%     If INFOSTR is set, the section is put into existing INFOSTR
+%     sections, or sections are generated if needed.
+%
+%     Example:
+%          infosetsection('section key',"multi
+%          line
+%          value")
+%          infostr = infosetsection('value', {'section key', 'subsection key'})
+%          infosetsection(infostr, 'subsubsection key', 'other value', {'section key', 'subsection key'})
 
-## -*- texinfo -*-
-## @deftypefn {Function File} @var{infostr} = infosetsection (@var{key}, @var{val})
-## @deftypefnx {Function File} @var{infostr} = infosetsection (@var{val}, @var{scell})
-## @deftypefnx {Function File} @var{infostr} = infosetsection (@var{infostr}, @var{key}, @var{val})
-## @deftypefnx {Function File} @var{infostr} = infosetsection (@var{infostr}, @var{val}, @var{scell})
-## @deftypefnx {Function File} @var{infostr} = infosetsection (@var{infostr}, @var{key}, @var{val}, @var{scell})
-## Returns info string with a section made from @var{key} and string
-## @var{val} in following format:
-## @example
-## #startsection:: key
-##      val
-## #endsection:: key
-##
-## @end example
-## If @var{scell} is set, the section is put into subsections according @var{scell}. 
-## If @val{key} is not specified, last element of @var{scell} is considered as @var{key}.
-##
-## If @var{infostr} is set, the section is put into existing @var{infostr} 
-## sections, or sections are generated if needed.
-##
-## Example:
-## @example
-## infosetsection('section key',"multi\nline\nvalue")
-## infostr = infosetsection('value', @{'section key', 'subsection key'@})
-## infosetsection(infostr, 'subsubsection key', 'other value', @{'section key', 'subsection key'@})
-## @end example
-## @end deftypefn
+% Copyright (C) 2014 Martin Šíra %<<<1
+%
 
-## Author: Martin Šíra <msiraATcmi.cz>
-## Created: 2014
-## Version: 2.0
-## Script quality:
-##   Tested: yes
-##   Contains help: yes
-##   Contains example in help: yes
-##   Checks inputs: yes
-##   Contains tests: yes
-##   Contains demo: no
-##   Optimized: no
+% Author: Martin Šíra <msiraATcmi.cz>
+% Created: 2014
+% Version: 2.0
+% Script quality:
+%   Tested: yes
+%   Contains help: yes
+%   Contains example in help: yes
+%   Checks inputs: yes
+%   Contains tests: yes
+%   Contains demo: no
+%   Optimized: no
 
-function infostr = infosetsection(varargin) %<<<1
         % input possibilities:
         %       key, val
         %       val, scell
@@ -61,7 +58,7 @@ function infostr = infosetsection(varargin) %<<<1
         % check inputs %<<<2
         if (nargin < 2 || nargin > 4)
                 print_usage()
-        endif
+        end
         % identify inputs
         if nargin == 2;
                 if ~iscell(varargin{2})
@@ -74,7 +71,7 @@ function infostr = infosetsection(varargin) %<<<1
                         key = '';
                         val = varargin{1};
                         scell = varargin{2};
-                endif
+                end
         elseif nargin == 3
                 if iscell(varargin{3})
                         infostr = varargin{1};
@@ -86,28 +83,28 @@ function infostr = infosetsection(varargin) %<<<1
                         key = varargin{2};
                         val = varargin{3};
                         scell = {};
-                endif
+                end
         elseif nargin == 4
                 infostr = varargin{1};
                 key = varargin{2};
                 val = varargin{3};
                 scell = varargin{4};
-        endif
+        end
         % check values of inputs
         if (~ischar(infostr) || ~ischar(key) || ~ischar(val))
                 error('infosetsection: infostr, key and val must be strings')
-        endif
+        end
         if (~iscell(scell))
                 error('infosetsection: scell must be a cell')
-        endif
+        end
         if (~all(cellfun(@ischar, scell)))
                 error('infosetsection: scell must be a cell of strings')
-        endif
+        end
 
         % format inputs %<<<2
         if ~isempty(key)
                 scell = [scell {key}];
-        endif
+        end
 
         % make infostr %<<<2
         if (isempty(infostr) && length(scell) == 1)
@@ -130,8 +127,8 @@ function infostr = infosetsection(varargin) %<<<1
                                 % error happened -> section path scell(1:i) do not exist:
                                 i = i - 1;
                                 break
-                        end_try_catch
-                endfor
+                        end
+                end
                 % split info string according found position:
                 infostrA = infostr(1:position);
                 infostrB = infostr(position+1:end);
@@ -140,7 +137,7 @@ function infostr = infosetsection(varargin) %<<<1
                         before = '';
                 else
                         before = [deblank(infostrA) NL];
-                endif
+                end
                 % remove leading new lines if present in part B:
                 infostrB = regexprep(infostrB, '^\n', '');
                 % create sections if needed:
@@ -151,7 +148,7 @@ function infostr = infosetsection(varargin) %<<<1
                         % else just use value with proper indentation:
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
                         toinsert = [deblank(strrep([NL strtrim(val) NL], NL, [NL spaces])) NL];
-                endif
+                end
                 % create main section if needed
                 if i < length(scell);
                         % simply generate section
@@ -160,27 +157,26 @@ function infostr = infosetsection(varargin) %<<<1
                         toinsert = infosetsection(scell{i+1}, toinsert);
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
                         toinsert = [deblank(strrep([NL strtrim(toinsert) NL], NL, [NL spaces])) NL];
-                endif
+                end
                 toinsert = regexprep(toinsert, '^\n', '');
                 % create new infostr by inserting new part at proper place of old infostr:
                 infostr = deblank([before deblank(toinsert) NL infostrB]);
-        endif
-endfunction
+        end
+end
 
 % --------------------------- tests: %<<<1
-% only working in GNU Octave, anyway Matlab have no idea how to run it
 %!shared iskey, iskeysubkey, iskey2, isvalval2, isvalsubval2
-%! iskey = "#startsection:: skey\n        key:: val\n#endsection:: skey";
-%! iskeysubkey = "#startsection:: skey\n        #startsection:: subskey\n                key:: val\n        #endsection:: subskey\n#endsection:: skey";
-%! iskey2 = "#startsection:: skey2\n        key:: val\n#endsection:: skey2";
-%! isvalval2 = "#startsection:: skey\n        #startsection:: subskey\n                key:: val\n        #endsection:: subskey\n        key:: val2\n#endsection:: skey";
-%! isvalsubval2 = "#startsection:: skey\n        #startsection:: subskey\n                key:: val\n                key:: val2\n        #endsection:: subskey\n#endsection:: skey";
+%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
+%! iskeysubkey = sprintf('#startsection:: skey\n        #startsection:: subskey\n                key:: val\n        #endsection:: subskey\n#endsection:: skey');
+%! iskey2 = sprintf('#startsection:: skey2\n        key:: val\n#endsection:: skey2');
+%! isvalval2 = sprintf('#startsection:: skey\n        #startsection:: subskey\n                key:: val\n        #endsection:: subskey\n        key:: val2\n#endsection:: skey');
+%! isvalsubval2 = sprintf('#startsection:: skey\n        #startsection:: subskey\n                key:: val\n                key:: val2\n        #endsection:: subskey\n#endsection:: skey');
 %!assert(strcmp(infosetsection( 'skey', 'key:: val'                             ), iskey));
 %!assert(strcmp(infosetsection( 'key:: val', {'skey'}                           ), iskey));
 %!assert(strcmp(infosetsection( 'key:: val', {'skey', 'subskey'}                ), iskeysubkey));
-%!assert(strcmp(infosetsection( iskey, 'skey2', 'key:: val'                     ), [iskey "\n" iskey2]));
-%!assert(strcmp(infosetsection( iskey, 'key:: val', {'skey2'}                   ), [iskey "\n" iskey2]));
-%!assert(strcmp(infosetsection( iskey2, 'subskey', 'key:: val', {'skey'}        ), [iskey2 "\n" iskeysubkey]));
+%!assert(strcmp(infosetsection( iskey, 'skey2', 'key:: val'                     ), [iskey  sprintf('\n') iskey2]));
+%!assert(strcmp(infosetsection( iskey, 'key:: val', {'skey2'}                   ), [iskey  sprintf('\n') iskey2]));
+%!assert(strcmp(infosetsection( iskey2, 'subskey', 'key:: val', {'skey'}        ), [iskey2 sprintf('\n') iskeysubkey]));
 %!assert(strcmp(infosetsection( iskeysubkey, 'key:: val2', {'skey'}             ), isvalval2));
 %!assert(strcmp(infosetsection( iskeysubkey, 'subskey', 'key:: val2', {'skey'}  ), isvalsubval2));
 %!error(infosetesction('a'))
