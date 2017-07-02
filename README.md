@@ -3,12 +3,64 @@
 A human-readable brain-dead simple data format with saving and loading scripts and VIs.
 
 This data format aims for:
-1, human readability;
-1, easy manual editing;
-1, easy manual creating;
-1, easy storage of text data, numeric data and matrices.
+1. human readability;
+1. easy manual editing;
+1. easy manual creating;
+1. easy storage of text data, numeric data and matrices.
 
-## Format
+## Example of info string
+
+    Measured length (mm):: 34.123456789
+    Colour of my car:: gold metallic
+    rAnDoM CHarACteRS:: @#$%^&()43]}řčě
+    #startsection:: known codes
+            IDDQD
+            IDKFA
+            #startsection:: forgotten codes
+                    IDSPISPOPD
+                    IDBEHOLDL
+                    IDBEHOLDR
+            #endsection:: forgotten codes
+    #endsection:: known codes
+    Note: the above codes are not valid for most 
+    of devices in the local reality.
+    #startmatrix:: list of my favorite numbers
+                1; 11; 42;
+                3333 ;1E72; 0;
+                -1; -3333 ; 0.000001 ;
+    #endmatrix:: list of my favorite numbers
+    Start of measurement:: 2017-07-02T17:59:17.019788
+
+The example can be produced by following code in GNU Octave/Matlab (can differ because of rounding error):
+
+    is = infosetnumber('Measured length (mm)', 34.123456789);
+    is = infosettext(is, 'Colour of my car', 'gold metallic');
+    is = infosettext(is, 'rAnDoM CHarACteRS', '@#$%^&()43]}řčě');
+    is = infosetsection(is, 'known codes', sprintf('IDDQD\nIDKFA'));
+    is = [is sprintf('\nNote: the above codes are not valid for most\nof devices in the local reality.')];
+    is = infosetmatrix(is, 'list of my favorite numbers', [1  11  42; 3333 1E72 0; -1  -3333 0.000001]);
+    is = infosettime(is, 'Start of measurement', time());
+    is = infosetsection(is, 'forgotten codes', sprintf('IDSPISPOPD\nIDBEHOLDL\nIDBEHOLDR'), {'known codes'});
+
+The example can be produced by following LabVIEW code:
+
+    XXX
+
+One can read data in the example using following script in GNU Octave/Matlab
+
+    length     = infogetnumber(is, 'Measured length (mm)')
+    colour     = infogettext(is, 'Colour of my car')
+    chars      = infogettext(is, 'rAnDoM CHarACteRS')
+    all_codes  = infogetsection(is, 'known codes')
+    nums       = infogetmatrix(is, 'list of my favorite numbers')
+    start      = infogettime(is, 'Start of measurement')
+    forg_codes = infogetsection(is, 'forgotten codes', {'known codes'})
+
+One can read data in the example using following LabVIEW code:
+
+    XXX
+
+## Format description
 Format consists of system of keys and values separated by double colon.
 
     some key :: some value
@@ -17,27 +69,28 @@ Format consists of system of keys and values separated by double colon.
     B([V?*.])::    !$^&*()[];::,.
 
 Keys can contain any character but newline (and probably shouldn't contain double colon).
-White characters can be before key, after key, before or after delimiter (::) or after key.
+Space characters can be before key, after key, before or after delimiter (::) or after key.
 Value can be anything but newline.
 
 Any text can be inserted in between lines.
 
     some key :: some value
-    something totally not related to anything
+    something totally 
+    not related 
+    to anything
     other key :: other value
 
-Matrices are stored as semicolon delimited values, space characters are not important,
-however semicolon must be right after a numeric value. Matrices starts by keyword #startmatrix::
-NameOfMatrix and ends by keyword #endmatrix:: NameOfMatrix.
+Matrices are stored as semicolon delimited values. Every number have to be followed by one
+semicolon, space characters before or after are not important. Matrices starts by keyword
+`#startmatrix:: NameOfMatrix` and ends by keyword `#endmatrix:: NameOfMatrix`.
 
     #startmatrix:: simple matrix 
     1;  2; 3; 
     4;5;         6;  
     #endmatrix:: simple matrix
 
-
-Sections are used for multiple keys with same values or multiline content. Sections starts by keyword #startsection::
-NameOfSection and ends by keyword #endsection:: NameOfSection.
+Sections are used for multiple keys with same values or multiline content. Sections starts by keyword 
+`#startsection:: NameOfSection` and ends by keyword `#endsection:: NameOfSection`.
 
     #startsection:: section 1 
         C:: c in section 1 
@@ -54,11 +107,11 @@ NameOfSection and ends by keyword #endsection:: NameOfSection.
         wxyz
     #endsection:: multiline content
 
-Number precision is determined by the programming language. The aim of scripts and vis was to keep
-at least 12 digits of precision (really needed for some scientific calculations, some times even
+Number precision is determined by the programming language. The aim of scripts and VIs is to keep
+at least 12 digits of precision (can be needed for some scientific calculations, some times even
 more is required).
 
-The time is saved by scripts and vis according ISO 8601 format, i.e.:
+The time is saved by scripts and VIs according ISO 8601 format, i.e.:
 
     yyyy-mm-ddThh-mm-ss.ssssss
 
@@ -81,12 +134,12 @@ Core functions are info(g/s)etsection.m and info(g/s)ettext.m. Other are derived
 ## GNU Octave package
 
 ## Matlab scripts
-I try to keep Matlab compatibility, however it irritates me quite a lot. Matlab language is superior
-to GNU Octave possibilities.
+I try to keep Matlab compatibility, however it irritates me quite a lot, because Matlab language is
+inferior to GNU Octave possibilities.
 
 Scripts for Matlab are generated from GNU Octave scripts using _octave2matlab_ by _thierr26_.
 See [octave2matlab github webpage](https://github.com/thierr26/octave2matlab "octave2matlab"). 
-Run script XXX to convert Matlab scripts from GNU Octave scripts.
+Run script `convert_scripts_octave_to_matlab` to convert Matlab scripts from GNU Octave scripts.
 
 Currently the conversion have some bugs and must be fixed manually.
 XXX
@@ -100,13 +153,14 @@ v regexp vyrazu se \1 prevede na trojuhelnik
 There are other data serialization formats. However these formats were usually developed by
 programmers. Arrays are not the most typical thing to write down into human readable format. However
 during measurements I needed to store matrices with few elements as well as large series of measured
-data. Follows basic list of existing formats and reasons why I do not use it for measurement data.
+data. And I also needs some description for values, from time to time to add notes and sometimes modify
+it manually. Follows basic list of existing formats and reasons why I do not use it for measurement data.
 
 (Maybe there is some ideal data format but I couldn't find it.)
 
 ###XML
-Format appears to be human readable but really it is too talkative and too cluttered. And try to
-write down a matrix in this format. See a simple vector stored in XML:
+Format appears to be human readable but really it is too cluttered. And try to write down a matrix
+in this format. See a simple vector stored in XML:
 
     <Matrix>
         <Element>-0.281325798</Element>
