@@ -1,8 +1,9 @@
-function text = infogettext(infostr, key, varargin)%<<<1
-% -- Function File: TEXT = infogettext (INFOSTR, KEY)
-% -- Function File: TEXT = infogettext (INFOSTR, KEY, SCELL)
-%     Parse info string INFOSTR, finds line with content "key:: value"
-%     and returns the value as text.
+function matrix = infogetmatrix(infostr, key, varargin)%<<<1
+% -- Function File: TEXT = infogetmatrix (INFOSTR, KEY)
+% -- Function File: TEXT = infogetmatrix (INFOSTR, KEY, SCELL)
+%     Parse info string INFOSTR, finds lines after line '#startmatrix::
+%     key' and before '#endmatrix:: key', parse numbers from lines and
+%     return as matrix.
 %
 %     If SCELL is set, the key is searched in section(s) defined by
 %     string(s) in cell.
@@ -26,11 +27,7 @@ function text = infogettext(infostr, key, varargin)%<<<1
 %            C:: c in section 2
 %          #endsection:: section 2
 %          ')
-%          infogettext(infostr,'A')
-%          infogettext(infostr,'B([V?*.])')
-%          infogettext(infostr,'C')
-%          infogettext(infostr,'C', {'section 1', 'subsection'})
-%          infogettext(infostr,'C', {'section 2'})
+%          infogetmatrix(infostr,'simple matrix')
 
 % Copyright (C) 2013 Martin Šíra %<<<1
 %
@@ -69,13 +66,13 @@ function text = infogettext(infostr, key, varargin)%<<<1
         end
         % check values of inputs
         if (~ischar(infostr) || ~ischar(key))
-                error('infogettext: infostr and key must be strings')
+                error('infogetmatrix: infostr and key must be strings')
         end
         if (~all(cellfun(@ischar, scell)))
-                error('infogettext: scell must be a cell of strings')
+                error('infogetmatrix: scell must be a cell of strings')
         end
 
-        % get text %<<<2
+        % find proper section and remove subsections %<<<2
         % find proper section(s):
         for i = 1:length(scell)
                 infostr = infogetsection(infostr, scell{i});
@@ -93,28 +90,50 @@ function text = infogettext(infostr, key, varargin)%<<<1
                         infostr = [deblank(infostr(1:S-1)) NL fliplr(deblank(fliplr(infostr(E+1:end))))];
                         if S-1 >= E+1
                                 % danger of infinite loop! this should never happen
-                                error('infogettext: infinite loop happened!')
+                                error('infogetmatrix: infinite loop happened!')
                         end
                 end
         end
-        % find key and get value
-        % regexp for rest of line after a key:
-        rol = '\s*::([^\n]*)';
-        %remove leading spaces of key and escape characters:
-        key = regexpescape(strtrim(key));
-        % find line with the key:
-        % (?m) is regexp flag: ^ and $ match start and end of line
-        [S, E, TE, M, T, NM] = regexpi (infostr,['(?m)^\s*' key rol]);
-        % return key if found:
+
+        % get matrix %<<<2
+        % prepare matrix:
+        key = strtrim(key);
+        % escape characters of regular expression special meaning:
+        key = regexpescape(key);
+        % find matrix:
+        [S, E, TE, M, T, NM] = regexpi (infostr,['#startmatrix\s*::\s*' key '(.*)' '#endmatrix\s*::\s*' key], 'once');
         if isempty(T)
-                error(['infogettext: key `' key '` not found'])
-        else
-                if isscalar(T)
-                        text = strtrim(T{1}{1});
-                else
-                        error(['infogettext: key `' key '` found on multiple places'])
-                end
+                error(['infogetmatrix: matrix named `' key '` not found'])
         end
+        infostr=strtrim(T{1});
+
+        % parse matrix %<<<2
+        % prepare error message:
+        errorline = 'infogetmatrix: empty matrix found';
+        % get first line to determine number of columns of the matrix:
+        s = strsplit(infostr, sprintf('\n'));
+        if isempty(s)
+                error(errorline);
+        end
+        s = s{1,1};
+        % split by semicolons:
+        s = strsplit(s, ';');
+        % no of columns, -1 is because after last semicolon is also (maybe empty) string:
+        cols = length(s) - 1;
+        if (cols < 1)
+                error(errorline);
+        end
+        % get the full matrix, split by ; and change to number:
+        c = cellfun(@str2num, strsplit(infostr, ';'), 'UniformOutput', false);
+        % because of (even empty) string after last semicolon:
+        c = c(1:end-1);
+        % check matrix size:
+        if ( mod(length(c),cols) || length(c)./cols < 1 )
+                error(errorline);
+        end
+        % convert from cell to matrix, and fix orientation:
+        matrix = cell2mat(reshape(c, cols, length(c)./cols));
+        matrix = matrix';
 end
 
 function key = regexpescape(key)
@@ -137,38 +156,12 @@ end
 
 % --------------------------- tests: %<<<1
 %!shared infostr
-%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
-%!assert(strcmp(infogettext(infostr,'A'),'1'))
-%!assert(strcmp(infogettext(infostr,'B([V?*.])'),'!$^&*()[];::,.'));
-%!assert(strcmp(infogettext(infostr,'C'),'c without section'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 1'}),'c in section 1'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 1', 'subsection'}),'c in subsection'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 2'}),'c in section 2'))
-%!error(infogettext('', ''));
-%!error(infogettext('', infostr));
-%!error(infogettext(infostr, ''));
-%!error(infogettext(infostr, 'A', {'section 1'}));
-
-% NOVY TESTOVACI INFOSTR:
-% 
-% infostr = "A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n"
-
-% A:: 1
-% some note
-% B([V?*.])::    !$^&*()[];::,.
-% #startmatrix:: simple matrix 
-% 1;  2; 3; 
-% 4;5;         6;  
-% #endmatrix:: simple matrix 
-% C:: c without section
-% #startsection:: section 1 
-  % C:: c in section 1 
-  % #startsection:: subsection
-    % C:: c in subsection
-  % #endsection:: subsection
-% #endsection:: section 1
-% #startsection:: section 2
-  % C:: c in section 2
-% #endsection:: section 2
+%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2   ; 3; \n4;5;         6  ;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n#startmatrix:: simple matrix \n2;  3; 4; \n5;6;         7;  \n#endmatrix:: simple matrix \n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
+%!assert(all(all( infogetmatrix(infostr,'simple matrix') == [1 2 3; 4 5 6] )))
+%!assert(all(all( infogetmatrix(infostr,'simple matrix', {'section 1', 'subsection'}) == [2 3 4; 5 6 7] )))
+%!error(infogetmatrix('', ''));
+%!error(infogetmatrix('', infostr));
+%!error(infogetmatrix(infostr, ''));
+%!error(infogetmatrix(infostr, 'A', {'section 1'}));
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

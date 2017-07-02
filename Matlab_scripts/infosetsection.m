@@ -179,9 +179,9 @@ end
 %!assert(strcmp(infosetsection( iskey2, 'subskey', 'key:: val', {'skey'}        ), [iskey2 sprintf('\n') iskeysubkey]));
 %!assert(strcmp(infosetsection( iskeysubkey, 'key:: val2', {'skey'}             ), isvalval2));
 %!assert(strcmp(infosetsection( iskeysubkey, 'subskey', 'key:: val2', {'skey'}  ), isvalsubval2));
-%!error(infosetesction('a'))
-%!error(infosetesction(5))
-%!error(infosetesction('a', 'b', 'c', 'd'))
-%!error(infosetesction('a', 'b', 'c', {5}))
+%!error(infosetsection('a'))
+%!error(infosetsection(5))
+%!error(infosetsection('a', 'b', 'c', 'd'))
+%!error(infosetsection('a', 'b', 'c', {5}))
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

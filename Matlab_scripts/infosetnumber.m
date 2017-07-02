@@ -1,9 +1,10 @@
-function infostr = infosettext(varargin)%<<<1
-% -- Function File: INFOSTR = infosettext (KEY, VAL)
-% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
-%     Returns info string with key KEY and text VAL in following format:
+function infostr = infosetnumber(varargin)%<<<1
+% -- Function File: INFOSTR = infosetnumber (KEY, VAL)
+% -- Function File: INFOSTR = infosetnumber (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosetnumber (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosetnumber (INFOSTR, KEY, VAL, SCELL)
+%     Returns info string with key KEY and number VAL in following
+%     format:
 %          key:: val
 %
 %     If SCELL is set, the key/value is enclosed by section(s) according
@@ -14,9 +15,9 @@ function infostr = infosettext(varargin)%<<<1
 %     appended/inserted into INFOSTR.
 %
 %     Example:
-%          infosettext('key', 'value')
-%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
-%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
+%          infosetnumber('key', 1)
+%          infostr = infosetnumber('key', 1, {'section key', 'subsection key'})
+%          infosetnumber(infostr, 'other key', 5, {'section key', 'subsection key'})
 
 % Copyright (C) 2014 Martin Šíra %<<<1
 %
@@ -73,19 +74,22 @@ function infostr = infosettext(varargin)%<<<1
                 end
         end
         % check values of inputs
-        if (~ischar(infostr) || ~ischar(key) || ~ischar(val))
-                error('infosettext: infostr, key and val must be strings')
+        if (~ischar(infostr) || ~ischar(key))
+                error('infosetnumber: infostr and key must be strings')
+        end
+        if (~isscalar(val) || ~isnumeric(val))
+                error('infosetnumber: val must be a numeric scalar')
         end
         if (~iscell(scell))
-                error('infosettext: scell must be a cell')
+                error('infosetnumber: scell must be a cell')
         end
         if (~all(cellfun(@ischar, scell)))
-                error('infosettext: scell must be a cell of strings')
+                error('infosetnumber: scell must be a cell of strings')
         end
 
         % make infostr %<<<2
         % generate new line with key and val:
-        newline = sprintf('%s:: %s', key, val);
+        newline = sprintf('%s:: %.20G', key, val);
         % add new line to infostr according scell
         if isempty(scell)
                 if isempty(infostr)
@@ -101,19 +105,19 @@ end
 
 % --------------------------- tests: %<<<1
 %!shared istxt, iskey, iskeydbl
-%! istxt = 'key:: val';
-%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
-%! iskeydbl = sprintf('#startsection:: skey\n        key:: val\n        key:: val\n#endsection:: skey');
-%!assert(strcmp(infosettext( 'key', 'val'                               ), istxt));
-%!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
-%!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
-%!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosettext('a'))
-%!error(infosettext(5, 'a'))
-%!error(infosettext('a', 5))
-%!error(infosettext('a', 'b', 5))
-%!error(infosettext('a', 'b', {5}))
-%!error(infosettext('a', 'b', 'c', 'd'))
-%!error(infosettext('a', 'b', 'c', {5}))
+%! istxt = 'key:: 5';
+%! iskey = sprintf('#startsection:: skey\n        key:: 5\n#endsection:: skey');
+%! iskeydbl = sprintf('#startsection:: skey\n        key:: 5\n        key:: 5\n#endsection:: skey');
+%!assert(strcmp(infosetnumber( 'key', 5                                   ), istxt));
+%!assert(strcmp(infosetnumber( 'key', 5, {'skey'}                         ), iskey));
+%!assert(strcmp(infosetnumber( iskey, 'key', 5                            ), [iskey sprintf('\n') istxt]));
+%!assert(strcmp(infosetnumber( iskey, 'key', 5, {'skey'}                  ), iskeydbl));
+%!error(infosetnumber('a'))
+%!error(infosetnumber(5, 'a'))
+%!error(infosetnumber('a', 'b'))
+%!error(infosetnumber('a', 5, 'd'))
+%!error(infosetnumber('a', 5, {5}))
+%!error(infosetnumber('a', 'b', 5, 'd'))
+%!error(infosetnumber('a', 'b', 5, {5}))
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

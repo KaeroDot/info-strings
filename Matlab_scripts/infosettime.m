@@ -1,10 +1,15 @@
-function infostr = infosettext(varargin)%<<<1
-% -- Function File: INFOSTR = infosettext (KEY, VAL)
-% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
-%     Returns info string with key KEY and text VAL in following format:
-%          key:: val
+function infostr = infosettime(varargin)%<<<1
+% -- Function File: INFOSTR = infosettime (KEY, VAL)
+% -- Function File: INFOSTR = infosettime (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosettime (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosettime (INFOSTR, KEY, VAL, SCELL)
+%     Returns info string with key KEY and time VAL in following format:
+%          key:: %Y-%m-%dT%H:%M:%S.SSSSSS
+%
+%
+%     The time is formatted as local time according ISO 8601 with six
+%     digits in microseconds.  Expected input time system is a number of
+%     seconds since the epoch, as in function time().
 %
 %     If SCELL is set, the key/value is enclosed by section(s) according
 %     SCELL.
@@ -14,9 +19,7 @@ function infostr = infosettext(varargin)%<<<1
 %     appended/inserted into INFOSTR.
 %
 %     Example:
-%          infosettext('key', 'value')
-%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
-%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
+%          infosettime('time of start',time())
 
 % Copyright (C) 2014 Martin Šíra %<<<1
 %
@@ -73,19 +76,26 @@ function infostr = infosettext(varargin)%<<<1
                 end
         end
         % check values of inputs
-        if (~ischar(infostr) || ~ischar(key) || ~ischar(val))
-                error('infosettext: infostr, key and val must be strings')
+        if (~ischar(infostr) || ~ischar(key))
+                error('infosettime: infostr and key must be strings')
+        end
+        if (~isscalar(val) || ~isnumeric(val))
+                error('infosettime: val must be a numeric scalar')
         end
         if (~iscell(scell))
-                error('infosettext: scell must be a cell')
+                error('infosettime: scell must be a cell')
         end
         if (~all(cellfun(@ischar, scell)))
-                error('infosettext: scell must be a cell of strings')
+                error('infosettime: scell must be a cell of strings')
         end
 
         % make infostr %<<<2
+        % format time:
+        newline = strftime('%Y-%m-%dT%H:%M:%S',localtime(val));
+        % add decimal dot and microseconds:
+        newline = [newline '.' num2str(localtime(val).usec, '%0.6d')];
         % generate new line with key and val:
-        newline = sprintf('%s:: %s', key, val);
+        newline = sprintf('%s:: %s', key, newline);
         % add new line to infostr according scell
         if isempty(scell)
                 if isempty(infostr)
@@ -101,19 +111,14 @@ end
 
 % --------------------------- tests: %<<<1
 %!shared istxt, iskey, iskeydbl
-%! istxt = 'key:: val';
-%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
-%! iskeydbl = sprintf('#startsection:: skey\n        key:: val\n        key:: val\n#endsection:: skey');
-%!assert(strcmp(infosettext( 'key', 'val'                               ), istxt));
-%!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
-%!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
-%!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosettext('a'))
-%!error(infosettext(5, 'a'))
-%!error(infosettext('a', 5))
-%!error(infosettext('a', 'b', 5))
-%!error(infosettext('a', 'b', {5}))
-%!error(infosettext('a', 'b', 'c', 'd'))
-%!error(infosettext('a', 'b', 'c', {5}))
+%! istxt = 'T:: 2013-12-11T22:59:30.123456';
+%!assert(strcmp(infosettime('T',1386799170.123456), istxt));
+%!error(infosettime('a'))
+%!error(infosettime(5, 'a'))
+%!error(infosettime('a', 'b'))
+%!error(infosettime('a', 'b', 'd'))
+%!error(infosettime('a', 'b', {5}))
+%!error(infosettime('a', 'b', 5, 'd'))
+%!error(infosettime('a', 'b', 5, {5}))
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

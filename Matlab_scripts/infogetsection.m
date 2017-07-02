@@ -3,9 +3,8 @@ function [section, endposition] = infogetsection(varargin)%<<<1
 %          KEY)
 % -- Function File: [ SECTION , ENDPOSITION]= infogetsection (INFOSTR,
 %          KEY, SCELL)
-%     Parse info string INFOSTR, finds lines enclosed by lines after
-%     '#startsection:: key' and before '#endsection:: key' and returns
-%     them.
+%     Parse info string INFOSTR, finds lines after line '#startsection::
+%     key' and before line '#endsection:: key' and returns them.
 %
 %     If SCELL is set, the section is searched in section(s) defined by
 %     string(s) in cell.
