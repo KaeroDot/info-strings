@@ -15,3 +15,6 @@ test infogettime.m
 
 test infosetmatrix.m
 test infogetmatrix.m
+
+test infoload.m
+test infosave.m
