@@ -139,12 +139,10 @@ inferior to GNU Octave possibilities.
 
 Scripts for Matlab are generated from GNU Octave scripts using _octave2matlab_ by _thierr26_.
 See [octave2matlab github webpage](https://github.com/thierr26/octave2matlab "octave2matlab"). 
-Run script `convert_scripts_octave_to_matlab` to convert Matlab scripts from GNU Octave scripts.
+Run script `convert_scripts_octave_to_matlab` to convert Matlab scripts from GNU Octave scripts. New
+files are in `Matlab_scripts/after_conversion/`. Check them and copy to `Matlab_scripts/`.
 
-Currently the conversion have some bugs and must be fixed manually.
-XXX
-chyba v example \n se prevadi na opravdovou novou radku
-v regexp vyrazu se \1 prevede na trojuhelnik
+Scripts `info(g/s)time.m` are not yet working in Matlab.
 
 ## LabVIEW VIs
 

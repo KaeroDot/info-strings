@@ -18,9 +18,7 @@ function infostr = infosetsection(varargin)%<<<1
 %     sections, or sections are generated if needed.
 %
 %     Example:
-%          infosetsection('section key',"multi
-%          line
-%          value")
+%          infosetsection('section key', sprintf('multi\nline\nvalue'))
 %          infostr = infosetsection('value', {'section key', 'subsection key'})
 %          infosetsection(infostr, 'subsubsection key', 'other value', {'section key', 'subsection key'})
 
