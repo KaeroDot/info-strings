@@ -146,6 +146,11 @@ Scripts `info(g/s)time.m` are not yet working in Matlab.
 
 ## LabVIEW VIs
 
+Main VIs are `Add Key or Table.vi` and `Get Key or Table.vi`. VIs are polymorphic, so they adapt to
+the input. VI `Insert Info Data.vi` is used to insert new info strings at desired section of
+existing info string. `Load Info.vi` and `Save Info.vi` loads and saves from a file.
+
+Reading matrices is not yet finished.
 
 ## Why yet another data format?
 There are other data serialization formats. However these formats were usually developed by
