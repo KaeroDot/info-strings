@@ -23,7 +23,7 @@
 ##
 ## Example:
 ## @example
-## infosetsection('section key',"multi\nline\nvalue")
+## infosetsection('section key', sprintf('multi\nline\nvalue'))
 ## infostr = infosetsection('value', @{'section key', 'subsection key'@})
 ## infosetsection(infostr, 'subsubsection key', 'other value', @{'section key', 'subsection key'@})
 ## @end example
