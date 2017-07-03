@@ -44,7 +44,7 @@ The example can be produced by following code in GNU Octave/Matlab (can differ b
 
 The example can be produced by following LabVIEW code:
 
-    XXX
+![Example: writing info string in LabVIEW](labview-example-set.png "Example: writing info string in LabVIEW")
 
 One can read data in the example using following script in GNU Octave/Matlab
 
@@ -58,7 +58,7 @@ One can read data in the example using following script in GNU Octave/Matlab
 
 One can read data in the example using following LabVIEW code:
 
-    XXX
+![Example: reading info string in LabVIEW](labview-example-get.png "Example: reading info string in LabVIEW")
 
 ## Format description
 Format consists of system of keys and values separated by double colon.
