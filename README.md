@@ -117,19 +117,19 @@ The time is saved by scripts and VIs according ISO 8601 format, i.e.:
 
 ## GNU Octave scripts
 Scripts for saving and loading:
-1, text data -- infosettext.m, infogettext.m;
-1, scalar numeric data -- infosetnumber.m, infogetnumber.m;
-1, vector and matrix numeric data -- infosetmatrix.m, infogetmatrix.m;
-1, time data -- infosettime.m, infogettime.m;
-1, sections -- infosetsection.m, infogetsection.m.
+1. text data -- `infosettext.m`, `infogettext.m`;
+1. scalar numeric data -- `infosetnumber.m`, `infogetnumber.m`;
+1. vector and matrix numeric data -- `infosetmatrix.m`, `infogetmatrix.m`;
+1. time data -- `infosettime.m`, `infogettime.m`;
+1. sections -- `infosetsection.m`, `infogetsection.m`.
 
 All scripts contains also:
-1, help in texinfo format;
-1, examples in help;
-1, tests;
+1. help in texinfo format;
+1. examples in help;
+1. tests;
 
 Number of files was kept to minimum, no auxiliary functions are needed, recursion is used a lot.
-Core functions are info(g/s)etsection.m and info(g/s)ettext.m. Other are derived from these four.
+Core functions are `info(g/s)etsection.m` and `info(g/s)ettext.m`. Other are derived from these four.
 
 ## GNU Octave package
 
@@ -158,7 +158,7 @@ it manually. Follows basic list of existing formats and reasons why I do not use
 
 (Maybe there is some ideal data format but I couldn't find it.)
 
-###XML
+### XML
 Format appears to be human readable but really it is too cluttered. And try to write down a matrix
 in this format. See a simple vector stored in XML:
 
@@ -170,13 +170,25 @@ in this format. See a simple vector stored in XML:
         <Element>0.154861424</Element>
     </Matrix>
 
-###JSON
-It is definitely _not_ human readable format.
+### JSON
+It is definitely _not_ a human readable format. And I could never get the brackets right when editing:
 
-###INI
+    {"menu": {
+      "id": "file",
+      "value": "File",
+      "popup": {
+        "menuitem": [
+          {"value": "New", "onclick": "CreateNewDoc()"},
+          {"value": "Open", "onclick": "OpenDoc()"},
+          {"value": "Close", "onclick": "CloseDoc()"}
+        ]
+      }
+    }}
+
+### INI
 Nice and human readable, but vectors or matrices are not implemented by any library.
 
-###YAML
+### YAML
 Generally nice and human readable format but matrices are not easily readable and editable:
 
     -
@@ -186,14 +198,14 @@ Generally nice and human readable format but matrices are not easily readable an
       - 3
       - 4
 
-###TOML
+### TOML
 Similar to INI, however matrices are not easily readable and editable:
 
     matrix = [ [1, 2], [3, 4] ]
 
-###GNU Octave text format
-GNU Octave use simple and powerful format for data saving, the problem is it is too talkative and
-hard to write manually. See example of a matrix:
+### GNU Octave text format
+GNU Octave use simple and powerful format for data saving, the problem is it requires a header hard
+to write manually. See example of a matrix:
 
     # Created by Octave 3.8.1, Thu Jun 29 21:13:18 2017 CEST <some_user@some_server>
     # name: a
@@ -202,4 +214,3 @@ hard to write manually. See example of a matrix:
     # columns: 2
      1 2
      3 4
-
