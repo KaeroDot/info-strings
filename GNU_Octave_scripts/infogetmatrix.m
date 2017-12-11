@@ -110,7 +110,7 @@ function matrix = infogetmatrix(infostr, key, varargin) %<<<1
                 error(errorline);
         endif
         % get the full matrix, split by ; and change to number:
-        c = cellfun(@str2num, strsplit(infostr, ';'), 'UniformOutput', false);
+        c = cellfun(@str2double, strsplit(infostr, ';'), 'UniformOutput', false);
         % because of (even empty) string after last semicolon:
         c = c(1:end-1);
         % check matrix size:
