@@ -12,14 +12,14 @@
 ##
 ## Example:
 ## @example
-## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
+## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3 \n4;5;         6  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
 ## infogetmatrix(infostr,'simple matrix')
 ## @end example
 ## @end deftypefn
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2013
-## Version: 2.0
+## Version: 3.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -94,35 +94,12 @@ function matrix = infogetmatrix(infostr, key, varargin) %<<<1
         infostr=strtrim(T{1});
 
         % parse matrix %<<<2
-        % prepare error message:
-        errorline = 'infogetmatrix: empty matrix found';
-        % get first line to determine number of columns of the matrix:
-        s = strsplit(infostr, sprintf('\n'));
-        if isempty(s)
-                error(errorline);
-        endif
-        s = s{1,1};
-        % split by semicolons:
-        s = strsplit(s, ';');
-        % no of columns, -1 is because after last semicolon is also (maybe empty) string:
-        cols = length(s) - 1;
-        if (cols < 1)
-                error(errorline);
-        endif
-        % get the full matrix, split by ; and change to number:
-        c = cellfun(@str2double, strsplit(infostr, ';'), 'UniformOutput', false);
-        % because of (even empty) string after last semicolon:
-        c = c(1:end-1);
-        % check matrix size:
-        if ( mod(length(c),cols) || length(c)./cols < 1 )
-                error(errorline);
-        endif
-        % convert from cell to matrix, and fix orientation:
-        matrix = cell2mat(reshape(c, cols, length(c)./cols));
-        matrix = matrix';
+        matrix = csv2cell(infostr);
+        matrix = cellfun(@str2double, matrix, 'UniformOutput', false);
+        matrix = cell2mat(matrix);
 endfunction
 
-function key = regexpescape(key)
+function key = regexpescape(key) %<<<1
         % Translate all special characters (e.g., '$', '.', '?', '[') in
         % key so that they are treated as literal characters when used
         % in the regexp and regexprep functions. The translation inserts
@@ -140,9 +117,171 @@ function key = regexpescape(key)
         endif
 endfunction
 
+function data = csv2cell(s) %<<<1
+% Reads string with csv sheet according RFC4180 (with minor modifications, see last three
+% properties) and returns cell of strings.
+%
+% Properties:
+% - quoted fields are properly parsed,
+% - escaped quotes in quoted fields are properly parsed,
+% - newline characters are correctly understood in quoted fields,
+% - spaces in quotes are preserved,
+% - works for CR, LF, CRLF, LFCR newline markers,
+% - if field is not quoted, leading and trailing spaces are intentionally removed,
+% - sheet delimiter is ';',
+% - if not same number of fields on every row, sheet is padded by empty strings as needed.
+
+% Script first tries to find out if quotes are used. If not, fast method is used. If yes, slower
+% method is used.
+
+CELLSEP = ';';          % separator of fields
+CELLSTR = '"';          % quoted fields character
+LF = char(10);          % line feed
+CR = char(13);          % carriage return
+
+if isempty(strfind(s, CELLSTR)) %<<<2
+% no quotes, simple method will be used
+
+        % methods converts all end of lines to LF, split by LF,
+        % and two methods to parse lines
+
+        % replace all CRLF to LF:
+        s = strrep(s, [CR LF], LF);
+        % replace all LFCR to LF:
+        s = strrep(s, [LF CR], LF);
+        % replace all CR to LF:
+        s = strrep(s, CR, LF);
+        % split by LF:
+        s = strsplit(s, LF);
+        % remove trailing empty lines which can happen in the case of last LF
+        % (this would prevent using fast cellfun method)
+        if length(s) > 1 && isempty(strtrim(s{end}))
+                s = s(1:end-1);
+        endif
+        % strsplit by separators on all lines:
+        s = cellfun(@strsplit, s, {CELLSEP}, 'UniformOutput', false);
+        try %<<<3
+                % faster method - use vertcat, only possible if all lines have the same number of fields:
+                data = vertcat(s{:});
+        catch %<<<3
+                % slower method - build sheet line by line.
+                % if number of fields on some line is larger or smaller, padding by empty string
+                % occur:
+                data = {};
+                for i = 1:length(s)
+                        c = s{i};
+                        if i > 1
+                                if size(c,2) < size(data,2)
+                                        % new line is too short, must be padded:
+                                        c = [c repmat({''}, 1, size(data,2) - size(c,2))];
+                                elseif size(c,2) > size(data,2)
+                                        % new line is too long, whole matrix must be padded:
+                                        data = [data, repmat({''}, size(c,2) - size(data,2), 1)];
+                                endif
+                        endif
+                        % add new line of sheet:
+                        data = [data; c];
+                endfor
+        end_try_catch
+else %<<<2
+        % quotes are inside of sheet, very slow method will be used
+        % this method parse character by character
+
+        Field = '';             % content of currently processed field
+        FieldEnd = false;       % flag if field ended by ; or some newline
+        LineEnd = false;        % flag if line ended
+        inQuoteField = false;   % flag if now processing inside of quoted field
+        wasQuotedField = false; % flag if current field is quoted
+        curChar = '';           % currently processed character
+        nextChar = '';          % character next after currently processed one
+        curCol = 1;             % current collumn
+        curRow = 1;             % current row
+        i = 0;                  % loop index
+        while i < length(s)
+                i = i + 1;
+                % get current character:
+                curChar = s(i);
+                % get next character
+                if i < length(s)
+                        nextChar = s(i+1);
+                else
+                        % if at end of string, just add line feed, no harm to do this:
+                        nextChar = LF;
+                        % and mark all ends:
+                        FieldEnd = true;
+                        LineEnd = true;
+                endif
+                if inQuoteField %<<<3
+                        % we are inside quotes of field
+                        if curChar == CELLSTR
+                                if nextChar == CELLSTR
+                                        % found escaped quotes ("")
+                                        i = i + 1;      % increment counter to skip next character, which is already part of escaped "
+                                        Field = [Field CELLSTR];
+                                else
+                                        % going out of quotes
+                                        inQuoteField = false;
+                                endif
+                        else
+                                Field = [Field curChar];
+                        endif
+                else %<<<3
+                        % we are not inside quotes of field
+                        if curChar == CELLSTR
+                                inQuoteField = true;
+                                wasQuotedField = true;
+                                if isempty(strtrim(Field))
+                                        Field = '';
+                                        % XXX what to do with such cell?:
+                                        % aaa; bb"bbb"; ccc
+                                endif
+                        elseif curChar == CELLSEP
+                                % found end of field
+                                FieldEnd = true;
+                        elseif curChar == CR
+                                % found end of line (this also ends field)
+                                FieldEnd = true;
+                                LineEnd = true;
+                                if nextChar == LF
+                                        i = i + 1;      % increment counter to skip next character, which is already part of CRLF newline
+                                endif
+                        elseif curChar == LF
+                                % found end of line (this also ends field)
+                                FieldEnd = true;
+                                LineEnd = true;
+                                if nextChar == CR
+                                        i = i + 1;      % increment counter to skip next character, which is already part of LFCR newline
+                                endif
+                        else
+                                Field = [Field curChar];
+                        endif
+                endif
+                if FieldEnd == true %<<<3
+                        % add field to sheet:
+                        if wasQuotedField
+                                wasQuotedField = false;
+                        else
+                                Field = strtrim(Field);
+                        endif
+                        data(curCol, curRow) = {Field};
+                        Field = '';
+                        FieldEnd = false;
+                        if LineEnd == true;
+                                curRow = curRow + 1;
+                                curCol = 1;
+                                LineEnd = false;
+                        else
+                                curCol = curCol + 1;
+                        endif
+                endif
+        endwhile
+        data = data';
+endif
+endfunction
+
 % --------------------------- tests: %<<<1
 %!shared infostr
-%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2   ; 3; \n4;5;         6  ;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n#startmatrix:: simple matrix \n2;  3; 4; \n5;6;         7;  \n#endmatrix:: simple matrix \n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
+%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2   ; 3 \n4;5;         6    \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n#startmatrix:: simple matrix \n2;  3; 4 \n5;6;         7  \n#endmatrix:: simple matrix \n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
 %!assert(all(all( infogetmatrix(infostr,'simple matrix') == [1 2 3; 4 5 6] )))
 %!assert(all(all( infogetmatrix(infostr,'simple matrix', {'section 1', 'subsection'}) == [2 3 4; 5 6 7] )))
 %!error(infogetmatrix('', ''));

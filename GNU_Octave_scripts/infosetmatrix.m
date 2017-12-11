@@ -29,7 +29,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 2.0
+## Version: 3.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -97,8 +97,11 @@ function infostr = infosetmatrix(varargin) %<<<1
         endif
 
         % make infostr %<<<2
+        % make template without semicolon after last number:
+        template = repmat(' %.20G;', 1, size(val, 2));
+        template = [template(1:end-1) NL];
         % format values
-        newlines = sprintf([repmat(' %.20G;', 1, size(val, 2)) NL], val');
+        newlines = sprintf(template, val');
 
         % add newline to beginning:
         newlines = [NL newlines];
@@ -125,8 +128,8 @@ endfunction
 
 % --------------------------- tests: %<<<1
 %!shared ismat, ismatsec
-%! ismat = sprintf('#startmatrix:: mat\n         1; 2; 3;\n         4; 5; 6;\n#endmatrix:: mat');
-%! ismatsec = sprintf('#startsection:: skey\n        #startmatrix:: mat\n                 1; 2; 3;\n                 4; 5; 6;\n        #endmatrix:: mat\n#endsection:: skey');
+%! ismat = sprintf('#startmatrix:: mat\n         1; 2; 3\n         4; 5; 6\n#endmatrix:: mat');
+%! ismatsec = sprintf('#startsection:: skey\n        #startmatrix:: mat\n                 1; 2; 3\n                 4; 5; 6\n        #endmatrix:: mat\n#endsection:: skey');
 %!assert(strcmp(infosetmatrix( 'mat', [1:3; 4:6]                          ), ismat));
 %!assert(strcmp(infosetmatrix( 'mat', [1:3; 4:6], {'skey'}                ), ismatsec));
 %!assert(strcmp(infosetmatrix( 'testtext', 'mat', [1:3; 4:6], {'skey'}     ), ['testtext' sprintf('\n') ismatsec]));
