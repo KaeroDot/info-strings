@@ -53,49 +53,17 @@ function infostr = infosettextmatrix(varargin) %<<<1
         % constant - number of spaces in indented section:
         INDENT_LEN = 8;
 
-        % check inputs %<<<2
-        if (nargin < 2 || nargin > 4)
+        % identify and check inputs %<<<2
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettextmatrix', varargin{:}); %<<<1
+        if printusage
                 print_usage()
         endif
-        % identify inputs
-        if nargin == 4
-                infostr = varargin{1};
-                key = varargin{2};
-                val = varargin{3};
-                scell = varargin{4};
-        elseif nargin == 2;
-                infostr = '';
-                key = varargin{1};
-                val = varargin{2};
-                scell = {};
-        else
-                if iscell(varargin{3})
-                        infostr = '';
-                        key = varargin{1};
-                        val = varargin{2};
-                        scell = varargin{3};
-                else
-                        infostr = varargin{1};
-                        key = varargin{2};
-                        val = varargin{3};
-                        scell = {};
-                endif
-        endif
-        % check values of inputs
-        if (~ischar(infostr) || ~ischar(key))
-                error('infosetmatrix: infostr and key must be strings')
-        endif
+        % check content of val:
         if (~iscell(val))
                 error('infosetmatrix: val must be a cell of strings')
         endif
         if (~all(cellfun(@ischar, val)))
                 error('infosetmatrix: val must be a cell of strings')
-        endif
-        if (~iscell(scell))
-                error('infosetmatrix: scell must be a cell')
-        endif
-        if (~all(cellfun(@ischar, scell)))
-                error('infosetmatrix: scell must be a cell of strings')
         endif
 
         % make infostr %<<<2
@@ -124,6 +92,68 @@ function infostr = infosettextmatrix(varargin) %<<<1
         endif
 endfunction
 
+function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionname, varargin) %<<<1
+        % function identifies and partially checks inputs used in infoset* functions 
+        % if printusage is true, infoset* function should call print_usage()
+        %
+        % input possibilities:
+        %       key, val
+        %       key, val, scell
+        %       infostr, key, val
+        %       infostr, key, val, scell
+
+        printusage = false;
+        infostr='';
+        key='';
+        val='';
+        scell={};
+
+        % check inputs %<<<2
+        % (one input is functionname - in infoset* functions is not)
+        if (nargin < 2+1 || nargin > 4+1)
+                printusage = true;
+                return
+        endif
+        % identify inputs
+        if nargin == 4+1
+                infostr = varargin{1};
+                key = varargin{2};
+                val = varargin{3};
+                scell = varargin{4};
+        elseif nargin == 2+1;
+                infostr = '';
+                key = varargin{1};
+                val = varargin{2};
+                scell = {};
+        else
+                if iscell(varargin{3})
+                        infostr = '';
+                        key = varargin{1};
+                        val = varargin{2};
+                        scell = varargin{3};
+                else
+                        infostr = varargin{1};
+                        key = varargin{2};
+                        val = varargin{3};
+                        scell = {};
+                endif
+        endif
+
+        % check values of inputs infostr, key, scell %<<<2
+        % input val have to be checked by infoset* function!
+        if (~ischar(infostr) || ~ischar(key))
+                error([functionname ': infostr and key must be strings'])
+        endif
+        if isempty(key)
+                error([functionname ': key is empty string'])
+        endif
+        if (~iscell(scell))
+                error([functionname ': scell must be a cell'])
+        endif
+        if (~all(cellfun(@ischar, scell)))
+                error([functionname ': scell must be a cell of strings'])
+        endif
+endfunction
 % --------------------------- tests: %<<<1
 %!shared ismat, ismatsec
 %! ismat = sprintf('#startmatrix:: mat\n        "a"; "b"; "c"\n        "d"; "e"; "f"\n#endmatrix:: mat');

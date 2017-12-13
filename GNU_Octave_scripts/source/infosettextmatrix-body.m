@@ -13,49 +13,17 @@ function infostr = infosettextmatrix(varargin) %<<<1
         % constant - number of spaces in indented section:
         INDENT_LEN = 8;
 
-        % check inputs %<<<2
-        if (nargin < 2 || nargin > 4)
+        % identify and check inputs %<<<2
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettextmatrix', varargin{:}); %<<<1
+        if printusage
                 print_usage()
         endif
-        % identify inputs
-        if nargin == 4
-                infostr = varargin{1};
-                key = varargin{2};
-                val = varargin{3};
-                scell = varargin{4};
-        elseif nargin == 2;
-                infostr = '';
-                key = varargin{1};
-                val = varargin{2};
-                scell = {};
-        else
-                if iscell(varargin{3})
-                        infostr = '';
-                        key = varargin{1};
-                        val = varargin{2};
-                        scell = varargin{3};
-                else
-                        infostr = varargin{1};
-                        key = varargin{2};
-                        val = varargin{3};
-                        scell = {};
-                endif
-        endif
-        % check values of inputs
-        if (~ischar(infostr) || ~ischar(key))
-                error('infosetmatrix: infostr and key must be strings')
-        endif
+        % check content of val:
         if (~iscell(val))
                 error('infosetmatrix: val must be a cell of strings')
         endif
         if (~all(cellfun(@ischar, val)))
                 error('infosetmatrix: val must be a cell of strings')
-        endif
-        if (~iscell(scell))
-                error('infosetmatrix: scell must be a cell')
-        endif
-        if (~all(cellfun(@ischar, scell)))
-                error('infosetmatrix: scell must be a cell of strings')
         endif
 
         % make infostr %<<<2

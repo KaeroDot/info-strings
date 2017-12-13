@@ -76,6 +76,7 @@ all:
 	cat \
 		infosetmatrix-header.m \
 		infosetmatrix-body.m \
+		set_id_check_inputs.m \
 		infosetmatrix-tests.m \
 	>> ../infosetmatrix.m
 	
@@ -83,6 +84,7 @@ all:
 	cat \
 		infosetnumber-header.m \
 		infosetnumber-body.m \
+		set_id_check_inputs.m \
 		infosetnumber-tests.m \
 	>> ../infosetnumber.m
 	
@@ -97,6 +99,7 @@ all:
 	cat \
 		infosettext-header.m \
 		infosettext-body.m \
+		set_id_check_inputs.m \
 		infosettext-tests.m \
 	>> ../infosettext.m
 	
@@ -104,6 +107,7 @@ all:
 	cat \
 		infosettextmatrix-header.m \
 		infosettextmatrix-body.m \
+		set_id_check_inputs.m \
 		infosettextmatrix-tests.m \
 	>> ../infosettextmatrix.m
 	
@@ -111,6 +115,7 @@ all:
 	cat \
 		infosettime-header.m \
 		infosettime-body.m \
+		set_id_check_inputs.m \
 		infosettime-tests.m \
 	>> ../infosettime.m
 	
