@@ -19,7 +19,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2013
-## Version: 2.0
+## Version: 4.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -86,7 +86,7 @@ function time = infogettime(infostr, key, varargin) %<<<1
         time = time + str2num(s(20:end));
 endfunction
 
-function key = regexpescape(key)
+function key = regexpescape(key) %<<<1
         % Translate all special characters (e.g., '$', '.', '?', '[') in
         % key so that they are treated as literal characters when used
         % in the regexp and regexprep functions. The translation inserts
@@ -112,5 +112,3 @@ endfunction
 %!error(infogettime('', infostr));
 %!error(infogettime(infostr, ''));
 %!error(infogettime(infostr, 'A', {'section 1'}));
-
-% vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

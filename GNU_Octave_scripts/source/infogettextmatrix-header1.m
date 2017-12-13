@@ -1,0 +1,14 @@
+## Copyright (C) 2017 Martin Šíra %<<<1
+##
+
+## -*- texinfo -*-
+## @deftypefn {Function File} @var{text} = infogettextmatrix (@var{infostr}, @var{key})
+## @deftypefnx {Function File} @var{text} = infogettextmatrix (@var{infostr}, @var{key}, @var{scell})
+## Parse info string @var{infostr}, finds lines after line
+## '#startmatrix:: key' and before '#endmatrix:: key', parse strings from lines
+## and return as matrix.
+##
+## If @var{scell} is set, the key is searched in section(s) defined by string(s) in cell.
+##
+## Example:
+## @example

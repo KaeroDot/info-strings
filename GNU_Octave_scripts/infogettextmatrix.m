@@ -19,7 +19,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2017
-## Version: 1.0
+## Version: 4.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -279,6 +279,7 @@ else %<<<2
         endwhile
         data = data';
 endif
+
 endfunction
 
 % --------------------------- tests: %<<<1
@@ -290,5 +291,3 @@ endfunction
 %!error(infogettextmatrix('', infostr));
 %!error(infogettextmatrix(infostr, ''));
 %!error(infogettextmatrix(infostr, 'A', {'section 1'}));
-
-% vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

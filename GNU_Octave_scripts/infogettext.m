@@ -11,7 +11,7 @@
 ##
 ## Example:
 ## @example
-## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3 \n4;5;         6  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
+## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n"a";  "b"; "c" \n"d";"e";         "f"  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
 ## infogettext(infostr,'A')
 ## infogettext(infostr,'B([V?*.])')
 ## infogettext(infostr,'C')
@@ -22,7 +22,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2013
-## Version: 2.0
+## Version: 4.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -103,7 +103,7 @@ function text = infogettext(infostr, key, varargin) %<<<1
         endif
 endfunction
 
-function key = regexpescape(key)
+function key = regexpescape(key) %<<<1
         % Translate all special characters (e.g., '$', '.', '?', '[') in
         % key so that they are treated as literal characters when used
         % in the regexp and regexprep functions. The translation inserts
@@ -159,5 +159,3 @@ endfunction
 % #startsection:: section 2
   % C:: c in section 2
 % #endsection:: section 2
-
-% vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000
