@@ -1,10 +1,4 @@
 function infostr = infosetmatrix(varargin) %<<<1
-        % input possibilities:
-        %       key, val
-        %       key, val, scell
-        %       infostr, key, val
-        %       infostr, key, val, scell
-
         % Constant with OS dependent new line character:
         % (This is because of Matlab cannot translate special characters
         % in strings. GNU Octave distinguish '' and "")
@@ -14,7 +8,7 @@ function infostr = infosetmatrix(varargin) %<<<1
         INDENT_LEN = 8;
 
         % identify and check inputs %<<<2
-        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosetmatrix', varargin{:}); %<<<1
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosetmatrix', varargin{:});
         if printusage
                 print_usage()
         endif
