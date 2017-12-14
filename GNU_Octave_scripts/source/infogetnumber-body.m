@@ -1,30 +1,8 @@
-function number = infogetnumber(infostr, key, varargin) %<<<1
-        % input possibilities:
-        %       infostr, key,
-        %       infostr, key, scell
-
-        % Constant with OS dependent new line character:
-        % (This is because of Matlab cannot translate special characters
-        % in strings. GNU Octave distinguish '' and "")
-        NL = sprintf('\n');
-
-        % check inputs %<<<2
-        if (nargin < 2 || nargin > 3)
+function number = infogetnumber(varargin) %<<<1
+        % identify and check inputs %<<<2
+        [printusage, infostr, key, scell] = get_id_check_inputs('infogetnumber', varargin{:});
+        if printusage
                 print_usage()
-        endif
-        % set default value
-        % (this is because Matlab cannot assign default value in function definition)
-        if nargin < 3
-                scell = {};
-        else
-                scell = varargin{1};
-        endif
-        % check values of inputs
-        if (~ischar(infostr) || ~ischar(key))
-                error('infogetnumber: infostr and key must be strings')
-        endif
-        if (~all(cellfun(@ischar, scell)))
-                error('infogetnumber: scell must be a cell of strings')
         endif
 
         % get number %<<<2

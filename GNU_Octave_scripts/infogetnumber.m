@@ -31,33 +31,11 @@
 ##   Contains demo: no
 ##   Optimized: no
 
-function number = infogetnumber(infostr, key, varargin) %<<<1
-        % input possibilities:
-        %       infostr, key,
-        %       infostr, key, scell
-
-        % Constant with OS dependent new line character:
-        % (This is because of Matlab cannot translate special characters
-        % in strings. GNU Octave distinguish '' and "")
-        NL = sprintf('\n');
-
-        % check inputs %<<<2
-        if (nargin < 2 || nargin > 3)
+function number = infogetnumber(varargin) %<<<1
+        % identify and check inputs %<<<2
+        [printusage, infostr, key, scell] = get_id_check_inputs('infogetnumber', varargin{:});
+        if printusage
                 print_usage()
-        endif
-        % set default value
-        % (this is because Matlab cannot assign default value in function definition)
-        if nargin < 3
-                scell = {};
-        else
-                scell = varargin{1};
-        endif
-        % check values of inputs
-        if (~ischar(infostr) || ~ischar(key))
-                error('infogetnumber: infostr and key must be strings')
-        endif
-        if (~all(cellfun(@ischar, scell)))
-                error('infogetnumber: scell must be a cell of strings')
         endif
 
         % get number %<<<2
@@ -82,6 +60,48 @@ function number = infogetnumber(infostr, key, varargin) %<<<1
         endif
 endfunction
 
+function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, varargin) %<<<1
+        % function identifies and partially checks inputs used in infoget* functions 
+        % if printusage is true, infoget* function should call print_usage()
+        %
+        % input possibilities:
+        %       infostr, key,
+        %       infostr, key, scell
+
+        printusage = false;
+        infostr='';
+        key='';
+        scell={};
+
+        % check inputs %<<<2
+        if (nargin < 2+1 || nargin > 3+1)
+                printusage = true;
+                return;
+        endif
+        infostr = varargin{1};
+        key = varargin{2};
+        % set default value
+        % (this is because Matlab cannot assign default value in function definition)
+        if nargin < 3+1
+                scell = {};
+        else
+                scell = varargin{3};
+        endif
+
+        % check values of inputs infostr, key, scell %<<<2
+        if (~ischar(infostr) || ~ischar(key))
+                error('infogetmatrix: infostr and key must be strings')
+        endif
+        if isempty(key)
+                error([functionname ': key is empty string'])
+        endif
+        if (~iscell(scell))
+                error([functionname ': scell must be a cell'])
+        endif
+        if (~all(cellfun(@ischar, scell)))
+                error([functionname ': scell must be a cell of strings'])
+        endif
+endfunction
 function key = regexpescape(key) %<<<1
         % Translate all special characters (e.g., '$', '.', '?', '[') in
         % key so that they are treated as literal characters when used

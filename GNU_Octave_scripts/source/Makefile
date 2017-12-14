@@ -5,6 +5,7 @@ all:
 		header-example-infostr.m \
 		infogetmatrix-header2.m \
 		infogetmatrix-body.m \
+		get_id_check_inputs.m \
 		regexpescape.m \
 		csv2cell.m \
 		infogetmatrix-tests.m \
@@ -16,6 +17,7 @@ all:
 		header-example-infostr.m \
 		infogetnumber-header2.m \
 		infogetnumber-body.m \
+		get_id_check_inputs.m \
 		regexpescape.m \
 		infogetnumber-tests.m \
 	>> ../infogetnumber.m
@@ -35,6 +37,7 @@ all:
 		header-example-infostr.m \
 		infogettext-header2.m \
 		infogettext-body.m \
+		get_id_check_inputs.m \
 		regexpescape.m \
 		infogettext-tests.m \
 	>> ../infogettext.m
@@ -45,6 +48,7 @@ all:
 		header-example-infostr.m \
 		infogettextmatrix-header2.m \
 		infogettextmatrix-body.m \
+		get_id_check_inputs.m \
 		regexpescape.m \
 		csv2cell.m \
 		infogettextmatrix-tests.m \
@@ -54,6 +58,7 @@ all:
 	cat \
 		infogettime-header.m \
 		infogettime-body.m \
+		get_id_check_inputs.m \
 		regexpescape.m \
 		infogettime-tests.m \
 	>> ../infogettime.m
