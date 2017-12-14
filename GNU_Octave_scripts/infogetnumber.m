@@ -40,21 +40,9 @@ function number = infogetnumber(varargin) %<<<1
 
         % get number %<<<2
         % get number as text:
-        try
-                s = infogettext(infostr, key, scell);
-        catch
-                [msg, msgid] = lasterr;
-                id = findstr(msg, 'infogettext: key');
-                if isempty(id)
-                        % unknown error
-                        error(msg)
-                else
-                        % infogettext error change to infogetnumber error:
-                        msg = ['infogetnumber' msg(12:end)];
-                        error(msg)
-                endif
-        end_try_catch
-        number = str2num(s);
+        s = get_key('infogetnumber', infostr, key, scell);
+        % convert text to number:
+        number = str2double(s);
         if isempty(number)
                 error(['infogetnumber: key `' key '` does not contain numeric data'])
         endif
@@ -102,6 +90,127 @@ function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, v
                 error([functionname ': scell must be a cell of strings'])
         endif
 endfunction
+
+function [section] = get_section(functionname, infostr, scell) %<<<1
+        % finds content of a section (and subsections according scell)
+        %
+        % functionname - name of the main function for proper error generation after concatenating
+        % infostr - info string with all data
+        % scell - cell of strings with name of section and subsections
+        %
+        % function suppose all inputs are ok!
+
+        section = '';
+        if isempty(scell)
+                % scell is empty thus current infostr is required:
+                section = infostr;
+        else
+                while (~isempty(infostr))
+                        % search sections one by one from start of infostr to end
+                        [S, E, TE, M, T, NM] = regexpi(infostr, ['#startsection\s*::\s*(.*)\s*\n(.*)\n\s*#endsection\s*::\s*\1'], 'once');
+                        if isempty(T)
+                                % no section found
+                                section = '';
+                                break
+                        else
+                                % some section found
+                                if strcmp(strtrim(T{1}), scell{1})
+                                        % wanted section found
+                                        section = strtrim(T{2});
+                                        break
+                                else
+                                        % found section is not the one wanted
+                                        if E < 2
+                                                % danger of infinite loop! this should never happen
+                                                error([functionname ': infinite loop happened!'])
+                                        endif
+                                        % remove previous parts of infostr to start looking for 
+                                        % wanted section after the end of found section:
+                                        infostr = infostr(E+1:end);
+                                        % calculate correct position that will be returned to user:
+                                endif
+                        endif
+                endwhile
+                % if nothing found:
+                if isempty(section)
+                        error([functionname ': section `' scell{1} '` not found'])
+                endif
+                % some result was obtained. if subsections are required, do recursion:
+                if length(scell) > 1
+                        % recursively call for subsections:
+                        section = get_section(functionname, section, scell(2:end));
+                endif
+        endif
+endfunction
+
+function [infostr] = rem_subsections(functionname, infostr) %<<<1
+        % remove all other sections in infostr
+        % used to prevent finding key or matrix inside of some section
+        %
+        % functionname - name of the main function for proper error generation after concatenating
+        % infostr - info string with all data
+        %
+        % function suppose all inputs are ok!
+
+        % Constant with OS dependent new line character:
+        % (This is because of Matlab cannot translate special characters
+        % in strings. GNU Octave distinguish '' and "")
+        NL = sprintf('\n');
+
+        % remove unwanted sections:
+        while (~isempty(infostr))
+                % search sections one by one from start of infostr to end
+                [S, E, TE, M, T, NM] = regexpi(infostr, ['#startsection\s*::\s*(.*)\s*\n(.*)\n\s*#endsection\s*::\s*\1'], 'once');
+                if isempty(T)
+                        % no section found, quit:
+                        break
+                else
+                        % some section found, remove it from infostr:
+                        infostr = [deblank(infostr(1:S-1)) NL fliplr(deblank(fliplr(infostr(E+1:end))))];
+                        if S-1 >= E+1
+                                % danger of infinite loop! this should never happen
+                                error([functionname ': infinite loop happened!'])
+                        endif
+                endif
+        endwhile
+endfunction
+
+function [val] = get_key(functionname, infostr, key, scell) %<<<1
+        % returns value of key as text from infostr in section/subsections according scell
+        %
+        % functionname - name of the main function for proper error generation after concatenating
+        % infostr - info string with all data
+        % key - name of key for which val is searched
+        % scell - cell of strings with name of section and subsections
+        %
+        % function suppose all inputs are ok!
+
+        val = '';
+        % get section:
+        [infostr] = get_section(functionname, infostr, scell);
+        % remove unwanted subsections:
+        [infostr] = rem_subsections(functionname, infostr);
+
+        % get key:
+        % regexp for rest of line after a key:
+        rol = '\s*::([^\n]*)';
+        %remove leading spaces of key and escape characters:
+        key = regexpescape(strtrim(key));
+        % find line with the key:
+        % (?m) is regexp flag: ^ and $ match start and end of line
+        [S, E, TE, M, T, NM] = regexpi (infostr,['(?m)^\s*' key rol]);
+        % return key if found:
+        if isempty(T)
+                error([functionname ': key `' key '` not found'])
+        else
+                if isscalar(T)
+                        val = strtrim(T{1}{1});
+                else
+                        error([functionname ': key `' key '` found on multiple places'])
+                endif
+        endif
+endfunction
+
 function key = regexpescape(key) %<<<1
         % Translate all special characters (e.g., '$', '.', '?', '[') in
         % key so that they are treated as literal characters when used

@@ -7,21 +7,9 @@ function number = infogetnumber(varargin) %<<<1
 
         % get number %<<<2
         % get number as text:
-        try
-                s = infogettext(infostr, key, scell);
-        catch
-                [msg, msgid] = lasterr;
-                id = findstr(msg, 'infogettext: key');
-                if isempty(id)
-                        % unknown error
-                        error(msg)
-                else
-                        % infogettext error change to infogetnumber error:
-                        msg = ['infogetnumber' msg(12:end)];
-                        error(msg)
-                endif
-        end_try_catch
-        number = str2num(s);
+        s = get_key('infogetnumber', infostr, key, scell);
+        % convert text to number:
+        number = str2double(s);
         if isempty(number)
                 error(['infogetnumber: key `' key '` does not contain numeric data'])
         endif

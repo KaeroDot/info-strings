@@ -40,3 +40,4 @@ function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, v
                 error([functionname ': scell must be a cell of strings'])
         endif
 endfunction
+

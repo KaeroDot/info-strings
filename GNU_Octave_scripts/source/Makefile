@@ -6,6 +6,9 @@ all:
 		infogetmatrix-header2.m \
 		infogetmatrix-body.m \
 		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_matrix.m \
 		regexpescape.m \
 		csv2cell.m \
 		infogetmatrix-tests.m \
@@ -18,6 +21,9 @@ all:
 		infogetnumber-header2.m \
 		infogetnumber-body.m \
 		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_key.m \
 		regexpescape.m \
 		infogetnumber-tests.m \
 	>> ../infogetnumber.m
@@ -38,6 +44,9 @@ all:
 		infogettext-header2.m \
 		infogettext-body.m \
 		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_key.m \
 		regexpescape.m \
 		infogettext-tests.m \
 	>> ../infogettext.m
@@ -49,6 +58,9 @@ all:
 		infogettextmatrix-header2.m \
 		infogettextmatrix-body.m \
 		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_matrix.m \
 		regexpescape.m \
 		csv2cell.m \
 		infogettextmatrix-tests.m \
@@ -59,6 +71,9 @@ all:
 		infogettime-header.m \
 		infogettime-body.m \
 		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_key.m \
 		regexpescape.m \
 		infogettime-tests.m \
 	>> ../infogettime.m
