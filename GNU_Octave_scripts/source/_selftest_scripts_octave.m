@@ -1,5 +1,5 @@
 % run tests implemented in function definitions:
-addpath('GNU_Octave_scripts')
+addpath('..')
 
 test infosetsection.m
 test infogetsection.m
@@ -15,6 +15,9 @@ test infogettime.m
 
 test infosetmatrix.m
 test infogetmatrix.m
+
+test infosettextmatrix.m
+test infogettextmatrix.m
 
 test infoload.m
 test infosave.m
