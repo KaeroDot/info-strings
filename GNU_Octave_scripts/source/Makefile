@@ -34,6 +34,7 @@ all:
 		header-example-infostr.m \
 		infogetsection-header2.m \
 		infogetsection-body.m \
+		get_section.m \
 		infogetsection-tests.m \
 	>> ../infogetsection.m
 	
