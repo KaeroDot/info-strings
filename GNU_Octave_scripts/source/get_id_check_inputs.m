@@ -28,7 +28,7 @@ function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, v
 
         % check values of inputs infostr, key, scell %<<<2
         if (~ischar(infostr) || ~ischar(key))
-                error('infogetmatrix: infostr and key must be strings')
+                error([functionname ': infostr and key must be strings'])
         endif
         if isempty(key)
                 error([functionname ': key is empty string'])
