@@ -98,6 +98,9 @@ all:
 		infosetmatrix-header.m \
 		infosetmatrix-body.m \
 		set_id_check_inputs.m \
+		set_matrix.m \
+		set_section.m \
+		get_section.m \
 		infosetmatrix-tests.m \
 	>> ../infosetmatrix.m
 	
@@ -106,6 +109,9 @@ all:
 		infosetnumber-header.m \
 		infosetnumber-body.m \
 		set_id_check_inputs.m \
+		set_key.m \
+		set_section.m \
+		get_section.m \
 		infosetnumber-tests.m \
 	>> ../infosetnumber.m
 	
@@ -113,6 +119,8 @@ all:
 	cat \
 		infosetsection-header.m \
 		infosetsection-body.m \
+		set_section.m \
+		get_section.m \
 		infosetsection-tests.m \
 	>> ../infosetsection.m
 	
@@ -121,6 +129,9 @@ all:
 		infosettext-header.m \
 		infosettext-body.m \
 		set_id_check_inputs.m \
+		set_key.m \
+		set_section.m \
+		get_section.m \
 		infosettext-tests.m \
 	>> ../infosettext.m
 	
@@ -129,6 +140,9 @@ all:
 		infosettextmatrix-header.m \
 		infosettextmatrix-body.m \
 		set_id_check_inputs.m \
+		set_matrix.m \
+		set_section.m \
+		get_section.m \
 		infosettextmatrix-tests.m \
 	>> ../infosettextmatrix.m
 	
@@ -137,6 +151,9 @@ all:
 		infosettime-header.m \
 		infosettime-body.m \
 		set_id_check_inputs.m \
+		set_key.m \
+		set_section.m \
+		get_section.m \
 		infosettime-tests.m \
 	>> ../infosettime.m
 	

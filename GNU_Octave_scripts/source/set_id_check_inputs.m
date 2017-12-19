@@ -60,3 +60,4 @@ function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionna
                 error([functionname ': scell must be a cell of strings'])
         endif
 endfunction
+

@@ -4,9 +4,6 @@ function infostr = infosettextmatrix(varargin) %<<<1
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % constant - number of spaces in indented section:
-        INDENT_LEN = 8;
-
         % identify and check inputs %<<<2
         [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettextmatrix', varargin{:});
         if printusage
@@ -21,28 +18,16 @@ function infostr = infosettextmatrix(varargin) %<<<1
         endif
 
         % make infostr %<<<2
+        % convert matrix into text:
         % go line per line (thus semicolons and end of lines can be managed):
-        newlines = '';
+        matastext = '';
         for i = 1:size(val,1)
                 % for every row make a line:
-                newline = sprintf('"%s"; ', val{i,:});
+                line = sprintf('"%s"; ', val{i,:});
                 % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
-                newlines = [newlines repmat(' ', 1, INDENT_LEN) newline(1:end-2) NL];
+                matastext = [matastext line(1:end-2) NL];
         endfor
-
-        % put matrix values between keys:
-        newlines = sprintf('#startmatrix:: %s%s%s#endmatrix:: %s', key, NL, newlines, key);
-
-        % add new line to infostr according scell
-        if isempty(scell)
-                if isempty(infostr)
-                        before = '';
-                else
-                        before = [deblank(infostr) NL];
-                endif
-                infostr = [before newlines];
-        else
-                infostr = infosetsection(infostr, newlines, scell);
-        endif
+        % add matrix to infostr:
+        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell);
 endfunction
 
