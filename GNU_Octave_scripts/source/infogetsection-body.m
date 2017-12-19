@@ -41,6 +41,6 @@ function [section, endposition] = infogetsection(varargin) %<<<1
         endif
 
         % get section %<<<2
-        section = get_section('infogetsection', infostr, scell)
+        [section, endposition] = get_section('infogetsection', infostr, scell);
 endfunction
 
