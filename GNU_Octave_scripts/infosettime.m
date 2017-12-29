@@ -175,7 +175,6 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
         INDENT_LEN = 8;
 
         % make infostr %<<<2
-        % XXX tohle by melo byt jen pro isempty(infostr)
         if (isempty(infostr) && length(scell) == 1)
                 % just simply generate info string
                 % add newlines to a content, indent lines by INDENT_LEN, remove indentation from last line:
@@ -187,9 +186,6 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                 % make recursive preparation of info string
                 % find out how many sections from scell already exists in infostr:
                 position = length(infostr);
-                % XXX if scell is empty, i is complex and next sections are incorrect! first try for
-                % fix is:
-                i = 1;
                 for i = 1:length(scell)
                         % through deeper and deeper section path
                         try
@@ -215,8 +211,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                 % create sections if needed:
                 if i < length(scell) - 1;
                         % make recursion to generate new sections:
-                        % toinsert = infosetsection(content, scell(i+2:end)); %XXXXXXXXXXXX
-                        toinsert = set_section(functionname, '', '', content, scell(i+2:end)); %XXXXXXXXXXXX
+                        toinsert = set_section(functionname, '', content, scell(i+2:end));
                 else
                         % else just use content with proper indentation:
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
@@ -227,8 +222,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                         % simply generate section
                         % (here could be a line with sprintf, or subfunction can be used, but recursion 
                         % seems to be the simplest solution
-                        % toinsert = infosetsection(scell{i+1}, toinsert); %XXXXXXXXXXXX
-                        toinsert = set_section(functionname, '', '', scell{i+1}, toinsert); % XXX divne
+                        toinsert = set_section(functionname, '', toinsert, scell(i+1));
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
                         toinsert = [deblank(strrep([NL strtrim(toinsert) NL], NL, [NL spaces])) NL];
                 endif
