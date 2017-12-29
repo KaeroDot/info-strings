@@ -11,7 +11,8 @@ function infostr = infosetnumber(varargin) %<<<1
 
         % make infostr %<<<2
         % convert value to text:
-        valastext = sprintf('%.20G', val);
+        % num2str with precision 20 significant digits:
+        valastext = num2str(val, 20);
         % add value to infostr:
         infostr = set_key('infosetnumber', infostr, key, valastext, scell);
 endfunction

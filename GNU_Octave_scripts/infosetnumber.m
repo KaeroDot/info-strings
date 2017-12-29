@@ -50,7 +50,8 @@ function infostr = infosetnumber(varargin) %<<<1
 
         % make infostr %<<<2
         % convert value to text:
-        valastext = sprintf('%.20G', val);
+        % num2str with precision 20 significant digits:
+        valastext = num2str(val, 20);
         % add value to infostr:
         infostr = set_key('infosetnumber', infostr, key, valastext, scell);
 endfunction
@@ -284,11 +285,13 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
 endfunction
 
 % --------------------------- tests: %<<<1
-%!shared istxt, iskey, iskeydbl
+%!shared istxt, istxtcplx, iskey, iskeydbl
 %! istxt = 'key:: 5';
+%! istxtcplx = 'key:: 2+3i';
 %! iskey = sprintf('#startsection:: skey\n        key:: 5\n#endsection:: skey');
 %! iskeydbl = sprintf('#startsection:: skey\n        key:: 5\n        key:: 5\n#endsection:: skey');
 %!assert(strcmp(infosetnumber( 'key', 5                                   ), istxt));
+%!assert(strcmp(infosetnumber( 'key', 2+3i                                ), istxtcplx));
 %!assert(strcmp(infosetnumber( 'key', 5, {'skey'}                         ), iskey));
 %!assert(strcmp(infosetnumber( iskey, 'key', 5                            ), [iskey sprintf('\n') istxt]));
 %!assert(strcmp(infosetnumber( iskey, 'key', 5, {'skey'}                  ), iskeydbl));

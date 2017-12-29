@@ -57,11 +57,16 @@ function infostr = infosetmatrix(varargin) %<<<1
 
         % make infostr %<<<2
         % convert matrix into text:
-        % make template without semicolon after last number:
-        template = repmat('%.20G; ', 1, size(val, 2));
-        template = [template(1:end-2) NL];
-        % format values
-        matastext = sprintf(template, val');
+        % convert matrix to cell and use num2str with precision 20 significant digits:
+        val = cellfun(@num2str, num2cell(val), {20}, 'UniformOutput', false);
+        % go line per line (thus semicolons and end of lines can be managed):
+        matastext = '';
+        for i = 1:size(val,1)
+                % for every row make a line:
+                line = sprintf('%s; ', val{i,:});
+                % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
+                matastext = [matastext line(1:end-2) NL];
+        endfor
         % add matrix to infostr:
         infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell);
 endfunction
@@ -305,10 +310,12 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
 endfunction
 
 % --------------------------- tests: %<<<1
-%!shared ismat, ismatsec
+%!shared ismat, ismatcplx, ismatsec
 %! ismat = sprintf('#startmatrix:: mat\n        1; 2; 3\n        4; 5; 6\n#endmatrix:: mat');
+%! ismatcplx = sprintf('#startmatrix:: mat\n        1+3i; 2+3i\n#endmatrix:: mat');
 %! ismatsec = sprintf('#startsection:: skey\n        #startmatrix:: mat\n                1; 2; 3\n                4; 5; 6\n        #endmatrix:: mat\n#endsection:: skey');
 %!assert(strcmp(infosetmatrix( 'mat', [1:3; 4:6]                          ), ismat));
+%!assert(strcmp(infosetmatrix( 'mat', [1 2]+3i                            ), ismatcplx));
 %!assert(strcmp(infosetmatrix( 'mat', [1:3; 4:6], {'skey'}                ), ismatsec));
 %!assert(strcmp(infosetmatrix( 'testtext', 'mat', [1:3; 4:6], {'skey'}     ), ['testtext' sprintf('\n') ismatsec]));
 %!error(infosetmatrix('a'))
