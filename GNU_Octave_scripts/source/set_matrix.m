@@ -1,4 +1,4 @@
-function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<1
+function infostr = set_matrix(functionname, infostr, key, matastext, scell, indent) %<<<1
         % make info line from matastext and key and put it into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
@@ -6,6 +6,7 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
         % key - key for a new matrix
         % matastext - matrix as a string
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -14,8 +15,12 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % constant - number of spaces in indented section:
-        INDENT_LEN = 8;
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        endif
 
         % add newline to beginning:
         matastext = [NL matastext];
@@ -36,7 +41,7 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
                 endif
                 infostr = [before matastext];
         else
-                infostr = set_section('infosetnumber', infostr, matastext, scell);
+                infostr = set_section('infosetnumber', infostr, matastext, scell, indent);
         endif
 endfunction
 

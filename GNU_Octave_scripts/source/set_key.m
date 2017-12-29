@@ -26,7 +26,7 @@ function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
                 endif
                 infostr = [before newline];
         else
-                infostr = set_section('infosetnumber', infostr, newline, scell);
+                infostr = set_section('infosetnumber', infostr, newline, scell, true);
         endif
 endfunction
 

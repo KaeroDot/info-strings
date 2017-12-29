@@ -61,14 +61,21 @@ function infostr = infosettextmatrix(varargin) %<<<1
         % convert matrix into text:
         % go line per line (thus semicolons and end of lines can be managed):
         matastext = '';
+        % shall do indentation?
+        indent = true;
         for i = 1:size(val,1)
                 % for every row make a line:
                 line = sprintf('"%s"; ', val{i,:});
+                % disable indenting if line contains any of newline characters
+                if ~isempty(strfind(line, char(10))) || ~isempty(strfind(line, char(13))) 
+                        indent = false;
+                endif
+                % indentation inserts spaces into cells with newline characters!
                 % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
                 matastext = [matastext line(1:end-2) NL];
         endfor
         % add matrix to infostr:
-        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell);
+        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell, indent);
 endfunction
 
 function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionname, varargin) %<<<1
@@ -134,7 +141,7 @@ function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionna
         endif
 endfunction
 
-function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<1
+function infostr = set_matrix(functionname, infostr, key, matastext, scell, indent) %<<<1
         % make info line from matastext and key and put it into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
@@ -142,6 +149,7 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
         % key - key for a new matrix
         % matastext - matrix as a string
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -150,8 +158,12 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % constant - number of spaces in indented section:
-        INDENT_LEN = 8;
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        endif
 
         % add newline to beginning:
         matastext = [NL matastext];
@@ -172,17 +184,18 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell) %<<<
                 endif
                 infostr = [before matastext];
         else
-                infostr = set_section('infosetnumber', infostr, matastext, scell);
+                infostr = set_section('infosetnumber', infostr, matastext, scell, indent);
         endif
 endfunction
 
-function infostr = set_section(functionname, infostr, content, scell) %<<<1
+function infostr = set_section(functionname, infostr, content, scell, indent) %<<<1
         % put content into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
         % infostr - info string with all data
         % content - what to put into the section
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -191,8 +204,12 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % constant - number of spaces in indented section:
-        INDENT_LEN = 8;
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        endif
 
         % make infostr %<<<2
         if (isempty(infostr) && length(scell) == 1)
@@ -231,7 +248,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                 % create sections if needed:
                 if i < length(scell) - 1;
                         % make recursion to generate new sections:
-                        toinsert = set_section(functionname, '', content, scell(i+2:end));
+                        toinsert = set_section(functionname, '', content, scell(i+2:end), indent);
                 else
                         % else just use content with proper indentation:
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
@@ -242,7 +259,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                         % simply generate section
                         % (here could be a line with sprintf, or subfunction can be used, but recursion 
                         % seems to be the simplest solution
-                        toinsert = set_section(functionname, '', toinsert, scell(i+1));
+                        toinsert = set_section(functionname, '', toinsert, scell(i+1), indent);
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
                         toinsert = [deblank(strrep([NL strtrim(toinsert) NL], NL, [NL spaces])) NL];
                 endif

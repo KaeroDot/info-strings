@@ -27,6 +27,6 @@ function infostr = infosetmatrix(varargin) %<<<1
                 matastext = [matastext line(1:end-2) NL];
         endfor
         % add matrix to infostr:
-        infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell);
+        infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell, true);
 endfunction
 

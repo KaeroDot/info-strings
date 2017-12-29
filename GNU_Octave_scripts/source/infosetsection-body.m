@@ -67,6 +67,6 @@ function infostr = infosetsection(varargin) %<<<1
         endif
 
         % make infostr %<<<2
-        infostr = set_section('infosetsection', infostr, val, scell);
+        infostr = set_section('infosetsection', infostr, val, scell, true);
 endfunction
 

@@ -21,13 +21,20 @@ function infostr = infosettextmatrix(varargin) %<<<1
         % convert matrix into text:
         % go line per line (thus semicolons and end of lines can be managed):
         matastext = '';
+        % shall do indentation?
+        indent = true;
         for i = 1:size(val,1)
                 % for every row make a line:
                 line = sprintf('"%s"; ', val{i,:});
+                % disable indenting if line contains any of newline characters
+                if ~isempty(strfind(line, char(10))) || ~isempty(strfind(line, char(13))) 
+                        indent = false;
+                endif
+                % indentation inserts spaces into cells with newline characters!
                 % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
                 matastext = [matastext line(1:end-2) NL];
         endfor
         % add matrix to infostr:
-        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell);
+        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell, indent);
 endfunction
 

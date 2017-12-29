@@ -1,10 +1,11 @@
-function infostr = set_section(functionname, infostr, content, scell) %<<<1
+function infostr = set_section(functionname, infostr, content, scell, indent) %<<<1
         % put content into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
         % infostr - info string with all data
         % content - what to put into the section
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -13,8 +14,12 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % constant - number of spaces in indented section:
-        INDENT_LEN = 8;
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        endif
 
         % make infostr %<<<2
         if (isempty(infostr) && length(scell) == 1)
@@ -53,7 +58,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                 % create sections if needed:
                 if i < length(scell) - 1;
                         % make recursion to generate new sections:
-                        toinsert = set_section(functionname, '', content, scell(i+2:end));
+                        toinsert = set_section(functionname, '', content, scell(i+2:end), indent);
                 else
                         % else just use content with proper indentation:
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
@@ -64,7 +69,7 @@ function infostr = set_section(functionname, infostr, content, scell) %<<<1
                         % simply generate section
                         % (here could be a line with sprintf, or subfunction can be used, but recursion 
                         % seems to be the simplest solution
-                        toinsert = set_section(functionname, '', toinsert, scell(i+1));
+                        toinsert = set_section(functionname, '', toinsert, scell(i+1), indent);
                         spaces = repmat(' ', 1, i.*INDENT_LEN);
                         toinsert = [deblank(strrep([NL strtrim(toinsert) NL], NL, [NL spaces])) NL];
                 endif
