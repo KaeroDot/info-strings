@@ -22,8 +22,8 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell, inde
                 INDENT_LEN = 0;
         endif
 
-        % add newline to beginning:
-        matastext = [NL matastext];
+        % add newline to beginning and to end:
+        matastext = [NL matastext NL];
         % indent lines:
         matastext = strrep(matastext, NL, [NL repmat(' ', 1, INDENT_LEN)]);
         % remove indentation from last line:

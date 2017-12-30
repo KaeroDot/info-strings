@@ -74,6 +74,8 @@ function infostr = infosettextmatrix(varargin) %<<<1
                 % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
                 matastext = [matastext line(1:end-2) NL];
         endfor
+        % remove last end of line:
+        matastext = matastext(1:end-length(NL));
         % add matrix to infostr:
         infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell, indent);
 endfunction
@@ -165,8 +167,8 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell, inde
                 INDENT_LEN = 0;
         endif
 
-        % add newline to beginning:
-        matastext = [NL matastext];
+        % add newline to beginning and to end:
+        matastext = [NL matastext NL];
         % indent lines:
         matastext = strrep(matastext, NL, [NL repmat(' ', 1, INDENT_LEN)]);
         % remove indentation from last line:

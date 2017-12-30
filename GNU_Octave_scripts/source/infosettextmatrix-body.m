@@ -34,6 +34,8 @@ function infostr = infosettextmatrix(varargin) %<<<1
                 % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
                 matastext = [matastext line(1:end-2) NL];
         endfor
+        % remove last end of line:
+        matastext = matastext(1:end-length(NL));
         % add matrix to infostr:
         infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell, indent);
 endfunction

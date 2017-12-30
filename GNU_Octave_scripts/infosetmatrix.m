@@ -57,16 +57,15 @@ function infostr = infosetmatrix(varargin) %<<<1
 
         % make infostr %<<<2
         % convert matrix into text:
-        % convert matrix to cell and use num2str with precision 20 significant digits:
-        val = cellfun(@num2str, num2cell(val), {20}, 'UniformOutput', false);
-        % go line per line (thus semicolons and end of lines can be managed):
-        matastext = '';
-        for i = 1:size(val,1)
-                % for every row make a line:
-                line = sprintf('%s; ', val{i,:});
-                % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
-                matastext = [matastext line(1:end-2) NL];
-        endfor
+        % make infostr %<<<2
+        % convert matrix into text:
+        matastext = mat2str(val);
+        % remove leading '[' and closing ']':
+        matastext = matastext(2:end-1);
+        % replace semicolons to newlines and spaces to semicolons:
+        matastext = strrep(matastext, ';', NL);
+        matastext = strrep(matastext, ' ', '; ');
+
         % add matrix to infostr:
         infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell, true);
 endfunction
@@ -158,8 +157,8 @@ function infostr = set_matrix(functionname, infostr, key, matastext, scell, inde
                 INDENT_LEN = 0;
         endif
 
-        % add newline to beginning:
-        matastext = [NL matastext];
+        % add newline to beginning and to end:
+        matastext = [NL matastext NL];
         % indent lines:
         matastext = strrep(matastext, NL, [NL repmat(' ', 1, INDENT_LEN)]);
         % remove indentation from last line:
