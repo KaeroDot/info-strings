@@ -16,8 +16,6 @@ function infostr = infosetmatrix(varargin) %<<<1
 
         % make infostr %<<<2
         % convert matrix into text:
-        % make infostr %<<<2
-        % convert matrix into text:
         matastext = mat2str(val);
         % remove leading '[' and closing ']':
         matastext = matastext(2:end-1);

@@ -10,8 +10,8 @@
 ## @var{val} in following format:
 ## @example
 ## #startmatrix:: key
-##      val(1,1); val(1,2); val(1,3);
-##      val(2,1); val(2,2); val(2,3);
+##      val(1,1); val(1,2); val(1,3)
+##      val(2,1); val(2,2); val(2,3)
 ## #endmatrix:: key
 ##
 ## @end example
@@ -55,8 +55,6 @@ function infostr = infosetmatrix(varargin) %<<<1
                 error('infosetmatrix: val must be a numeric matrix')
         endif
 
-        % make infostr %<<<2
-        % convert matrix into text:
         % make infostr %<<<2
         % convert matrix into text:
         matastext = mat2str(val);

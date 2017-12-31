@@ -51,10 +51,10 @@ function infostr = infosettextmatrix(varargin) %<<<1
         endif
         % check content of val:
         if (~iscell(val))
-                error('infosetmatrix: val must be a cell of strings')
+                error('infosettextmatrix: val must be a cell of strings')
         endif
         if (~all(cellfun(@ischar, val)))
-                error('infosetmatrix: val must be a cell of strings')
+                error('infosettextmatrix: val must be a cell of strings')
         endif
 
         % make infostr %<<<2

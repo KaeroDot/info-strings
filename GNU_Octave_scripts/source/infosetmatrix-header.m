@@ -10,8 +10,8 @@
 ## @var{val} in following format:
 ## @example
 ## #startmatrix:: key
-##      val(1,1); val(1,2); val(1,3);
-##      val(2,1); val(2,2); val(2,3);
+##      val(1,1); val(1,2); val(1,3)
+##      val(2,1); val(2,2); val(2,3)
 ## #endmatrix:: key
 ##
 ## @end example
