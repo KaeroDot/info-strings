@@ -157,3 +157,14 @@ all:
 		infosettime-tests.m \
 	>> ../infosettime.m
 	
+	> ../infosettimematrix.m
+	cat \
+		infosettimematrix-header.m \
+		infosettimematrix-body.m \
+		set_id_check_inputs.m \
+		set_matrix.m \
+		set_section.m \
+		get_section.m \
+		infosettimematrix-tests.m \
+	>> ../infosettimematrix.m
+	
