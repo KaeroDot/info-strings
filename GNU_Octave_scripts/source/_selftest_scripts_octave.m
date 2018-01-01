@@ -20,6 +20,7 @@ test infosettime.m
 test infogettime.m
 
 test infosettimematrix.m
+test infogettimematrix.m
 
 test infoload.m
 test infosave.m

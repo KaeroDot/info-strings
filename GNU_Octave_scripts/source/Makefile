@@ -79,6 +79,21 @@ all:
 		infogettime-tests.m \
 	>> ../infogettime.m
 	
+	> ../infogettimematrix.m
+	cat \
+		infogettimematrix-header1.m \
+		header-example-infostr.m \
+		infogettimematrix-header2.m \
+		infogettimematrix-body.m \
+		get_id_check_inputs.m \
+		get_section.m \
+		rem_subsections.m \
+		get_matrix.m \
+		regexpescape.m \
+		csv2cell.m \
+		infogettimematrix-tests.m \
+	>> ../infogettimematrix.m
+	
 	> ../infoload.m
 	cat \
 		infoload-header.m \
