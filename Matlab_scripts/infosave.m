@@ -17,7 +17,7 @@ function succes = infosave(infostr, filename, varargin)%<<<1
 
 % Author: Martin Šíra <msiraATcmi.cz>
 % Created: 2014
-% Version: 1.5
+% Version: 4.0
 % Script quality:
 %   Tested: yes
 %   Contains help: yes
@@ -94,5 +94,3 @@ end
 %! delete(fn);
 %!error(infosave(5));
 %!error(infosave(cont, 5));
-
-% vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

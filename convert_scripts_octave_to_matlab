@@ -1,2 +1,2 @@
 #!/bin/bash
-../octave2matlab/octaveh2matlabh_recursive -f GNU_Octave_scripts Matlab_scripts/after_conversion
+../octave2matlab-github/octaveh2matlabh_recursive -f GNU_Octave_scripts Matlab_scripts/after_conversion

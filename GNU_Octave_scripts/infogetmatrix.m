@@ -12,7 +12,7 @@
 ##
 ## Example:
 ## @example
-## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n"a";  "b"; "c" \n"d";"e";         "f"  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
+## infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n"a";  "b"; "c" \n"d";"e";         "f"  \n#endmatrix:: simple matrix \n#startmatrix:: time matrix\n  2013-12-11T22:59:30.123456\n  2013-12-11T22:59:35.123456\n#endmatrix:: time matrix\nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
 ## infogetmatrix(infostr,'simple matrix')
 ## @end example
 ## @end deftypefn
@@ -266,7 +266,7 @@ if isempty(strfind(s, CELLSTR)) %<<<2
                 s = s(1:end-1);
         endif
         % strsplit by separators on all lines:
-        s = cellfun(@strsplit, s, {CELLSEP}, 'UniformOutput', false);
+        s = cellfun(@strsplit, s, repmat({CELLSEP}, size(s)), 'UniformOutput', false);
         try %<<<3
                 % faster method - use vertcat, only possible if all lines have the same number of fields:
                 data = vertcat(s{:});

@@ -1,19 +1,18 @@
-function text = infogettext(varargin)%<<<1
-% -- Function File: TEXT = infogettext (INFOSTR, KEY)
-% -- Function File: TEXT = infogettext (INFOSTR, KEY, SCELL)
+function time = infogettime(varargin)%<<<1
+% -- Function File: TEXT = infogettime (INFOSTR, KEY)
+% -- Function File: TEXT = infogettime (INFOSTR, KEY, SCELL)
 %     Parse info string INFOSTR, finds line with content "key:: value"
-%     and returns the value as text.
+%     and returns the value as number of seconds since the epoch (as in
+%     function time()).  Expected time format is ISO 8601:
+%     %Y-%m-%dT%H:%M:%S.SSSSSS. The number of digits in fraction of
+%     seconds is not limited.
 %
 %     If SCELL is set, the key is searched in section(s) defined by
 %     string(s) in cell.
 %
 %     Example:
-%          infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n"a";  "b"; "c" \n"d";"e";         "f"  \n#endmatrix:: simple matrix \n#startmatrix:: time matrix\n  2013-12-11T22:59:30.123456\n  2013-12-11T22:59:35.123456\n#endmatrix:: time matrix\nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n')
-%          infogettext(infostr,'A')
-%          infogettext(infostr,'B([V?*.])')
-%          infogettext(infostr,'C')
-%          infogettext(infostr,'C', {'section 1', 'subsection'})
-%          infogettext(infostr,'C', {'section 2'})
+%          infostr = sprintf('T:: 2013-12-11T22:59:30.123456')
+%          infogettime(infostr,'T')
 
 % Copyright (C) 2013 Martin Šíra %<<<1
 %
@@ -31,13 +30,25 @@ function text = infogettext(varargin)%<<<1
 %   Optimized: no
 
         % identify and check inputs %<<<2
-        [printusage, infostr, key, scell] = get_id_check_inputs('infogettext', varargin{:});
+        [printusage, infostr, key, scell] = get_id_check_inputs('infogettime', varargin{:});
         if printusage
                 print_usage()
         end
 
-        % get text %<<<2
-        text = get_key('infogettext', infostr, key, scell);
+        % get time %<<<2
+        % get time as text:
+        s = get_key('infogettime', infostr, key, scell);
+        % parse of time data:
+        time = mktime(strptime(s, '%Y-%m-%dT%H:%M:%S'));
+        if isempty(time)
+                error(['infogettime: key `' key '` does not contain time data'])
+        end
+        % I do not know how to read fractions of second by strptime, so this line fix it:
+        time = time + str2num(s(20:end));
+
+        % ISO 8601
+        % %Y-%m-%dT%H:%M:%S%20u
+        % 2013-12-11T22:59:30.15648946
 end
 
 function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, varargin) %<<<1
@@ -228,36 +239,9 @@ end
 
 % --------------------------- tests: %<<<1
 %!shared infostr
-%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n');
-%!assert(strcmp(infogettext(infostr,'A'),'1'))
-%!assert(strcmp(infogettext(infostr,'B([V?*.])'),'!$^&*()[];::,.'));
-%!assert(strcmp(infogettext(infostr,'C'),'c without section'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 1'}),'c in section 1'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 1', 'subsection'}),'c in subsection'))
-%!assert(strcmp(infogettext(infostr,'C', {'section 2'}),'c in section 2'))
-%!error(infogettext('', ''));
-%!error(infogettext('', infostr));
-%!error(infogettext(infostr, ''));
-%!error(infogettext(infostr, 'A', {'section 1'}));
-
-% NOVY TESTOVACI INFOSTR:
-% 
-% infostr = "A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nC:: c without section\n#startsection:: section 1 \n  C:: c in section 1 \n  #startsection:: subsection\n    C:: c in subsection\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: c in section 2\n#endsection:: section 2\n"
-
-% A:: 1
-% some note
-% B([V?*.])::    !$^&*()[];::,.
-% #startmatrix:: simple matrix 
-% 1;  2; 3; 
-% 4;5;         6;  
-% #endmatrix:: simple matrix 
-% C:: c without section
-% #startsection:: section 1 
-  % C:: c in section 1 
-  % #startsection:: subsection
-    % C:: c in subsection
-  % #endsection:: subsection
-% #endsection:: section 1
-% #startsection:: section 2
-  % C:: c in section 2
-% #endsection:: section 2
+%! infostr = sprintf('A:: 1\nsome note\nB([V?*.])::    !$^&*()[];::,.\n#startmatrix:: simple matrix \n1;  2; 3; \n4;5;         6;  \n#endmatrix:: simple matrix \nT:: 2013-12-11T22:59:30.123456\nC:: 2\n#startsection:: section 1 \n  C:: 3\n  #startsection:: subsection\n    C:: 4\n  #endsection:: subsection\n#endsection:: section 1\n#startsection:: section 2\n  C:: 5\n#endsection:: section 2\n');
+%!assert(infogettime(infostr,'T') == 1386799170.123456)
+%!error(infogettime('', ''));
+%!error(infogettime('', infostr));
+%!error(infogettime(infostr, ''));
+%!error(infogettime(infostr, 'A', {'section 1'}));

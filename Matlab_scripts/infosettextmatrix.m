@@ -1,28 +1,31 @@
-function infostr = infosettext(varargin)%<<<1
-% -- Function File: INFOSTR = infosettext (KEY, VAL)
-% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
-%     Returns info string with key KEY and text VAL in following format:
-%          key:: val
+function infostr = infosettextmatrix(varargin)%<<<1
+% -- Function File: INFOSTR = infosettextmatrix (KEY, VAL)
+% -- Function File: INFOSTR = infosettextmatrix (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosettextmatrix (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosettextmatrix (INFOSTR, KEY, VAL,
+%          SCELL)
+%     Returns info string with a text matrix formatted in following
+%     format:
+%          #startmatrix:: key
+%               "val(1,1)"; "val(1,2)"; "val(1,3)";
+%               "val(2,1)"; "val(2,2)"; "val(2,3)";
+%          #endmatrix:: key
 %
-%     If SCELL is set, the key/value is enclosed by section(s) according
+%     If SCELL is set, the section is put into subsections according
 %     SCELL.
 %
-%     If INFOSTR is set, the key/value is put into existing INFOSTR
+%     If INFOSTR is set, the section is put into existing INFOSTR
 %     sections, or sections are generated if needed and properly
 %     appended/inserted into INFOSTR.
 %
 %     Example:
-%          infosettext('key', 'value')
-%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
-%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
+%          infosettextmatrix('colours', {'black'; 'blue'})
 
-% Copyright (C) 2014 Martin Šíra %<<<1
+% Copyright (C) 2017 Martin Šíra %<<<1
 %
 
 % Author: Martin Šíra <msiraATcmi.cz>
-% Created: 2014
+% Created: 2017
 % Version: 4.0
 % Script quality:
 %   Tested: yes
@@ -33,19 +36,45 @@ function infostr = infosettext(varargin)%<<<1
 %   Contains demo: no
 %   Optimized: no
 
+        % Constant with OS dependent new line character:
+        % (This is because of Matlab cannot translate special characters
+        % in strings. GNU Octave distinguish '' and "")
+        NL = sprintf('\n');
+
         % identify and check inputs %<<<2
-        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettext', varargin{:});
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettextmatrix', varargin{:});
         if printusage
                 print_usage()
         end
         % check content of val:
-        if ~ischar(val)
-                error('infosettext: val must be string')
+        if (~iscell(val))
+                error('infosettextmatrix: val must be a cell of strings')
+        end
+        if (~all(cellfun(@ischar, val)))
+                error('infosettextmatrix: val must be a cell of strings')
         end
 
         % make infostr %<<<2
-        % add value to infostr:
-        infostr = set_key('infosettext', infostr, key, val, scell);
+        % convert matrix into text:
+        % go line per line (thus semicolons and end of lines can be managed):
+        matastext = '';
+        % shall do indentation?
+        indent = true;
+        for i = 1:size(val,1)
+                % for every row make a line:
+                line = sprintf('"%s"; ', val{i,:});
+                % disable indenting if line contains any of newline characters
+                if ~isempty(strfind(line, char(10))) || ~isempty(strfind(line, char(13))) 
+                        indent = false;
+                end
+                % indentation inserts spaces into cells with newline characters!
+                % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
+                matastext = [matastext line(1:end-2) NL];
+        end
+        % remove last end of line:
+        matastext = matastext(1:end-length(NL));
+        % add matrix to infostr:
+        infostr = set_matrix('infosettextmatrix', infostr, key, matastext, scell, indent);
 end
 
 function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionname, varargin) %<<<1
@@ -111,14 +140,15 @@ function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionna
         end
 end
 
-function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
-        % make info line from valastext and key and put it into a proper section (and subsections according scell)
+function infostr = set_matrix(functionname, infostr, key, matastext, scell, indent) %<<<1
+        % make info line from matastext and key and put it into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
         % infostr - info string with all data
-        % key - key for a newline
-        % valastext - value as a string
+        % key - key for a new matrix
+        % matastext - matrix as a string
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -127,9 +157,23 @@ function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % make infoline %<<<2
-        % generate new line with key and val:
-        newline = sprintf('%s:: %s', key, valastext);
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        end
+
+        % add newline to beginning and to end:
+        matastext = [NL matastext NL];
+        % indent lines:
+        matastext = strrep(matastext, NL, [NL repmat(' ', 1, INDENT_LEN)]);
+        % remove indentation from last line:
+        matastext = matastext(1:end-INDENT_LEN);
+
+        % put matrix values between keys:
+        matastext = sprintf('#startmatrix:: %s%s#endmatrix:: %s', key, matastext, key);
+
         % add new line to infostr according scell
         if isempty(scell)
                 if isempty(infostr)
@@ -137,9 +181,9 @@ function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
                 else
                         before = [deblank(infostr) NL];
                 end
-                infostr = [before newline];
+                infostr = [before matastext];
         else
-                infostr = set_section('infosetnumber', infostr, newline, scell, true);
+                infostr = set_section('infosetnumber', infostr, matastext, scell, indent);
         end
 end
 
@@ -282,18 +326,16 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
 end
 
 % --------------------------- tests: %<<<1
-%!shared istxt, iskey, iskeydbl
-%! istxt = 'key:: val';
-%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
-%! iskeydbl = sprintf('#startsection:: skey\n        key:: val\n        key:: val\n#endsection:: skey');
-%!assert(strcmp(infosettext( 'key', 'val'                               ), istxt));
-%!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
-%!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
-%!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosettext('a'))
-%!error(infosettext(5, 'a'))
-%!error(infosettext('a', 5))
-%!error(infosettext('a', 'b', 5))
-%!error(infosettext('a', 'b', {5}))
-%!error(infosettext('a', 'b', 'c', 'd'))
-%!error(infosettext('a', 'b', 'c', {5}))
+%!shared ismat, ismatsec
+%! ismat = sprintf('#startmatrix:: mat\n        "a"; "b"; "c"\n        "d"; "e"; "f"\n#endmatrix:: mat');
+%! ismatsec = sprintf('#startsection:: skey\n        #startmatrix:: mat\n                "a"; "b"; "c"\n                "d"; "e"; "f"\n        #endmatrix:: mat\n#endsection:: skey');
+%!assert(strcmp(infosettextmatrix( 'mat', {"a", "b", "c"; "d", "e", "f"}                ), ismat));
+%!assert(strcmp(infosettextmatrix( 'mat', {"a", "b", "c"; "d", "e", "f"}, {'skey'}      ), ismatsec));
+%!assert(strcmp(infosettextmatrix( 'testtext', 'mat', {"a", "b", "c"; "d", "e", "f"}, {'skey'}     ), ['testtext' sprintf('\n') ismatsec]));
+%!error(infosettextmatrix('a'))
+%!error(infosettextmatrix({'a'}, 'a'))
+%!error(infosettextmatrix('a', 'b'))
+%!error(infosettextmatrix('a', {'a'}, 'd'))
+%!error(infosettextmatrix('a', {'a'}, {5}))
+%!error(infosettextmatrix('a', 'b', {'a'}, 'd'))
+%!error(infosettextmatrix('a', 'b', {'a'}, {5}))

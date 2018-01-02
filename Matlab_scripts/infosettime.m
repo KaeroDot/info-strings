@@ -1,10 +1,15 @@
-function infostr = infosettext(varargin)%<<<1
-% -- Function File: INFOSTR = infosettext (KEY, VAL)
-% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
-%     Returns info string with key KEY and text VAL in following format:
-%          key:: val
+function infostr = infosettime(varargin)%<<<1
+% -- Function File: INFOSTR = infosettime (KEY, VAL)
+% -- Function File: INFOSTR = infosettime (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosettime (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosettime (INFOSTR, KEY, VAL, SCELL)
+%     Returns info string with key KEY and time VAL in following format:
+%          key:: %Y-%m-%dT%H:%M:%S.SSSSSS
+%
+%
+%     The time is formatted as local time according ISO 8601 with six
+%     digits in microseconds.  Expected input time system is a number of
+%     seconds since the epoch, as in function time().
 %
 %     If SCELL is set, the key/value is enclosed by section(s) according
 %     SCELL.
@@ -14,9 +19,7 @@ function infostr = infosettext(varargin)%<<<1
 %     appended/inserted into INFOSTR.
 %
 %     Example:
-%          infosettext('key', 'value')
-%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
-%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
+%          infosettime('time of start',time())
 
 % Copyright (C) 2014 Martin Šíra %<<<1
 %
@@ -34,18 +37,23 @@ function infostr = infosettext(varargin)%<<<1
 %   Optimized: no
 
         % identify and check inputs %<<<2
-        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettext', varargin{:});
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettime', varargin{:});
         if printusage
                 print_usage()
         end
         % check content of val:
-        if ~ischar(val)
-                error('infosettext: val must be string')
+        if (~isscalar(val) || ~isnumeric(val))
+                error('infosettime: val must be a numeric scalar')
         end
 
         % make infostr %<<<2
+        % convert value to text:
+        % format time:
+        valastext = strftime('%Y-%m-%dT%H:%M:%S',localtime(val));
+        % add decimal dot and microseconds:
+        valastext = [valastext '.' num2str(localtime(val).usec, '%0.6d')];
         % add value to infostr:
-        infostr = set_key('infosettext', infostr, key, val, scell);
+        infostr = set_key('infosettime', infostr, key, valastext, scell);
 end
 
 function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionname, varargin) %<<<1
@@ -283,17 +291,12 @@ end
 
 % --------------------------- tests: %<<<1
 %!shared istxt, iskey, iskeydbl
-%! istxt = 'key:: val';
-%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
-%! iskeydbl = sprintf('#startsection:: skey\n        key:: val\n        key:: val\n#endsection:: skey');
-%!assert(strcmp(infosettext( 'key', 'val'                               ), istxt));
-%!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
-%!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
-%!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosettext('a'))
-%!error(infosettext(5, 'a'))
-%!error(infosettext('a', 5))
-%!error(infosettext('a', 'b', 5))
-%!error(infosettext('a', 'b', {5}))
-%!error(infosettext('a', 'b', 'c', 'd'))
-%!error(infosettext('a', 'b', 'c', {5}))
+%! istxt = 'T:: 2013-12-11T22:59:30.123456';
+%!assert(strcmp(infosettime('T',1386799170.123456), istxt));
+%!error(infosettime('a'))
+%!error(infosettime(5, 'a'))
+%!error(infosettime('a', 'b'))
+%!error(infosettime('a', 'b', 'd'))
+%!error(infosettime('a', 'b', {5}))
+%!error(infosettime('a', 'b', 5, 'd'))
+%!error(infosettime('a', 'b', 5, {5}))

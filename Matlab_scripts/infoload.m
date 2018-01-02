@@ -14,7 +14,7 @@ function infostr = infoload(filename, varargin)%<<<1
 
 % Author: Martin Šíra <msiraATcmi.cz>
 % Created: 2014
-% Version: 2.0
+% Version: 4.0
 % Script quality:
 %   Tested: yes
 %   Contains help: yes
@@ -84,5 +84,3 @@ end
 %! delete(fn);
 %!error(infoload(fn(1:end-5), 0));
 %!error(infoload(5));
-
-% vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000

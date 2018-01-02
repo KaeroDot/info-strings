@@ -1,10 +1,21 @@
-function infostr = infosettext(varargin)%<<<1
-% -- Function File: INFOSTR = infosettext (KEY, VAL)
-% -- Function File: INFOSTR = infosettext (KEY, VAL, SCELL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL)
-% -- Function File: INFOSTR = infosettext (INFOSTR, KEY, VAL, SCELL)
-%     Returns info string with key KEY and text VAL in following format:
-%          key:: val
+function infostr = infosettimematrix(varargin)%<<<1
+% -- Function File: INFOSTR = infosettimematrix (KEY, VAL)
+% -- Function File: INFOSTR = infosettimematrix (KEY, VAL, SCELL)
+% -- Function File: INFOSTR = infosettimematrix (INFOSTR, KEY, VAL)
+% -- Function File: INFOSTR = infosettimematrix (INFOSTR, KEY, VAL,
+%          SCELL)
+%     Returns info string with key KEY and matrix of times VAL in
+%     following format:
+%          key:: %Y-%m-%dT%H:%M:%S.SSSSSS
+%          #startmatrix:: key
+%               %Y-%m-%dT%H:%M:%S.SSSSSS; %Y-%m-%dT%H:%M:%S.SSSSSS
+%               %Y-%m-%dT%H:%M:%S.SSSSSS; %Y-%m-%dT%H:%M:%S.SSSSSS
+%          #endmatrix:: key
+%
+%
+%     The time is formatted as local time according ISO 8601 with six
+%     digits in microseconds.  Expected input time system is a number of
+%     seconds since the epoch, as in function time().
 %
 %     If SCELL is set, the key/value is enclosed by section(s) according
 %     SCELL.
@@ -14,15 +25,13 @@ function infostr = infosettext(varargin)%<<<1
 %     appended/inserted into INFOSTR.
 %
 %     Example:
-%          infosettext('key', 'value')
-%          infostr = infosettext('key', 'value', {'section key', 'subsection key'})
-%          infosettext(infostr, 'other key', 'other value', {'section key', 'subsection key'})
+%          infosettimematrix('time of start', [time(); time()+5; time()+10])
 
 % Copyright (C) 2014 Martin Šíra %<<<1
 %
 
 % Author: Martin Šíra <msiraATcmi.cz>
-% Created: 2014
+% Created: 2017
 % Version: 4.0
 % Script quality:
 %   Tested: yes
@@ -33,19 +42,40 @@ function infostr = infosettext(varargin)%<<<1
 %   Contains demo: no
 %   Optimized: no
 
+        % Constant with OS dependent new line character:
+        % (This is because of Matlab cannot translate special characters
+        % in strings. GNU Octave distinguish '' and "")
+        NL = sprintf('\n');
+
         % identify and check inputs %<<<2
-        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettext', varargin{:});
+        [printusage, infostr, key, val, scell] = set_id_check_inputs('infosettimematrix', varargin{:});
         if printusage
                 print_usage()
         end
         % check content of val:
-        if ~ischar(val)
-                error('infosettext: val must be string')
+        if (~ismatrix(val) || ~isnumeric(val))
+                error('infosettimematrix: val must be a numeric matrix')
         end
 
         % make infostr %<<<2
-        % add value to infostr:
-        infostr = set_key('infosettext', infostr, key, val, scell);
+        matastext = '';
+        for i = 1:size(val, 1)
+                line = '';
+                for j = 1:size(val, 2)
+                        % format time:
+                        valastext = strftime('%Y-%m-%dT%H:%M:%S',localtime(val(i, j)));
+                        % add decimal dot and microseconds:
+                        valastext = [valastext '.' num2str(localtime(val(i, j)).usec, '%0.6d')];
+                        % add value to infostr:
+                        line = [line valastext '; '];
+                end
+                % join with previous lines, add indentation, add line without last semicolon and space, add end of line:
+                matastext = [matastext line(1:end-2) NL];
+        end
+        % remove last end of line:
+        matastext = matastext(1:end-length(NL));
+        % add matrix to infostr:
+        infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell, true);
 end
 
 function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionname, varargin) %<<<1
@@ -111,14 +141,15 @@ function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionna
         end
 end
 
-function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
-        % make info line from valastext and key and put it into a proper section (and subsections according scell)
+function infostr = set_matrix(functionname, infostr, key, matastext, scell, indent) %<<<1
+        % make info line from matastext and key and put it into a proper section (and subsections according scell)
         %
         % functionname - name of the main function for proper error generation after concatenating
         % infostr - info string with all data
-        % key - key for a newline
-        % valastext - value as a string
+        % key - key for a new matrix
+        % matastext - matrix as a string
         % scell - cell of strings with name of section and subsections
+        % indent - boolean true if shall do indentation
         %
         % function suppose all inputs are ok!
 
@@ -127,9 +158,23 @@ function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
         % in strings. GNU Octave distinguish '' and "")
         NL = sprintf('\n');
 
-        % make infoline %<<<2
-        % generate new line with key and val:
-        newline = sprintf('%s:: %s', key, valastext);
+        % number of spaces in indented section:
+        if indent
+                INDENT_LEN = 8;
+        else
+                INDENT_LEN = 0;
+        end
+
+        % add newline to beginning and to end:
+        matastext = [NL matastext NL];
+        % indent lines:
+        matastext = strrep(matastext, NL, [NL repmat(' ', 1, INDENT_LEN)]);
+        % remove indentation from last line:
+        matastext = matastext(1:end-INDENT_LEN);
+
+        % put matrix values between keys:
+        matastext = sprintf('#startmatrix:: %s%s#endmatrix:: %s', key, matastext, key);
+
         % add new line to infostr according scell
         if isempty(scell)
                 if isempty(infostr)
@@ -137,9 +182,9 @@ function infostr = set_key(functionname, infostr, key, valastext, scell) %<<<1
                 else
                         before = [deblank(infostr) NL];
                 end
-                infostr = [before newline];
+                infostr = [before matastext];
         else
-                infostr = set_section('infosetnumber', infostr, newline, scell, true);
+                infostr = set_section('infosetnumber', infostr, matastext, scell, indent);
         end
 end
 
@@ -282,18 +327,13 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
 end
 
 % --------------------------- tests: %<<<1
-%!shared istxt, iskey, iskeydbl
-%! istxt = 'key:: val';
-%! iskey = sprintf('#startsection:: skey\n        key:: val\n#endsection:: skey');
-%! iskeydbl = sprintf('#startsection:: skey\n        key:: val\n        key:: val\n#endsection:: skey');
-%!assert(strcmp(infosettext( 'key', 'val'                               ), istxt));
-%!assert(strcmp(infosettext( 'key', 'val', {'skey'}                     ), iskey));
-%!assert(strcmp(infosettext( iskey, 'key', 'val'                        ), [iskey sprintf('\n') istxt]));
-%!assert(strcmp(infosettext( iskey, 'key', 'val', {'skey'}              ), iskeydbl));
-%!error(infosettext('a'))
-%!error(infosettext(5, 'a'))
-%!error(infosettext('a', 5))
-%!error(infosettext('a', 'b', 5))
-%!error(infosettext('a', 'b', {5}))
-%!error(infosettext('a', 'b', 'c', 'd'))
-%!error(infosettext('a', 'b', 'c', {5}))
+%!shared istxt
+%! istxt = sprintf('#startmatrix:: tmat\n        2013-12-11T22:59:30.123456\n        2013-12-11T22:59:30.123456\n#endmatrix:: tmat');
+%!assert(strcmp(infosettimematrix('tmat', [1386799170.123456; 1386799170.123456]), istxt));
+%!error(infosettimematrix('a'))
+%!error(infosettimematrix(5, 'a'))
+%!error(infosettimematrix('a', 'b'))
+%!error(infosettimematrix('a', 5, 'd'))
+%!error(infosettimematrix('a', 5, {5}))
+%!error(infosettimematrix('a', 'b', 5, 'd'))
+%!error(infosettimematrix('a', 'b', 5, {5}))
