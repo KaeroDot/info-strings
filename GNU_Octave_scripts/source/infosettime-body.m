@@ -12,9 +12,7 @@ function infostr = infosettime(varargin) %<<<1
         % make infostr %<<<2
         % convert value to text:
         % format time:
-        valastext = strftime('%Y-%m-%dT%H:%M:%S',localtime(val));
-        % add decimal dot and microseconds:
-        valastext = [valastext '.' num2str(localtime(val).usec, '%0.6d')];
+        valastext = posix2iso_time(val);
         % add value to infostr:
         infostr = set_key('infosettime', infostr, key, valastext, scell);
 endfunction

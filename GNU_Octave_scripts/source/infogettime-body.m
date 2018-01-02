@@ -9,15 +9,9 @@ function time = infogettime(varargin) %<<<1
         % get time as text:
         s = get_key('infogettime', infostr, key, scell);
         % parse of time data:
-        time = mktime(strptime(s, '%Y-%m-%dT%H:%M:%S'));
+        time = iso2posix_time(s);
         if isempty(time)
                 error(['infogettime: key `' key '` does not contain time data'])
         endif
-        % I do not know how to read fractions of second by strptime, so this line fix it:
-        time = time + str2num(s(20:end));
-
-        % ISO 8601
-        % %Y-%m-%dT%H:%M:%S%20u
-        % 2013-12-11T22:59:30.15648946
 endfunction
 

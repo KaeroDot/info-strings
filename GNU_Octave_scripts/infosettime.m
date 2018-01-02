@@ -54,9 +54,7 @@ function infostr = infosettime(varargin) %<<<1
         % make infostr %<<<2
         % convert value to text:
         % format time:
-        valastext = strftime('%Y-%m-%dT%H:%M:%S',localtime(val));
-        % add decimal dot and microseconds:
-        valastext = [valastext '.' num2str(localtime(val).usec, '%0.6d')];
+        valastext = posix2iso_time(val);
         % add value to infostr:
         infostr = set_key('infosettime', infostr, key, valastext, scell);
 endfunction
@@ -293,6 +291,67 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
                 endif
         endif
 endfunction
+
+function posixnumber = iso2posix_time(isostring)
+        % converts ISO8601 time to posix time both for GNU Octave and Matlab
+        % posix time is number of seconds since the epoch, the epoch is referenced to 00:00:00 CUT
+        % (Coordinated Universal Time) 1 Jan 1970, for example, on Monday February 17, 1997 at 07:15:06 CUT,
+        % the value returned by 'time' was 856163706.)
+        % ISO 8601
+        % %Y-%m-%dT%H:%M:%S%20u
+        % 2013-12-11T22:59:30.15648946
+
+        isostring = strtrim(isostring);
+        if isOctave
+                % Octave version:
+                % parse of time data:
+                posixnumber = mktime(strptime(isostring, '%Y-%m-%dT%H:%M:%S'));
+                if ~isempty(posixnumber)
+                        % I do not know how to read fractions of second by strptime, so this line fix it:
+                        posixnumber = posixnumber + str2num(isostring(20:end));
+                endif
+        else
+                % Matlab version:
+                posixnumber = posixtime(datetime(isostring(1:19), 'TimeZone', 'local', 'Format', 'yyyy-MM-dd''T''HH:mm:ss'));
+                % I do not know how to read fractions of second by datetime, so this line fix it:
+                posixnumber = posixnumber + str2num(isostring(20:end));
+        endif
+endfunction
+
+function isostring = posix2iso_time(posixnumber)
+        % posix time to ISO8601 time both for GNU Octave and Matlab
+        % posix time is number of seconds since the epoch, the epoch is referenced to 00:00:00 CUT
+        % (Coordinated Universal Time) 1 Jan 1970, for example, on Monday February 17, 1997 at 07:15:06 CUT,
+        % the value returned by 'time' was 856163706.)
+        % ISO 8601
+        % %Y-%m-%dT%H:%M:%S%20u
+        % 2013-12-11T22:59:30.15648946
+
+        if isOctave
+                % Octave version:
+                isostring = strftime('%Y-%m-%dT%H:%M:%S', localtime(posixnumber));
+                % add decimal dot and microseconds:
+                isostring = [isostring '.' num2str(localtime(posixnumber).usec, '%0.6d')];
+        else
+                % Matlab version:
+                isostring = datestr(datetime(posixnumber, 'TimeZone', 'local', 'ConvertFrom', 'posixtime'), 'yyyy-mm-ddTHH:MM:SS');
+                % add decimal dot and microseconds:
+                isostring = [isostring '.' num2str(mod(posixnumber, 1), '%0.6d')];
+        endif
+endfunction
+
+function retval = isOctave
+% checks if GNU Octave or Matlab
+% according https://www.gnu.org/software/octave/doc/v4.0.1/How-to-distinguish-between-Octave-and-Matlab_003f.html
+
+  persistent cacheval;  % speeds up repeated calls
+
+  if isempty (cacheval)
+    cacheval = (exist ("OCTAVE_VERSION", "builtin") > 0);
+  end
+
+  retval = cacheval;
+end
 
 % --------------------------- tests: %<<<1
 %!shared istxt, iskey, iskeydbl

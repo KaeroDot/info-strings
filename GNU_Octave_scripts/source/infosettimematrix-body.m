@@ -20,9 +20,7 @@ function infostr = infosettimematrix(varargin) %<<<1
                 line = '';
                 for j = 1:size(val, 2)
                         % format time:
-                        valastext = strftime('%Y-%m-%dT%H:%M:%S',localtime(val(i, j)));
-                        % add decimal dot and microseconds:
-                        valastext = [valastext '.' num2str(localtime(val(i, j)).usec, '%0.6d')];
+                        valastext = posix2iso_time(val(i, j));
                         % add value to infostr:
                         line = [line valastext '; '];
                 endfor

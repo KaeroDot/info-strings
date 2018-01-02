@@ -76,6 +76,9 @@ all:
 		rem_subsections.m \
 		get_key.m \
 		regexpescape.m \
+		iso2posix_time.m \
+		posix2iso_time.m \
+		isOctave.m \
 		infogettime-tests.m \
 	>> ../infogettime.m
 	
@@ -91,6 +94,9 @@ all:
 		get_matrix.m \
 		regexpescape.m \
 		csv2cell.m \
+		iso2posix_time.m \
+		posix2iso_time.m \
+		isOctave.m \
 		infogettimematrix-tests.m \
 	>> ../infogettimematrix.m
 	
@@ -169,6 +175,9 @@ all:
 		set_key.m \
 		set_section.m \
 		get_section.m \
+		iso2posix_time.m \
+		posix2iso_time.m \
+		isOctave.m \
 		infosettime-tests.m \
 	>> ../infosettime.m
 	
@@ -180,6 +189,9 @@ all:
 		set_matrix.m \
 		set_section.m \
 		get_section.m \
+		iso2posix_time.m \
+		posix2iso_time.m \
+		isOctave.m \
 		infosettimematrix-tests.m \
 	>> ../infosettimematrix.m
 	
