@@ -263,7 +263,7 @@ if isempty(strfind(s, CELLSTR)) %<<<2
                 s = s(1:end-1);
         end
         % strsplit by separators on all lines:
-        s = cellfun(@strsplit, s, {CELLSEP}, 'UniformOutput', false);
+        s = cellfun(@strsplit, s, repmat({CELLSEP}, size(s)), 'UniformOutput', false);
         try %<<<3
                 % faster method - use vertcat, only possible if all lines have the same number of fields:
                 data = vertcat(s{:});
