@@ -7,6 +7,7 @@ This data format aims for:
 1. easy manual editing;
 1. easy manual creating;
 1. easy storage of text data, numeric data and matrices.
+1. use standards: RFC 4180 for matrices (CSV) and ISO 8601 for time stamps.
 
 ## Example of info string
 
@@ -25,9 +26,9 @@ This data format aims for:
     Note: the above codes are not valid for most 
     of devices in the local reality.
     #startmatrix:: list of my favorite numbers
-                1; 11; 42;
-                3333 ;1E72; 0;
-                -1; -3333 ; 0.000001 ;
+                1; 11; 42
+                3333 ;1E72; 0
+                -1; -3333 ; 0.000001
     #endmatrix:: list of my favorite numbers
     Start of measurement:: 2017-07-02T17:59:17.019788
 
@@ -80,14 +81,21 @@ Any text can be inserted in between lines.
     to anything
     other key :: other value
 
-Matrices are stored as semicolon delimited values. Every number have to be followed by one
-semicolon, space characters before or after are not important. Matrices starts by keyword
-`#startmatrix:: NameOfMatrix` and ends by keyword `#endmatrix:: NameOfMatrix`.
+Matrices are stored as semicolon delimited values. Space characters before or after number or semicolon are not
+important. Matrices starts by keyword `#startmatrix:: NameOfMatrix` and ends by keyword `#endmatrix:: NameOfMatrix`.
 
     #startmatrix:: simple matrix 
-    1;  2; 3; 
-    4;5;         6;  
+    1;  2; 3
+    4;5;         6
     #endmatrix:: simple matrix
+
+Matrices can also contain e.g. strings. RFC 4180 (CSV format) is used to store string matrix, thus
+any character can be saved.
+
+    #startmatrix:: string matrix 
+    a;     "b""b"
+    "c;c"; "d"
+    #endmatrix:: string matrix
 
 Sections are used for multiple keys with same values or multiline content. Sections starts by keyword 
 `#startsection:: NameOfSection` and ends by keyword `#endsection:: NameOfSection`.
@@ -118,9 +126,11 @@ The time is saved by scripts and VIs according ISO 8601 format, i.e.:
 ## GNU Octave scripts
 Scripts for saving and loading:
 1. text data -- `infosettext.m`, `infogettext.m`;
+1. text data as matrices -- `infosettextmatrix.m`, `infogettextmatrix.m`;
 1. scalar numeric data -- `infosetnumber.m`, `infogetnumber.m`;
 1. vector and matrix numeric data -- `infosetmatrix.m`, `infogetmatrix.m`;
 1. time data -- `infosettime.m`, `infogettime.m`;
+1. time data as matrices -- `infosettimematrix.m`, `infogettimematrix.m`;
 1. sections -- `infosetsection.m`, `infogetsection.m`.
 
 All scripts contains also:
@@ -141,8 +151,6 @@ Scripts for Matlab are generated from GNU Octave scripts using _octave2matlab_ b
 See [octave2matlab github webpage](https://github.com/thierr26/octave2matlab "octave2matlab"). 
 Run script `convert_scripts_octave_to_matlab` to convert Matlab scripts from GNU Octave scripts. New
 files are in `Matlab_scripts/after_conversion/`. Check them and copy to `Matlab_scripts/`.
-
-Scripts `info(g/s)time.m` are not yet working in Matlab.
 
 ## LabVIEW VIs
 
