@@ -8,7 +8,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2013
-## Version: 4.0
+## Version: 4.1
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes

@@ -36,6 +36,15 @@ function [printusage, infostr, key, scell] = get_id_check_inputs(functionname, v
         if (~iscell(scell))
                 error([functionname ': scell must be a cell'])
         endif
+        if length(scell) == 1 && isempty(scell{1})
+                % atomatically generated values of cells are often [], not '', but still the cell is
+                % empty, e.g.: 
+                %       clear scell; scell{2} = 'sectionB'
+                % than scell{1} is [].
+                % so to remove user need to bother with this, if the scell contains single empty
+                % value, it is automatically replaced by empty string.
+                scell = {};
+        endif
         if (~all(cellfun(@ischar, scell)))
                 error([functionname ': scell must be a cell of strings'])
         endif

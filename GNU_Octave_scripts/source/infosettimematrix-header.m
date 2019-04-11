@@ -21,6 +21,8 @@
 ## function time().
 ##
 ## If @var{scell} is set, the key/value is enclosed by section(s) according @var{scell}.
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## If @var{infostr} is set, the key/value is put into existing @var{infostr} 
 ## sections, or sections are generated if needed and properly appended/inserted 
@@ -34,7 +36,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2017
-## Version: 4.0
+## Version: 4.1
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes

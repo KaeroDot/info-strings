@@ -11,6 +11,8 @@
 ## of digits in fraction of seconds is not limited.
 ##
 ## If @var{scell} is set, the key is searched in section(s) defined by string(s) in cell.
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## Example:
 ## @example

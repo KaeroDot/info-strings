@@ -16,6 +16,8 @@
 ##
 ## @end example
 ## If @var{scell} is set, the section is put into subsections according @var{scell}. 
+## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
+## is not set.
 ##
 ## If @var{infostr} is set, the section is put into existing @var{infostr} 
 ## sections, or sections are generated if needed and properly appended/inserted
@@ -29,7 +31,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 4.0
+## Version: 4.1
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -125,6 +127,15 @@ function [printusage, infostr, key, val, scell] = set_id_check_inputs(functionna
         endif
         if (~iscell(scell))
                 error([functionname ': scell must be a cell'])
+        endif
+        if length(scell) == 1 && isempty(scell{1})
+                % atomatically generated values of cells are often [], not '', but still the cell is
+                % empty, e.g.: 
+                %       clear scell; scell{2} = 'sectionB'
+                % than scell{1} is [].
+                % so to remove user need to bother with this, if the scell contains single empty
+                % value, it is automatically replaced by empty string.
+                scell = {};
         endif
         if (~all(cellfun(@ischar, scell)))
                 error([functionname ': scell must be a cell of strings'])
