@@ -1,3 +1,6 @@
+% run tests that are not put into concatenated funcions:
+test csv2cell-tests
+
 % run tests implemented in function definitions:
 addpath('..')
 

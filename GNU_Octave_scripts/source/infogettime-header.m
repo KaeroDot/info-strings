@@ -6,13 +6,19 @@
 ## @deftypefnx {Function File} @var{text} = infogettime (@var{infostr}, @var{key}, @var{scell})
 ## Parse info string @var{infostr}, finds line with content "key:: value" and returns 
 ## the value as number of seconds since the epoch (as in function time()). Expected time format 
-## is ISO 8601: %Y-%m-%dT%H:%M:%S.SSSSSS. The number of digits in fraction of seconds is not limited.
+## is extended ISO 8601:
+## @example
+## YYYY-mm-DDTHH:MM:SS[.nS][Z|(+|-)HH:MM]
+## @end example
+## The number of digits in fraction of seconds
+## is not limited, however in GNU Octave the best precision is in microseonds, Matlab can cope 
+## with nanoseconds.
 ##
 ## If @var{scell} is set, the key is searched in section(s) defined by string(s) in cell.
 ##
 ## Example:
 ## @example
-## infostr = sprintf('T:: 2013-12-11T22:59:30.123456')
+## infostr = sprintf('T:: 2011-12-13T14:15:16.123456+00:00')
 ## infogettime(infostr,'T')
 ## @end example
 ## @end deftypefn

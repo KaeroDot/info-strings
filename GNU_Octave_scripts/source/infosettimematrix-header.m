@@ -8,17 +8,15 @@
 ## @deftypefnx {Function File} @var{infostr} = infosettimematrix (@var{infostr}, @var{key}, @var{val}, @var{scell})
 ## Returns info string with key @var{key} and matrix of times @var{val} in following format:
 ## @example
-## key:: %Y-%m-%dT%H:%M:%S.SSSSSS
 ## #startmatrix:: key
-##      %Y-%m-%dT%H:%M:%S.SSSSSS; %Y-%m-%dT%H:%M:%S.SSSSSS
-##      %Y-%m-%dT%H:%M:%S.SSSSSS; %Y-%m-%dT%H:%M:%S.SSSSSS
+##      YYYY-mm-DDTHH:MM:SS.6S(+|-)HH:MM; YYYY-mm-DDTHH:MM:SS.6S(+|-)HH:MM
+##      YYYY-mm-DDTHH:MM:SS.6S(+|-)HH:MM; YYYY-mm-DDTHH:MM:SS.6S(+|-)HH:MM
 ## #endmatrix:: key
-##
 ## @end example
 ##
-## The time is formatted as local time according ISO 8601 with six digits in microseconds.
-## Expected input time system is a number of seconds since the epoch, as in
-## function time().
+## The time is formatted as local time according extended ISO 8601 with six digits in microseconds
+## and explicitly expressed time zone. Expected input time system is a number of seconds since the
+## epoch, as in function time().
 ##
 ## If @var{scell} is set, the key/value is enclosed by section(s) according @var{scell}.
 ## If @var{scell} is empty or contains empty value ([] or ''), it is considered as @var{scell} 
