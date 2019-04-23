@@ -14,7 +14,10 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
                 section = infostr;
         else
                 while (~isempty(infostr))
-                        % search sections one by one from start of infostr to end
+                        % Search sections one by one from start of infostr to end.
+                        % This searching of sections is 2-3 times faster than a single regular
+                        % expression matching whole section/subsection.
+
                         [S, E, TE, M, T, NM] = regexpi(infostr, ['#startsection\s*::\s*(.*)\s*\n(.*)\n\s*#endsection\s*::\s*\1'], 'once');
                         if isempty(T)
                                 % no section found
