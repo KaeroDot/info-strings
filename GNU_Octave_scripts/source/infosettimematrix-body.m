@@ -10,7 +10,7 @@ function infostr = infosettimematrix(varargin) %<<<1
                 print_usage()
         endif
         % check content of val:
-        if (~ismatrix(val) || ~isnumeric(val))
+        if (ndims(val) > 2 || ~isnumeric(val))
                 error('infosettimematrix: val must be a numeric matrix')
         endif
 

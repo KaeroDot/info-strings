@@ -10,7 +10,7 @@ function infostr = infosetmatrix(varargin) %<<<1
                 print_usage()
         endif
         % check content of val:
-        if (~ismatrix(val) || ~isnumeric(val))
+        if (ndims(val) > 2 || ~isnumeric(val))
                 error('infosetmatrix: val must be a numeric matrix')
         endif
 
@@ -18,7 +18,10 @@ function infostr = infosetmatrix(varargin) %<<<1
         % convert matrix into text:
         matastext = mat2str(val);
         % remove leading '[' and closing ']':
-        matastext = matastext(2:end-1);
+        if numel(val) > 1
+                % #fix: the [] are there only if 'val' has more than one item
+                matastext = matastext(2:end-1);
+        end
         % replace semicolons to newlines and spaces to semicolons:
         matastext = strrep(matastext, ';', NL);
         matastext = strrep(matastext, ' ', '; ');

@@ -86,5 +86,22 @@ assert(infogettextmatrix(is, textmatrix2key, sec2), textmatrix2);
 assert(infogettime(is, time1key, sec1), time1, 1e-6);
 assert(infogettime(is, time2key, sec2), time2, 1e-6);
 disp(['reading and testing infostring took ' num2str(toc(id)) ' s']);
+
+is = infoparse(is);
+% make tests:
+id = tic;
+assert(infogetmatrix(is, mat1key, sec1), mat1);
+assert(infogetmatrix(is, mat2key, sec2), mat2);
+assert(infogetnumber(is, num1key, sec1), num1);
+assert(infogetnumber(is, num2key, sec2), num2);
+assert(infogettext(is, text1key, sec1), text1);
+
+assert(infogettext(is, text2key, sec2), text2);
+assert(infogettextmatrix(is, textmatrix1key, sec1), textmatrix1);
+assert(infogettextmatrix(is, textmatrix2key, sec2), textmatrix2);
+assert(infogettime(is, time1key, sec1), time1, 1e-6);
+assert(infogettime(is, time2key, sec2), time2, 1e-6);
+disp(['reading and testing infostring took ' num2str(toc(id)) ' s']);
+
 % clean up
 delete([tempfile '.info']);

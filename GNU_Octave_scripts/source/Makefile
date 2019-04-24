@@ -1,4 +1,10 @@
 all:
+	
+	> ../infoparse.m
+	cat \
+		infoparse.m \
+	>> ../infoparse.m
+	
 	> ../infogetmatrix.m
 	cat \
 		infogetmatrix-header1.m \

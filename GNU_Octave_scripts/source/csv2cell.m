@@ -20,7 +20,10 @@ CELLSTR = '"';          % quoted fields character
 LF = char(10);          % line feed
 CR = char(13);          % carriage return
 
-if isempty(strfind(s, CELLSTR)) %<<<2
+if length(strtrim(s)) == 0
+        % empty matrix (just white-spaces)
+        data = {};
+elseif isempty(strfind(s, CELLSTR)) %<<<2
 % no quotes, simple method will be used
 
         % methods converts all end of lines to LF, split by LF,
@@ -64,6 +67,10 @@ if isempty(strfind(s, CELLSTR)) %<<<2
                         data = [data; c];
                 endfor
         end_try_catch
+        
+        % get rid of start/end whites
+        data = strtrim(data);
+        
 else %<<<2
         % quotes are inside of sheet, very slow method will be used
         % this method parse character by character

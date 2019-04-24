@@ -51,8 +51,11 @@ function infostr = infosetsection(varargin) %<<<1
                 scell = varargin{4};
         endif
         % check values of inputs
-        if (~ischar(infostr) || ~ischar(key) || ~ischar(val))
-                error('infosetsection: infostr, key and val must be strings')
+        if ~(ischar(infostr) || isstruct(infostr)) || ~(ischar(val) || isstruct(val))
+                error('infosetsection: infostr and val must be strings or parsed info-string')
+        endif
+        if ~ischar(key)
+                error('infosetsection: key must be string')
         endif
         if (~iscell(scell))
                 error('infosetsection: scell must be a cell')

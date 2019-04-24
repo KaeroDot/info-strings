@@ -1,6 +1,6 @@
 function matrix = infogetmatrix(varargin) %<<<1
         % identify and check inputs %<<<2
-        [printusage, infostr, key, scell] = get_id_check_inputs('infogetmatrix', varargin{:});
+        [printusage, infostr, key, scell, is_parsed] = get_id_check_inputs('infogetmatrix', varargin{:});
         if printusage
                 print_usage()
         endif
@@ -10,7 +10,7 @@ function matrix = infogetmatrix(varargin) %<<<1
         % parse csv:
         matrix = csv2cell(infostr);
         % convert to numbers:
-        matrix = cellfun(@str2double, matrix, 'UniformOutput', false);
-        matrix = cell2mat(matrix);
+        % uniformoutput=false not needed, because str2double() never fails, it just returns NaN
+        matrix = cellfun(@str2double, matrix);
 endfunction
 

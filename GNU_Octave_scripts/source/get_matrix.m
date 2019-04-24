@@ -17,13 +17,27 @@ function [val] = get_matrix(functionname, infostr, key, scell) %<<<1
         % get matrix:
         % prepare regexp:
         key = strtrim(key);
-        % escape characters of regular expression special meaning:
-        key = regexpescape(key);
-        % find matrix:
-        [S, E, TE, M, T, NM] = regexpi (infostr,['#startmatrix\s*::\s*' key '(.*)' '#endmatrix\s*::\s*' key], 'once');
-        if isempty(T)
-                error([functionname ': matrix named `' key '` not found'])
+        
+        if isstruct(infostr)
+                % --- PARSED INFO-STRING ---
+                
+                % search the matrix in the parsed list:
+                mid = find(strcmp(infostr.matrix_names,key),1);
+                if isempty(mid)
+                        error([functionname ': matrix named `' key '` not found'])
+                endif
+                % return its content:
+                val = infostr.matrix{mid};                
+        else
+                % --- RAW INFO-STRING --- 
+                % escape characters of regular expression special meaning:
+                key = regexpescape(key);
+                % find matrix:
+                [S, E, TE, M, T, NM] = regexpi (infostr,['#startmatrix\s*::\s*' key '(.*)' '#endmatrix\s*::\s*' key], 'once');
+                if isempty(T)
+                        error([functionname ': matrix named `' key '` not found'])
+                endif
+                val=strtrim(T{1});
         endif
-        val=strtrim(T{1});
 endfunction
 
