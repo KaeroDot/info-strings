@@ -16,12 +16,16 @@
 %! ts = 'A:: 1971-01-01T00:00:00.000001+00:00';
 %!assert(infogettime(ts, 'A') == 365*86400 + 1e-6);
 %               Time zones
-%! ts = 'A:: 1970-01-01T01:00:00.000001+00:00';
-%!assert(infogettime(ts, 'A') == 3600 + 1e-6);
-%! ts = 'A:: 1970-01-01T02:30:00.000001+01:30';
-%!assert(infogettime(ts, 'A') == 3600 + 1e-6);
+%! ts = 'A:: 1970-01-01T02:00:00.000001+00:00';
+%!assert(infogettime(ts, 'A') == 2*3600 + 1e-6);
+%! ts = 'A:: 1970-01-01T02:30:00.000001+00:30';
+%!assert(infogettime(ts, 'A') == 2*3600 + 1e-6);
+%! ts = 'A:: 1970-01-01T01:30:00.000001-00:30';
+%!assert(infogettime(ts, 'A') == 2*3600 + 1e-6);
+%! ts = 'A:: 1970-01-01T03:30:00.000001+01:30';
+%!assert(infogettime(ts, 'A') == 2*3600 + 1e-6);
 %! ts = 'A:: 1970-01-01T00:30:00.000001-01:30';
-%!assert(infogettime(ts, 'A') == 3600 + 1e-6);
+%!assert(infogettime(ts, 'A') == 2*3600 + 1e-6);
 %               Local time
 %! ts = 'A:: 1970-01-01T00:00:00.000001';
 %! tzoffset = localtime(now).gmtoff;

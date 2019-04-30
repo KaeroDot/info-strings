@@ -54,11 +54,16 @@ function posixnumber = iso2posix_time(isostring)
                                         secfrac = [];
                                 endif
                                 offsetpart = rest(idO:end);
-                                offset = str2num(offsetpart(1:3))*3600;
+                                mult = 1;
+                                if strcmp(offsetpart(1), '-')
+                                        mult = -1;
+                                endif
+                                offset = str2num(offsetpart(2:3))*3600;
                                 % check if minutes are present in offset
                                 if length(offsetpart) > 3
                                         offset = offset + str2num(offsetpart(5:6))*60;
                                 endif
+                                offset = offset.*mult;
                         endif
                 endif
         endif
