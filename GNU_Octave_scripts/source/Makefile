@@ -16,6 +16,7 @@ all:
 		rem_subsections.m \
 		get_matrix.m \
 		regexpescape.m \
+		make_regexp.m \
 		csv2cell.m \
 		infogetmatrix-tests.m \
 	>> ../infogetmatrix.m
@@ -31,6 +32,7 @@ all:
 		rem_subsections.m \
 		get_key.m \
 		regexpescape.m \
+		make_regexp.m \
 		infogetnumber-tests.m \
 	>> ../infogetnumber.m
 	
@@ -41,6 +43,8 @@ all:
 		infogetsection-header2.m \
 		infogetsection-body.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
 		infogetsection-tests.m \
 	>> ../infogetsection.m
 	
@@ -55,6 +59,7 @@ all:
 		rem_subsections.m \
 		get_key.m \
 		regexpescape.m \
+		make_regexp.m \
 		infogettext-tests.m \
 	>> ../infogettext.m
 	
@@ -69,6 +74,7 @@ all:
 		rem_subsections.m \
 		get_matrix.m \
 		regexpescape.m \
+		make_regexp.m \
 		csv2cell.m \
 		infogettextmatrix-tests.m \
 	>> ../infogettextmatrix.m
@@ -82,6 +88,7 @@ all:
 		rem_subsections.m \
 		get_key.m \
 		regexpescape.m \
+		make_regexp.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
 		isOctave.m \
@@ -99,6 +106,7 @@ all:
 		rem_subsections.m \
 		get_matrix.m \
 		regexpescape.m \
+		make_regexp.m \
 		csv2cell.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
@@ -128,6 +136,8 @@ all:
 		set_matrix.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
 		infosetmatrix-tests.m \
 	>> ../infosetmatrix.m
 	

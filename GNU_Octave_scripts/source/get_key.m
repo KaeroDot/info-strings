@@ -33,20 +33,14 @@ function [val] = get_key(functionname, infostr, key, scell) %<<<1
         else
                 % --- RAW INFO-STRING ---                
 
-                % get key:
-                % regexp for rest of line after a key:
-                rol = '\s*::([^\n]*)';
-                %remove leading spaces of key and escape characters:
-                key = regexpescape(strtrim(key));
-                % find line with the key:
-                % (?m) is regexp flag: ^ and $ match start and end of line
-                [S, E, TE, M, T, NM] = regexpi (infostr,['(?m)^\s*' key rol]);
+                % find key:
+                [S, E, TE, M, T, NM] = regexpi (infostr, make_regexp(key, 'linekey'), 'once');
                 % return key if found:
                 if isempty(T)
                         error([functionname ': key `' key '` not found'])
                 else
                         if isscalar(T)
-                                val = strtrim(T{1}{1});
+                                val = strtrim(T{1});
                         else
                                 error([functionname ': key `' key '` found on multiple places'])
                         endif

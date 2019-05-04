@@ -31,17 +31,23 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
         else
                 % --- RAW INFO-STRING ---                
                 section = '';
+                sectionfound = 0;
                 endposition = 0;
                 if isempty(scell)
                         % scell is empty thus current infostr is required:
                         section = infostr;
+                        sectionfound = 1;
+                elseif isempty(scell{1})
+                        % content of scell is empty thus current infostr is required:
+                        section = infostr;
+                        sectionfound = 1;
                 else
                         while (~isempty(infostr))
                                 % Search sections one by one from start of infostr to end.
                                 % This searching of sections is 2-3 times faster than a single regular
                                 % expression matching whole section/subsection.
 
-                                [S, E, TE, M, T, NM] = regexpi(infostr, ['#startsection\s*::\s*(.*)\s*\n(.*)\n\s*#endsection\s*::\s*\1'], 'once');
+                                [S, E, TE, M, T, NM] = regexpi(infostr, make_regexp('', 'anysection'), 'once');
                                 if isempty(T)
                                         % no section found
                                         section = '';
@@ -50,7 +56,13 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
                                         % some section found
                                         if strcmp(strtrim(T{1}), scell{1})
                                                 % wanted section found
-                                                section = strtrim(T{2});
+                                                if length(T) > 1
+                                                        section = strtrim(T{2});
+                                                else
+                                                        % section was found, but content was empty
+                                                        section = '';
+                                                endif
+                                                sectionfound = 1;
                                                 endposition = endposition + TE(end,end);
                                                 break
                                         else
@@ -68,7 +80,7 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
                                 endif
                         endwhile
                         % if nothing found:
-                        if isempty(section)
+                        if not(sectionfound)
                                 error([functionname ': section `' scell{1} '` not found'])
                         endif
                         % some result was obtained. if subsections are required, do recursion:

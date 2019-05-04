@@ -30,14 +30,16 @@ function [val] = get_matrix(functionname, infostr, key, scell) %<<<1
                 val = infostr.matrix{mid};                
         else
                 % --- RAW INFO-STRING --- 
-                % escape characters of regular expression special meaning:
-                key = regexpescape(key);
                 % find matrix:
-                [S, E, TE, M, T, NM] = regexpi (infostr,['#startmatrix\s*::\s*' key '(.*)' '#endmatrix\s*::\s*' key], 'once');
-                if isempty(T)
+                [S, E, TE, M, T, NM] = regexpi (infostr, make_regexp(key, 'matrix'), 'once');
+                if isempty(M)
                         error([functionname ': matrix named `' key '` not found'])
                 endif
-                val=strtrim(T{1});
+                if isempty(T)
+                        val = [];
+                else
+                        val=strtrim(T{1});
+                endif
         endif
 endfunction
 

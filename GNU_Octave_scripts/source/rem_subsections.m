@@ -18,7 +18,7 @@ function [infostr] = rem_subsections(functionname, infostr) %<<<1
                 % remove unwanted sections:
                 while (~isempty(infostr))
                         % search sections one by one from start of infostr to end
-                        [S, E, TE, M, T, NM] = regexpi(infostr, ['#startsection\s*::\s*(.*)\s*\n(.*)\n\s*#endsection\s*::\s*\1'], 'once');
+                        [S, E, TE, M, T, NM] = regexpi(infostr, make_regexp('', 'anysection'), 'once');
                         if isempty(T)
                                 % no section found, quit:
                                 break
