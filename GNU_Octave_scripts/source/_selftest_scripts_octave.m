@@ -4,28 +4,44 @@ test csv2cell-tests
 % run tests implemented in function definitions:
 addpath('..')
 
+disp('testing infosetmatrix:')
 test infosetmatrix.m
+disp('testing infogetmatrix:')
 test infogetmatrix.m
 
+disp('testing infosetnumber:')
 test infosetnumber.m
+disp('testing infogetnumber:')
 test infogetnumber.m
 
+disp('testing infosetsection:')
 test infosetsection.m
+disp('testing infogetsection:')
 test infogetsection.m
 
+disp('testing infosettext:')
 test infosettext.m
+disp('testing infogettext:')
 test infogettext.m
 
+disp('testing infosettextmatrix:')
 test infosettextmatrix.m
+disp('testing infogettextmatrix:')
 test infogettextmatrix.m
 
+disp('testing infosettime:')
 test infosettime.m
+disp('testing infogettime:')
 test infogettime.m
 
+disp('testing infosettimematrix:')
 test infosettimematrix.m
+disp('testing infogettimematrix:')
 test infogettimematrix.m
 
+disp('testing infoload:')
 test infoload.m
+disp('testing infosave:')
 test infosave.m
 
 % make very complex test and measure time:
