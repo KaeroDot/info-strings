@@ -46,7 +46,7 @@ function [printusage, infostr, key, scell, is_parsed] = get_id_check_inputs(func
                 % than scell{1} is [].
                 % so to remove user need to bother with this, if the scell contains single empty
                 % value, it is automatically replaced by empty string.
-                scell = {''};
+                scell = {};
         elseif (~all(cellfun(@ischar, scell)))
                 error([functionname ': scell must be a cell of strings'])
         endif

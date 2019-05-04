@@ -37,10 +37,6 @@ function [section, endposition] = get_section(functionname, infostr, scell) %<<<
                         % scell is empty thus current infostr is required:
                         section = infostr;
                         sectionfound = 1;
-                elseif isempty(scell{1})
-                        % content of scell is empty thus current infostr is required:
-                        section = infostr;
-                        sectionfound = 1;
                 else
                         while (~isempty(infostr))
                                 % Search sections one by one from start of infostr to end.
