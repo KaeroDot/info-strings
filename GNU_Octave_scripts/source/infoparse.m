@@ -50,7 +50,7 @@ function [idata] = infoparse(inf,mode)
     % get rid of system specific EOLs but do not change string size!:
     % note the result is stored in temporary string! original must be preserved
     % replace windows CRLF by ' LF'
-    inflf = strrep(inf,char([13 10]),char([32 NL]));
+    inflf = strrep(inf,char([13 10]),[char(32) NL]);
     % not convert the rest of CR/LF to LF:
     inflf = strrep(inflf,char(13),NL);
        
