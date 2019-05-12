@@ -16,15 +16,21 @@ function infostr = infosetmatrix(varargin) %<<<1
 
         % make infostr %<<<2
         % convert matrix into text:
-        matastext = mat2str(val);
-        % remove leading '[' and closing ']':
-        if numel(val) > 1
-                % #fix: the [] are there only if 'val' has more than one item
-                matastext = matastext(2:end-1);
-        end
-        % replace semicolons to newlines and spaces to semicolons:
-        matastext = strrep(matastext, ';', NL);
-        matastext = strrep(matastext, ' ', '; ');
+        if numel(val) == 0
+                % mat2str of empty matrix generates [], that is read by csv2cell as single NaN
+                % to prevent this:
+                matastext = '';
+        else
+                matastext = mat2str(val);
+                % remove leading '[' and closing ']':
+                if numel(val) > 1
+                        % #fix: the [] are there only if 'val' has more than one item
+                        matastext = matastext(2:end-1);
+                end
+                % replace semicolons to newlines and spaces to semicolons:
+                matastext = strrep(matastext, ';', NL);
+                matastext = strrep(matastext, ' ', '; ');
+        endif
 
         % add matrix to infostr:
         infostr = set_matrix('infosetmatrix', infostr, key, matastext, scell, true);
