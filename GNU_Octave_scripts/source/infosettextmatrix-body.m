@@ -23,6 +23,8 @@ function infostr = infosettextmatrix(varargin) %<<<1
         matastext = '';
         % shall do indentation?
         indent = true;
+        % escape semicolons:
+        val = strrep(val, '"', '""');
         for i = 1:size(val,1)
                 % for every row make a line:
                 line = sprintf('"%s"; ', val{i,:});
