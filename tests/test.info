@@ -1,0 +1,323 @@
+This text file serve to extensively test info strings reading.
+
+====================================================================================================
+Proper results of the reading should be:
+
+Reading key                                                                                     Value
+----------------------------------------------------------------------------------------------------
+Test key, no value                                                                              For this key the proper result should be empty string
+Test key                                                                                        A
+Test key, similar                                                                               B
+Test key, no spaces                                                                             C
+Test key, both spaces                                                                           D
+Test key, space left                                                                            E
+Test key, space right                                                                           F
+Test integer, 16 digits                                                                         1234567890123456
+Test floating point, 16 digits after decimal dot                                                0.1234567890123456
+Test floating point, 15 digits before decimal dot                                               123456789012345.6
+Test string, simple                                                                             test string
+Test string, nonletter characters                                                               !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+Test string, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?                       in key
+Test string, UTF8 characters                                                                    řœДμΩℜℑ
+Test string, UTF8 characters in key řœДμΩℜℑ                                                     in key
+Test time, no time zone                                                                         day 2002-02-22 time 12:12:12.123456, aka timestamp 1014376332.123456 suppose +01:00 offset
+Test time, with time zone, UTC                                                                  day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, +10 minutes                                                          day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, -10 minutes                                                          day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, +1 hour                                                              day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, -1 hour                                                              day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, +1:10                                                                day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+Test time, with time zone, -1:10                                                                day 2002-02-22 time 12:12:12.123456 UTC time zone, aka timestamp 1014379932.123456
+
+Test matrix, empty                                                                              This should result in empty matrix
+Test matrix, single value                                                                       1
+Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?         2
+Test matrix, single value, UTF8 characters in key řœДμΩℜℑ                                       3
+Test matrix, row numbers                                                                        Row matrix with elements 4; 5; 6
+Test matrix, column numbers                                                                     Column matrix with elements 7; 8; 9
+Test matrix                                                                                     Matrix of size 3x3 with elements:
+                                                                                                        1.1;  2.1; 3.1
+                                                                                                        4e4; -5e5; 6e-6
+                                                                                                        7.7e7;  8.123456789e1; NaN
+Test matrix, mixed numbers and text for reading as numbers                                      Matrix of size 4x3 with elements:
+                                                                                                        1; one; 2; two
+                                                                                                        3; three; 4; four
+Test matrix, mixed numbers and text for reading as strings                                      Matrix of size 4x3 with elements:
+                                                                                                        11; One; 12; Two
+                                                                                                        13; Three; `4; Four
+Test matrix, mixed numbers and text with special characters read as numbers                     Matrix of size 4x3 with elements 
+                                                                                                (semicolons between words one and three are part of element):
+                                                                                                        1; one;one; 2; two"two
+                                                                                                        3; three;three; 4; fourNEWLINEfour
+                                                                                                where NEWLINE is a new line character
+Test matrix, mixed numbers and text with special characters read as strings                     Matrix of size 4x3 with elements 
+                                                                                                (semicolons between words one and three are part of element):
+                                                                                                        11; one;one; 12; two"two
+                                                                                                        13; three;three; 14; fourNEWLINEfour
+                                                                                                where NEWLINE is a new line character
+Test matrix, time values                                                                        day 2002-02-22 time 12:12:12.123456Z; day 2002-02-22 time 13:12:12.123456Z
+                                                                                                day 2002-02-22 time 14:12:12.123456Z; day 2002-02-22 time 15:12:12.123456Z
+Key for section test                                                                            1
+Key for section test                                                                            2 - only if in section "Test section"
+Key for section test                                                                            3 - only if in section "Test section", subsection "Test subsection"
+Key for section test                                                                            4 - only if in section "Test section", "Test subsection", "Test subsubsection"
+Key for section test                                                                            5 - only if in section "Test section", "Test subsection", "Test subsubsection", "Test subsubsubsection"
+Key for section test                                                                            6 - only if in section "Test section 2"
+Key for section test                                                                            7 - only if in section "Test section 2", "Test section 2"
+Key for section test                                                                            8 - only if in section "Test section 2", "Test section 2", "Test section 2"
+Key for section test                                                                            9 - only if in section "Test section 2", "Test section 2", "Test section 2", "Test section 2"
+Key for section test                                                                            10 - only if in section "Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?"
+Key for section test                                                                            11 - only if in section "Test section, UTF8 characters in key řœДμΩℜℑ"
+Content of section "Test section, special characters inside" should be:                         !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+                                                                                                	
+                                                                                                řœДμΩℜℑ
+
+====================================================================================================
+Any of the following part do NOT contain keys nor matrices nor sections. Values are different than
+in proper keys, matrices and sections in the next parts of the file.
+----------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------
+These are NOT keys
+----------------------------------------------------------------------------------------------------
+
+Test key, no value: BAD
+Test key: BAD
+Test key, similar: BAD
+Test key, no spaces:BAD
+Test key, both spaces : BAD
+Test key, space left :BAD
+Test key, space right: BAD
+Test integer, 16 digits: 0
+Test floating point, 16 digits after decimal dot:  0
+Test floating point, 15 digits before decimal dot: 0
+Test string, simple: BAD
+Test string, nonletter characters: BAD!@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+Test string, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?: BAD
+Test string, UTF8 characters: BADřœДμΩℜℑ
+Test string, UTF8 characters in key řœДμΩℜℑ: BAD
+Test time, no time zone: 1700-02-22T12:12:12.123456
+Test time, with time zone, UTC: 1700-02-22T12:12:12.123456Z
+Test time, with time zone, +10 minutes: 1700-02-22T12:22:12.123456+00:10
+Test time, with time zone, -10 minutes: 1700-02-22T12:02:12.123456-00:10
+Test time, with time zone, +1 hour: 1700-02-22T13:12:12.123456+01:00
+Test time, with time zone, -1 hour: 1700-02-22T11:02:12.123456+01:00
+Test time, with time zone, +1:10: 1700-02-22T13:13:22.123456+01:00
+Test time, with time zone, -1:10: 1700-02-22T11:11:02.123456+01:10
+
+----------------------------------------------------------------------------------------------------
+These are NOT matrices
+----------------------------------------------------------------------------------------------------
+
+#startmatrix: Test matrix, empty
+        0
+#endmatrix: Test matrix, empty
+#startmatrix: Test matrix, single value
+        0
+#endmatrix: Test matrix, single value
+#startmatrix: Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+        0
+#endmatrix: Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+#startmatrix: Test matrix, single value, UTF8 characters in key řœДμΩℜℑ
+        0
+#endmatrix: Test matrix, single value, UTF8 characters in key řœДμΩℜℑ
+#startmatrix: Test matrix, row numbers
+        0; 0; 0
+#endmatrix: Test matrix, row numbers
+#startmatrix: Test matrix, column numbers
+        0
+        0
+        0
+#endmatrix: Test matrix, column numbers
+#startmatrix: Test matrix
+         0;  0; 0
+         0;  0; 0
+         0;  0; 0
+#endmatrix: Test matrix
+#startmatrix: Test matrix, mixed numbers and text for reading as numbers
+        0; BAD; 0; BAD
+        0; BAD; 0; BAD
+#endmatrix: Test matrix, mixed numbers and text for reading as numbers
+#startmatrix: Test matrix, mixed numbers and text for reading as strings
+        0; BAD; 0; BAD
+        0; BAD; 0; BAD
+#endmatrix: Test matrix, mixed numbers and text for reading as strings
+#startmatrix: Test matrix, mixed numbers and text with special characters read as numbers
+        0; "BAD;BAD"; 0; "BAD""BAD"
+        0; "BAD;BAD; 0; "BAD
+                BAD"
+#endmatrix: Test matrix, mixed numbers and text with special characters read as numbers
+#startmatrix: Test matrix, mixed numbers and text with special characters read as strings
+        0; "BAD;BAD"; 0; "BAD""BAD"
+        0; "BAD;BAD; 0; "BAD
+                BAD"
+#endmatrix: Test matrix, mixed numbers and text with special characters read as strings
+#startmatrix: Test matrix, time values
+        1700-02-22T12:12:12.123456Z; 1700-02-22T13:12:12.123456Z
+        1700-02-22T14:12:12.123456Z; 1700-02-22T15:12:12.123456Z
+#endmatrix: Test matrix, time values
+
+----------------------------------------------------------------------------------------------------
+These are NOT sections.
+----------------------------------------------------------------------------------------------------
+
+Key for section test: 0
+#startsection: Test section
+        Key for section test: 0
+        #startsection: Test subsection
+                Key for section test: 0
+                #startsection: Test subsubsection
+                        Key for section test: 0
+                        #startsection: Test subsubsubsection
+                                Key for section test: 0
+                        #endsection: Test subsubsubsection
+                #endsection: Test subsubsection
+        #endsection: Test subsection
+#endsection: Test section
+#startsection: Test section 2
+        Key for section test: 0
+        #startsection: Test section 2
+                Key for section test: 0
+                #startsection: Test section 2
+                        Key for section test: 0
+                        #startsection: Test section 2
+                                Key for section test: 0
+                        #endsection: Test section 2
+                #endsection: Test section 2
+        #endsection: Test section 2
+#endsection: Test section 2
+#startsection: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+        Key for section test: 0
+#endsection: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+#startsection: Test section, UTF8 characters in key řœДμΩℜℑ
+        Key for section test: 0
+#endsection: Test section, UTF8 characters in key řœДμΩℜℑ
+#startsection: Test section, special characters inside
+BAD !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+	
+řœДμΩℜℑ
+#endsection: Test section, special characters inside
+
+====================================================================================================
+Following part contain proper keys, matrices and sections.
+----------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------
+Proper keys
+----------------------------------------------------------------------------------------------------
+
+Test key, no value::
+Test key:: A
+Test key, similar:: B
+Test key, no spaces::C
+Test key, both spaces :: D
+Test key, space left ::E
+Test key, space right:: F
+Test integer, 16 digits:: 1234567890123456
+Test floating point, 16 digits after decimal dot::  0.1234567890123456
+Test floating point, 15 digits before decimal dot:: 123456789012345.6
+Test string, simple:: test string
+Test string, nonletter characters:: !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+Test string, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?:: in key
+Test string, UTF8 characters:: řœДμΩℜℑ
+Test string, UTF8 characters in key řœДμΩℜℑ:: in key
+Test time, no time zone:: 2002-02-22T12:12:12.123456
+Test time, with time zone, UTC:: 2002-02-22T12:12:12.123456Z
+Test time, with time zone, +10 minutes:: 2002-02-22T12:22:12.123456+00:10
+Test time, with time zone, -10 minutes:: 2002-02-22T12:02:12.123456-00:10
+Test time, with time zone, +1 hour:: 2002-02-22T13:12:12.123456+01:00
+Test time, with time zone, -1 hour:: 2002-02-22T11:12:12.123456-01:00
+Test time, with time zone, +1:10:: 2002-02-22T13:22:12.123456+01:10
+Test time, with time zone, -1:10:: 2002-02-22T11:02:12.123456-01:10
+
+----------------------------------------------------------------------------------------------------
+Proper matrices
+----------------------------------------------------------------------------------------------------
+
+#startmatrix:: Test matrix, empty
+#endmatrix:: Test matrix, empty
+#startmatrix:: Test matrix, single value
+        1
+#endmatrix:: Test matrix, single value
+#startmatrix:: Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+        2
+#endmatrix:: Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+#startmatrix:: Test matrix, single value, UTF8 characters in key řœДμΩℜℑ
+        3
+#endmatrix:: Test matrix, single value, UTF8 characters in key řœДμΩℜℑ
+#startmatrix:: Test matrix, row numbers
+        4; 5; 6
+#endmatrix:: Test matrix, row numbers
+#startmatrix:: Test matrix, column numbers
+        7
+        8
+        9
+#endmatrix:: Test matrix, column numbers
+#startmatrix:: Test matrix
+         1.1;  2.1; 3.1
+         4e4; -5e5; 6e-6
+       7.7e7;  8.123456789e1; NaN
+#endmatrix:: Test matrix
+#startmatrix:: Test matrix, mixed numbers and text for reading as numbers
+        1; one; 2; two
+        3; three; 4; four
+#endmatrix:: Test matrix, mixed numbers and text for reading as numbers
+#startmatrix:: Test matrix, mixed numbers and text for reading as strings
+        11; One; 12; Two
+        13; Three; 14; Four
+#endmatrix:: Test matrix, mixed numbers and text for reading as strings
+#startmatrix:: Test matrix, mixed numbers and text with special characters read as numbers
+        1; "one;one"; 2; "two""two"
+        3; "three;three"; 4; "four
+                four"
+#endmatrix:: Test matrix, mixed numbers and text with special characters read as numbers
+#startmatrix:: Test matrix, mixed numbers and text with special characters read as strings
+        11; "One;One"; 12; "Two""Two"
+        13; "Three;Three"; 14; "Four
+                Four"
+#endmatrix:: Test matrix, mixed numbers and text with special characters read as strings
+#startmatrix:: Test matrix, time values
+        2002-02-22T12:12:12.123456Z; 2002-02-22T13:12:12.123456Z
+        2002-02-22T14:12:12.123456Z; 2002-02-22T15:12:12.123456Z
+#endmatrix:: Test matrix, time values
+
+----------------------------------------------------------------------------------------------------
+Proper sections
+----------------------------------------------------------------------------------------------------
+
+Key for section test:: 1
+#startsection:: Test section
+        Key for section test:: 2
+        #startsection:: Test subsection
+                Key for section test:: 3
+                #startsection:: Test subsubsection
+                        Key for section test:: 4
+                        #startsection:: Test subsubsubsection
+                                Key for section test:: 5
+                        #endsection:: Test subsubsubsection
+                #endsection:: Test subsubsection
+        #endsection:: Test subsection
+#endsection:: Test section
+#startsection:: Test section 2
+        Key for section test:: 6
+        #startsection:: Test section 2
+                Key for section test:: 7
+                #startsection:: Test section 2
+                        Key for section test:: 8
+                        #startsection:: Test section 2
+                                Key for section test:: 9
+                        #endsection:: Test section 2
+                #endsection:: Test section 2
+        #endsection:: Test section 2
+#endsection:: Test section 2
+#startsection:: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+        Key for section test:: 10
+#endsection:: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+#startsection:: Test section, UTF8 characters in key řœДμΩℜℑ
+        Key for section test:: 11
+#endsection:: Test section, UTF8 characters in key řœДμΩℜℑ
+#startsection:: Test section, special characters inside
+!@#$%^&*()-=[]{};'"\'\"\:|,./<>?
+        	
+                řœДμΩℜℑ
+#endsection:: Test section, special characters inside
