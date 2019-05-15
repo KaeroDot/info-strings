@@ -17,6 +17,7 @@ all:
 		get_matrix.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		csv2cell.m \
 		infogetmatrix-tests.m \
 	>> ../infogetmatrix.m
@@ -33,6 +34,7 @@ all:
 		get_key.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		infogetnumber-tests.m \
 	>> ../infogetnumber.m
 	
@@ -45,6 +47,7 @@ all:
 		get_section.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		infogetsection-tests.m \
 	>> ../infogetsection.m
 	
@@ -60,6 +63,7 @@ all:
 		get_key.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		infogettext-tests.m \
 	>> ../infogettext.m
 	
@@ -75,6 +79,7 @@ all:
 		get_matrix.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		csv2cell.m \
 		infogettextmatrix-tests.m \
 	>> ../infogettextmatrix.m
@@ -89,6 +94,7 @@ all:
 		get_key.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
 		isOctave.m \
@@ -107,6 +113,7 @@ all:
 		get_matrix.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		csv2cell.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
@@ -138,6 +145,7 @@ all:
 		get_section.m \
 		regexpescape.m \
 		make_regexp.m \
+		isOctave.m \
 		infosetmatrix-tests.m \
 	>> ../infosetmatrix.m
 	
@@ -149,6 +157,9 @@ all:
 		set_key.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		infosetnumber-tests.m \
 	>> ../infosetnumber.m
 	
@@ -158,6 +169,9 @@ all:
 		infosetsection-body.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		infosetsection-tests.m \
 	>> ../infosetsection.m
 	
@@ -169,6 +183,9 @@ all:
 		set_key.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		infosettext-tests.m \
 	>> ../infosettext.m
 	
@@ -180,6 +197,9 @@ all:
 		set_matrix.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		infosettextmatrix-tests.m \
 	>> ../infosettextmatrix.m
 	
@@ -191,6 +211,9 @@ all:
 		set_key.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
 		isOctave.m \
@@ -205,6 +228,9 @@ all:
 		set_matrix.m \
 		set_section.m \
 		get_section.m \
+		regexpescape.m \
+		make_regexp.m \
+		isOctave.m \
 		iso2posix_time.m \
 		posix2iso_time.m \
 		isOctave.m \
