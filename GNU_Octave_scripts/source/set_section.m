@@ -100,6 +100,8 @@ function infostr = set_section(functionname, infostr, content, scell, indent) %<
                         for i = 1:length(scell)
                                 % through deeper and deeper section path
                                 try
+                                        %XXX try catch is not good here! in the case of
+                                        %other error this will fail also! should be changed
                                         % check section path scell(1:i):
                                         [tmp, position] = get_section(functionname, infostr, scell(1:i));
                                 catch
