@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="13008000">
+<Project Type="Project" LVVersion="18008000">
 	<Property Name="CCSymbols" Type="Str">eol,lf;indentsize,8;</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
@@ -76,22 +76,22 @@
 				<Property Name="Bld_buildCacheID" Type="Str">{1F6C6FF6-2584-4319-A7EC-8430AAE63371}</Property>
 				<Property Name="Bld_buildSpecName" Type="Str">Packed Library</Property>
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber]</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 18.0.1 32 bit</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{AA26BF06-549A-4358-8BBB-D1ACC0582C52}</Property>
 				<Property Name="Bld_version.minor" Type="Int">6</Property>
-				<Property Name="Bld_version.patch" Type="Int">1</Property>
+				<Property Name="Bld_version.patch" Type="Int">2</Property>
 				<Property Name="Destination[0].destName" Type="Str">infolib.lvlibp</Property>
-				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber]/NI_AB_PROJECTNAME.lvlibp</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 18.0.1 32 bit/NI_AB_PROJECTNAME.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber]</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 18.0.1 32 bit</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{D048E529-51FC-4031-ABC7-6A7FAFCA4881}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{DCF561A3-8605-4444-ACC7-A4A215D426DD}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
