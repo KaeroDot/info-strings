@@ -264,7 +264,7 @@ s{val}   = {'Test section, UTF8 characters in key řœДμΩℜℑ'};
 t{val}   = 'number';
 val = val + 1;
 k{val} = '';
-v{val}   = ['!@#$%^&*()-=[]{};' char(39)  '"' char(92) char(39) char(92)  '"\:|,./<>?' sprintf('\n\t\n') 'řœДμΩℜℑ'];
+v{val}   = ['!@#$%^&*()-=[]{};' char(39)  '"' char(92) char(39) char(92)  '"\:|,./<>?' sprintf('\n        \t\n                ') 'řœДμΩℜℑ'];
 s{val}   = {'Test section, special characters inside'};
 t{val}   = 'section';
 
