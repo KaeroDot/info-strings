@@ -294,7 +294,6 @@ Proper matrices
 #endmatrix:: Test matrix, time values
    #startmatrix:: Test matrix, lousy format and spaces
 77;  8.8; NaN
-
 a;              999; 10
         11; 12; 13
 
