@@ -225,3 +225,13 @@ to write manually. See example of a matrix:
     # columns: 2
      1 2
      3 4
+
+# How to compile/build:
+## GNU Octave scripts:
+Run `make` in `GNU_Octave_scripts/source` directory.
+
+## Matlab scripts:
+Use [octave2matlab](https://github.com/thierr26/octave2matlab).
+Run `convert_scripts_octave_to_matlab`.
+
+## LabVIEW:
