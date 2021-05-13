@@ -97,7 +97,6 @@ make_regexp.m+^
 isOctave.m^
 iso2posix_time.m+^
 posix2iso_time.m+^
-isOctave.m+^
 infogettime-tests.m ^
 ..\infogettime.m
 
@@ -117,7 +116,6 @@ isOctave.m^
 csv2cell.m+^
 iso2posix_time.m+^
 posix2iso_time.m+^
-isOctave.m+^
 infogettimematrix-tests.m ^
 ..\infogettimematrix.m
 
@@ -216,7 +214,6 @@ make_regexp.m+^
 isOctave.m^
 iso2posix_time.m+^
 posix2iso_time.m+^
-isOctave.m+^
 infosettime-tests.m ^
 ..\infosettime.m
 
@@ -233,6 +230,5 @@ make_regexp.m+^
 isOctave.m^
 iso2posix_time.m+^
 posix2iso_time.m+^
-isOctave.m+^
 infosettimematrix-tests.m ^
 ..\infosettimematrix.m
