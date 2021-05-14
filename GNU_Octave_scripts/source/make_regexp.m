@@ -6,6 +6,17 @@ function expr = make_regexp(key, type)
         % GNU Octave and LabVIEW use PCRE (Pearl Compatible Regular Expressions), however Matlab
         % seems to have it's own regular expression flavor (unfortunately).
 
+        % Matlab issues:
+        % 1,
+        % https://www.mathworks.com/help/matlab/ref/regexp.html#btn_p45_sep_shared-expression
+                % WARNING!
+                % If an expression has nested parentheses, MATLAB captures tokens that correspond
+                % to the outermost set of parentheses. For example, given the search pattern
+                % '(and(y|rew))', MATLAB creates a token for 'andrew' but not for 'y' or 'rew'.
+        % so for Octave one can keep proper non matching group (?:), but not for Matlab.
+        % 2,
+        % For Matlab, \h has to be replaced by \s. But \s matches also newlines contrary to \h
+
 
         %remove leading spaces of key and escape characters:
         key = regexpescape(strtrim(key));
@@ -30,7 +41,7 @@ function expr = make_regexp(key, type)
                         % results: Token 1: content of section OR token does not exist
                 else
                         % \h has to be replaced by \s. But \s matches also newlines contrary to \h
-                        expr = ['(?m)^\s*#startmatrix\s*::\s*' key '\s*(?:\n(.*?)\n|\n)^\s*#endmatrix\s*::\s*' key '\s*$'];
+                        expr = ['(?m)^\s*#startmatrix\s*::\s*' key '\s*(\n(.*?)\n|\n)^\s*#endmatrix\s*::\s*' key '\s*$'];
                 endif
         elseif strcmpi(type, 'section')
                 if isOctave
@@ -39,7 +50,7 @@ function expr = make_regexp(key, type)
                         % results: Token 1: content of section OR token does not exist
                 else
                         % \h has to be replaced by \s. But \s matches also newlines contrary to \h
-                        expr = ['(?ms)^\s*#startsection\s*::\s*' key '\s*(?:\n(.*)\n|\n)^\s*#endsection\s*::\s*' key '\s*$'];
+                        expr = ['(?ms)^\s*#startsection\s*::\s*' key '\s*(\n(.*)\n|\n)^\s*#endsection\s*::\s*' key '\s*$'];
                 endif
         elseif strcmpi(type, 'anysection')
                 if isOctave
@@ -50,7 +61,7 @@ function expr = make_regexp(key, type)
                         % results: Token 2: content of section OR token does not exist
                 else
                         % \h has to be replaced by \s. But \s matches also newlines contrary to \h
-                        expr = ['(?ms)^\s*#startsection\s*::\s*(.*)\s*(?:\n(.*)\n|\n)^\s*#endsection\s*::\s*\1\s*$'];
+                        expr = ['(?ms)^\s*#startsection\s*::\s*(.*)\s*(\n(.*)\n|\n)^\s*#endsection\s*::\s*\1\s*$'];
                 endif
         else
                 error('unknown regular expression type')
