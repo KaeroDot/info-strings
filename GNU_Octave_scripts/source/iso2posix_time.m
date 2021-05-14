@@ -90,16 +90,26 @@ function posixnumber = iso2posix_time(isostring)
                 posixnumber = posixnumber - offset;
         else
                 % Matlab version:
-                if localt
-                        timezone = 'local';
-                else
-                        timezone = offsetpart;
-                endif
                 % this unfortunately requires Matlab 2014 and later
-                posixnumber = posixtime(datetime(isostring(1:19), 'TimeZone', timezone, 'Format', 'yyyy-MM-dd''T''HH:mm:ss'));
-        endif
+                if localt
+                    tz = 'local';
+                else
+                    tz = '+00:00';
+                end
+                % As a time zone, matlab do not accept number. so just
+                % create in zulu time zone and add offset later
+                posixnumber = posixtime(datetime(isostring(1:19), 'TimeZone', tz, 'Format', 'yyyy-MM-dd''T''HH:mm:ss'));
+                if ~localt
+                    % apply possible offset:
+                    % this line fixes that posixnumber was not created with
+                    % proper time zone:
+                    posixnumber = posixnumber - offset;
+                end
+
+        end
         % add fractions of second:
-        % I do not know how to read fractions of second by datetime nor strptime, so this line fix it:
+        % I do not know how to read fractions of second by datetime nor strptime in Octave, so this
+        % line fix it. (It is possible to do in Matlab using SSSSS)
         posixnumber = posixnumber + secfrac;
 endfunction
 
