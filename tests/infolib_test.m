@@ -1,27 +1,36 @@
-## Copyright (C) 2019 Martin Šíra %<<<1
-##
-
-## -*- texinfo -*-
-## Function reads test.info, compares it to correct values, writes info and reads it again and again
-## compares to correct values. The aim is to do an extensive and thorough test of info scripts.
-
-## Author: Martin Šíra <msiraATcmi.cz>
-## Created: 2019
-## Version: 0.1
-## Script quality:
-##   Tested: no
-##   Contains help: no
-##   Contains example in help: no
-##   Checks inputs: no
-##   Contains tests: no
-##   Contains demo: no
-##   Optimized: no
+% ## Copyright (C) 2019 Martin Šíra %<<<1
+% ##
+% 
+% ## -*- texinfo -*-
+% ## Function reads test.info, compares it to correct values, writes info and reads it again and again
+% ## compares to correct values. The aim is to do an extensive and thorough test of info scripts.
+% 
+% ## Author: Martin Šíra <msiraATcmi.cz>
+% ## Created: 2019
+% ## Version: 0.1
+% ## Script quality:
+% ##   Tested: no
+% ##   Contains help: no
+% ##   Contains example in help: no
+% ##   Checks inputs: no
+% ##   Contains tests: no
+% ##   Contains demo: no
+% ##   Optimized: no
 
 function allres = test_octave
-k = cell();
-v = cell();
-t = cell();
-t = cell();
+
+isoct = exist('OCTAVE_VERSION', 'builtin') > 0;
+
+if isoct
+        addpath('../GNU_Octave_scripts/')
+else
+        addpath('../Matlab_scripts/')
+end
+
+k = cell(0);
+v = cell(0);
+t = cell(0);
+t = cell(0);
 % counter of values:
 val = 0;
 % cells with:
@@ -95,16 +104,19 @@ k{val} = ['Test string, nonletter characters in key !@#$%^&*()-=[]{};' char(39) 
 v{val}   = 'in key';
 t{val}   = 'string';
 s{val}   = {''};
-val = val + 1;
-k{val} = 'Test string, UTF8 characters';
-v{val}   = 'řœДμΩℜℑ';
-t{val}   = 'string';
-s{val}   = {''};
-val = val + 1;
-k{val} = 'Test string, UTF8 characters in key řœДμΩℜℑ';
-v{val}   = 'in key';
-t{val}   = 'string';
-s{val}   = {''};
+if isoct
+        % matlab cannot handle UTF8
+        val = val + 1;
+        k{val} = 'Test string, UTF8 characters';
+        v{val}   = 'řœДμΩℜℑ';
+        t{val}   = 'string';
+        s{val}   = {''};
+        val = val + 1;
+        k{val} = 'Test string, UTF8 characters in key řœДμΩℜℑ';
+        v{val}   = 'in key';
+        t{val}   = 'string';
+        s{val}   = {''};
+end
 val = val + 1;
 k{val} = 'Test time, no time zone';
 v{val}   = 1014376332.123456;
@@ -161,11 +173,14 @@ k{val} = ['Test matrix, single value, nonletter characters in key !@#$%^&*()-=[]
 v{val}   = 2;
 t{val}   = 'matrix';
 s{val}   = {''};
-val = val + 1;
-k{val} = 'Test matrix, single value, UTF8 characters in key řœДμΩℜℑ';
-v{val}   = 3;
-t{val}   = 'matrix';
-s{val}   = {''};
+if isoct
+        % matlab cannot handle UTF8
+        val = val + 1;
+        k{val} = 'Test matrix, single value, UTF8 characters in key řœДμΩℜℑ';
+        v{val}   = 3;
+        t{val}   = 'matrix';
+        s{val}   = {''};
+end
 val = val + 1;
 k{val} = 'Test matrix, row numbers';
 v{val}   = [4  5  6];
@@ -257,18 +272,19 @@ k{val} = 'Key for section test';
 v{val}   = 10;
 s{val}   = {['Test section, nonletter characters in key !@#$%^&*()-=[]{};' char(39)  '"' char(92) char(39) char(92)  '"\:|,./<>?']};
 t{val}   = 'number';
-val = val + 1;
-k{val} = 'Key for section test';
-v{val}   = 11;
-s{val}   = {'Test section, UTF8 characters in key řœДμΩℜℑ'};
-t{val}   = 'number';
+if isoct
+        % matlab cannot handle UTF8
+        val = val + 1;
+        k{val} = 'Key for section test';
+        v{val}   = 11;
+        s{val}   = {'Test section, UTF8 characters in key řœДμΩℜℑ'};
+        t{val}   = 'number';
+end
 val = val + 1;
 k{val} = '';
 v{val}   = ['!@#$%^&*()-=[]{};' char(39)  '"' char(92) char(39) char(92)  '"\:|,./<>?' sprintf('\n        \t\n                ') 'řœДμΩℜℑ'];
 s{val}   = {'Test section, special characters inside'};
 t{val}   = 'section';
-
-addpath('../GNU_Octave_scripts/')
 
 % run tests
 for j = 1:3
@@ -294,7 +310,7 @@ for j = 1:3
                 infostr = infoload('tmp.info');
         otherwise
                 error('selftest is written badly - bad case')
-        endswitch
+        end
         tic
         % for every key do tests:
         for i = 1:length(k)
@@ -357,6 +373,6 @@ disp(['Number of bad tests: ' num2str(sum(testr(3,:) == 0))])
 
 allres = all(all(testr > 0));
 
-endfunction
+end
 
 % vim settings modeline: vim: foldmarker=%<<<,%>>> fdm=marker fen ft=octave textwidth=1000
