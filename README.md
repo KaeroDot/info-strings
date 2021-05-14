@@ -228,10 +228,18 @@ to write manually. See example of a matrix:
 
 # How to compile/build:
 ## GNU Octave scripts:
-Run `make` in `GNU_Octave_scripts/source` directory.
+1. Run `make` in `GNU_Octave_scripts/source` directory:
+    make
+2. Do basic tests by using:
+    octave _selftest_scripts_octave.m
+3. Do thorough tests by using:
+    octave infolib_test.m
 
 ## Matlab scripts:
-Use [octave2matlab](https://github.com/thierr26/octave2matlab).
-Run `convert_scripts_octave_to_matlab`.
+1. Build GNU Octave scripts first
+2. Convert GNU Octave scripts to MATLAB using [octave2matlab](https://github.com/thierr26/octave2matlab). Run:
+    convert_scripts_octave_to_matlab
+3. Copy files from directory `Matlab_scripts/after_conversion/` to `Matlab_scripts`
+4. Check results by running script `infolib_test.m` in MATLAB.
 
 ## LabVIEW:

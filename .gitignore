@@ -1,3 +1,4 @@
 .*.swp
 README.html
 Matlab_scripts/after_conversion
+tests/tmp.info
