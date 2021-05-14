@@ -19,7 +19,7 @@ function isostring = posix2iso_time(posixnumber)
                 isostring = [isostring(1:end-5) '.' num2str(localtime(posixnumber).usec, '%0.6d') isostring(end-5:end-2) ':' isostring(end-1:end)];
         else
                 % Matlab version:
-                isostring = datetime(posixnumber, 'ConvertFrom', 'posixtime', 'TimeZone', 'local', 'Format', 'yyyy:MM:dd HH:mm:ss.SSSSSSxxxxx');
+                isostring = datetime(posixnumber, 'ConvertFrom', 'posixtime', 'TimeZone', 'local', 'Format', 'yyyy-MM-dd HH:mm:ss.SSSSSSxxxxx');
                 isostring = strrep(char(isostring), ' ', 'T');
         endif
 endfunction
