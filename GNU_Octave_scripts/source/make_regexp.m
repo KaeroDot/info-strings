@@ -56,12 +56,15 @@ function expr = make_regexp(key, type)
                 if isOctave
                         % SOL SP startsection SP :: SP key SP ( NL content NL OR NL ) SP endsection SP :: SP key SP EOL
                         % This is greedy, i.e. finds last occurance of endsection.
-                        expr = ['(?ms)^\h*#startsection\h*::\h*(.*)\h*(?:\n(.*)\n|\n)^\h*#endsection\h*::\h*\1\h*$'];
+                        % For match of section key, instead of .*, that means any even line break
+                        % (because of flag (?s), there is [^\n], that means any except line break,
+                        % because section key cannot be across line breaks.
+                        expr = ['(?ms)^\h*#startsection\h*::\h*([^\n]*)\h*(?:\n(.*)\n|\n)^\h*#endsection\h*::\h*\1\h*$'];
                         % results: Token 1: key
                         % results: Token 2: content of section OR token does not exist
                 else
                         % \h has to be replaced by \s. But \s matches also newlines contrary to \h
-                        expr = ['(?ms)^\s*#startsection\s*::\s*(.*)\s*(\n(.*)\n|\n)^\s*#endsection\s*::\s*\1\s*$'];
+                        expr = ['(?ms)^\s*#startsection\s*::\s*([^\n]*)\s*(\n(.*)\n|\n)^\s*#endsection\s*::\s*\1\s*$'];
                 endif
         else
                 error('unknown regular expression type')
