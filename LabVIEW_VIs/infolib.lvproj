@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="19008000">
+<Project Type="Project" LVVersion="20008000">
 	<Property Name="CCSymbols" Type="Str">eol,lf;indentsize,8;</Property>
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
@@ -37,25 +37,26 @@
 				<Property Name="Bld_excludedDirectory[0].pathType" Type="Str">relativeToAppDir</Property>
 				<Property Name="Bld_excludedDirectory[1]" Type="Path">resource/objmgr</Property>
 				<Property Name="Bld_excludedDirectory[1].pathType" Type="Str">relativeToAppDir</Property>
-				<Property Name="Bld_excludedDirectory[2]" Type="Path">/C/Documents and Settings/All Users/Data aplikací/National Instruments/InstCache/13.0</Property>
-				<Property Name="Bld_excludedDirectory[3]" Type="Path">instr.lib</Property>
-				<Property Name="Bld_excludedDirectory[3].pathType" Type="Str">relativeToAppDir</Property>
-				<Property Name="Bld_excludedDirectory[4]" Type="Path">user.lib</Property>
+				<Property Name="Bld_excludedDirectory[2]" Type="Path">/C/ProgramData/National Instruments/InstCache/20.0</Property>
+				<Property Name="Bld_excludedDirectory[3]" Type="Path">/C/Users/labina/Documents/LabVIEW Data/2020(32-bit)/ExtraVILib</Property>
+				<Property Name="Bld_excludedDirectory[4]" Type="Path">instr.lib</Property>
 				<Property Name="Bld_excludedDirectory[4].pathType" Type="Str">relativeToAppDir</Property>
-				<Property Name="Bld_excludedDirectoryCount" Type="Int">5</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit sourcedist</Property>
+				<Property Name="Bld_excludedDirectory[5]" Type="Path">user.lib</Property>
+				<Property Name="Bld_excludedDirectory[5].pathType" Type="Str">relativeToAppDir</Property>
+				<Property Name="Bld_excludedDirectoryCount" Type="Int">6</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9F039566-FC46-49C2-B190-468C78D86288}</Property>
 				<Property Name="Bld_version.minor" Type="Int">6</Property>
-				<Property Name="Bld_version.patch" Type="Int">2</Property>
+				<Property Name="Bld_version.patch" Type="Int">3</Property>
 				<Property Name="Destination[0].destName" Type="Str">Destination Directory</Property>
-				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit sourcedist</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit sourcedist/data</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{54FEF43D-CDB9-40F7-BCBF-1154CBB4C02E}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{BFDF3FD1-6F59-48C7-A306-E586D678339D}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
@@ -76,22 +77,22 @@
 				<Property Name="Bld_buildCacheID" Type="Str">{1F6C6FF6-2584-4319-A7EC-8430AAE63371}</Property>
 				<Property Name="Bld_buildSpecName" Type="Str">Packed Library</Property>
 				<Property Name="Bld_excludeInlineSubVIs" Type="Bool">true</Property>
-				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit</Property>
+				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{AA26BF06-549A-4358-8BBB-D1ACC0582C52}</Property>
 				<Property Name="Bld_version.minor" Type="Int">6</Property>
-				<Property Name="Bld_version.patch" Type="Int">2</Property>
+				<Property Name="Bld_version.patch" Type="Int">3</Property>
 				<Property Name="Destination[0].destName" Type="Str">infolib.lvlibp</Property>
-				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit/NI_AB_PROJECTNAME.lvlibp</Property>
+				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit/NI_AB_PROJECTNAME.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="Destination[0].preserveHierarchy" Type="Bool">true</Property>
 				<Property Name="Destination[0].type" Type="Str">App</Property>
 				<Property Name="Destination[1].destName" Type="Str">Support Directory</Property>
-				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 19.0 32 bit</Property>
+				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{54FEF43D-CDB9-40F7-BCBF-1154CBB4C02E}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{BFDF3FD1-6F59-48C7-A306-E586D678339D}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
@@ -106,7 +107,7 @@
 				<Property Name="TgtF_enableDebugging" Type="Bool">true</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Info description files library</Property>
 				<Property Name="TgtF_internalName" Type="Str">Info description files library</Property>
-				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2017 CMI</Property>
+				<Property Name="TgtF_legalCopyright" Type="Str">Copyright © 2021 CMI</Property>
 				<Property Name="TgtF_productName" Type="Str">Info description files library</Property>
 				<Property Name="TgtF_targetfileGUID" Type="Str">{8C942BDF-0848-4606-8F67-645A9B2C4600}</Property>
 				<Property Name="TgtF_targetfileName" Type="Str">infolib.lvlibp</Property>
