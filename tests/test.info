@@ -15,6 +15,8 @@ Test key, space right                                                           
 Test integer, 16 digits                                                                         1234567890123456
 Test floating point, 16 digits after decimal dot                                                0.1234567890123456
 Test floating point, 15 digits before decimal dot                                               123456789012345.6
+Test complex number                                                                             2.34 + 5.67i
+Test imaginary number                                                                           8.90i
 Test string, simple                                                                             test string
 Test string, nonletter characters                                                               !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
 Test string, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?                       in key
@@ -39,6 +41,8 @@ Test matrix                                                                     
                                                                                                         1.1;  2.1; 3.1
                                                                                                         4e4; -5e5; 6e-6
                                                                                                         7.7e7;  8.123456789e1; NaN
+Test matrix complex                                                                             Matrix of size 1x3 with elements:
+                                                                                                1.234;  2.345i; 3.456 + 4.567i
 Test matrix, mixed numbers and text for reading as numbers                                      Matrix of size 4x3 with elements:
                                                                                                         1; one; 2; two
                                                                                                         3; three; 4; four
@@ -216,6 +220,8 @@ Test key, space right:: F
 Test integer, 16 digits:: 1234567890123456
 Test floating point, 16 digits after decimal dot::  0.1234567890123456
 Test floating point, 15 digits before decimal dot:: 123456789012345.6
+Test complex number:: 2.34 + 5.67i
+Test imaginary number:: 8.90i
 Test string, simple:: test string
 Test string, nonletter characters:: !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
 Test string, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?:: in key
@@ -258,6 +264,9 @@ Proper matrices
          4e4; -5e5; 6e-6
        7.7e7;  8.123456789e1; NaN
 #endmatrix:: Test matrix
+#startmatrix:: Test matrix complex
+         1.234;  2.345i; 3.456 + 4.567i
+#endmatrix:: Test matrix complex
 #startmatrix:: Test matrix, mixed numbers and text for reading as numbers
         1; one; 2; two
         3; three; 4; four
