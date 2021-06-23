@@ -42,7 +42,7 @@ Test matrix                                                                     
                                                                                                         4e4; -5e5; 6e-6
                                                                                                         7.7e7;  8.123456789e1; NaN
 Test matrix complex                                                                             Matrix of size 1x3 with elements:
-                                                                                                1.234;  2.345i; 3.456 + 4.567i
+                                                                                                        1.234;  2.345i; 3.456 + 4.567i
 Test matrix, mixed numbers and text for reading as numbers                                      Matrix of size 4x3 with elements:
                                                                                                         1; one; 2; two
                                                                                                         3; three; 4; four
