@@ -1,4 +1,4 @@
-## Copyright (C) 2013 Martin Šíra %<<<1
+## Copyright (C) 2021 Martin Šíra %<<<1
 ##
 
 ## -*- texinfo -*-

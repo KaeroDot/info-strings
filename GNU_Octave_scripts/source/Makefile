@@ -2,7 +2,8 @@ all:
 	
 	> ../infoparse.m
 	cat \
-		infoparse.m \
+		infoparse-header.m \
+		infoparse-body.m \
 	>> ../infoparse.m
 	
 	> ../infogetmatrix.m

@@ -1,4 +1,4 @@
-## Copyright (C) 2013 Martin Šíra %<<<1
+## Copyright (C) 2021 Martin Šíra %<<<1
 ##
 
 ## -*- texinfo -*-
@@ -25,7 +25,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2013
-## Version: 4.1
+## Version: 5.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes

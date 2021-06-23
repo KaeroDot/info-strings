@@ -1,34 +1,4 @@
 function [idata] = infoparse(inf,mode)
-% INFO-STRINGS: Parses info-string to sections, matrices and items.
-% If will go through the string and recoursively parse the sections.
-% Optionally it will also parse the matrices - it will extract the 
-% string content of the matrix and stores it unchanged. Eventually
-% it can also parse the scalar items (mode 'all').
-% Note it only extracts the strings from the sections/matrices/items.
-% It will not parse the content. It will just place it into lists.
-%
-% Inputs:
-%  inf  - info-string
-%  mode - Mode of parsing:
-%          '' - only sections
-%          'matrix' - sections and matrices
-%          'all' - sections, matrices and items
-%
-%  Output is recoursive structure with items:
-%    all_parsed - true when mode 'all'
-%    matrix_parsed - true when mode 'all' or 'matrix'
-%    sec_count - number of subsections
-%    sec_names - cell array of subsection names
-%    sections - cell array of subsections - each cell is the same as this struct
-%    scalar_count - number of scalar items in section
-%    scalar_names - cell array of scalar item names
-%    scalars - cell array of scalar item string contents
-%    matrix_count - number of matrices in section
-%    matrix_names - cell array of matrix names
-%    matrix - cell array of matrix string contents
-%    data - unparsed section content, note it is removed vhen mode is 'all'  
-%  
-
     % parse mode selection:
     if ~exist('mode','var')
         mode = 'all';

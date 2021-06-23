@@ -2,7 +2,8 @@
 
 
 copy /b ^
-infoparse.m ^
+infoparse-header.m+^
+infoparse-body.m ^
 ..\infoparse.m
 
 

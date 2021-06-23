@@ -1,4 +1,4 @@
-## Copyright (C) 2014 Martin Šíra %<<<1
+## Copyright (C) 2021 Martin Šíra %<<<1
 ##
 
 ## -*- texinfo -*-
@@ -28,8 +28,8 @@
 ## @end deftypefn
 
 ## Author: Martin Šíra <msiraATcmi.cz>
-## Created: 2014
-## Version: 4.1
+## Created: 2021
+## Version: 5.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes

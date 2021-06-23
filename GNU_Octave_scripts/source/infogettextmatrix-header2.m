@@ -4,7 +4,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2017
-## Version: 4.1
+## Version: 5.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
