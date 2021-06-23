@@ -9,12 +9,12 @@ function infostr = infoload(filename, varargin)%<<<1
 %          infostr = infoload('test_file')
 %          infostr = infoload('test_file_with_other_extension.txt', 0)
 
-% Copyright (C) 2014 Martin Šíra %<<<1
+% Copyright (C) 2021 Martin Šíra %<<<1
 %
 
 % Author: Martin Šíra <msiraATcmi.cz>
 % Created: 2014
-% Version: 4.0
+% Version: 5.0
 % Script quality:
 %   Tested: yes
 %   Contains help: yes

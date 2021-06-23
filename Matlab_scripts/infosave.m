@@ -1,7 +1,7 @@
 function succes = infosave(infostr, filename, varargin)%<<<1
-% -- Function File: infosave ( INFOSTR, FILENAME)
-% -- Function File: infosave ( INFOSTR, FILENAME, AUTOEXTENSION)
-% -- Function File: infosave ( INFOSTR, FILENAME, AUTOEXTENSION,
+% -- Function File: infosave (INFOSTR, FILENAME)
+% -- Function File: infosave (INFOSTR, FILENAME, AUTOEXTENSION)
+% -- Function File: infosave (INFOSTR, FILENAME, AUTOEXTENSION,
 %          OVERWRITE)
 %     Save info string INFOSTR into file 'FILENAME.info' as text.
 %     Extension '.info' is added automatically if missing, this can be
@@ -12,12 +12,12 @@ function succes = infosave(infostr, filename, varargin)%<<<1
 %          infosave('key:: val', 'test_file')
 %          infosave('key:: val', 'test_file_with_other_extension.txt', 0)
 
-% Copyright (C) 2014 Martin Šíra %<<<1
+% Copyright (C) 2021 Martin Šíra %<<<1
 %
 
 % Author: Martin Šíra <msiraATcmi.cz>
 % Created: 2014
-% Version: 4.0
+% Version: 5.0
 % Script quality:
 %   Tested: yes
 %   Contains help: yes
