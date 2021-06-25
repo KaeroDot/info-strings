@@ -230,16 +230,40 @@ to write manually. See example of a matrix:
 ## GNU Octave scripts:
 1. Run `make` in `GNU_Octave_scripts/source` directory:
     make
-2. Do basic tests by using:
-    octave _selftest_scripts_octave.m
-3. Do thorough tests by using:
-    octave infolib_test.m
 
 ## Matlab scripts:
 1. Build GNU Octave scripts first
 2. Convert GNU Octave scripts to MATLAB using [octave2matlab](https://github.com/thierr26/octave2matlab). Run:
     convert_scripts_octave_to_matlab
 3. Copy files from directory `Matlab_scripts/after_conversion/` to `Matlab_scripts`
-4. Check results by running script `infolib_test.m` in MATLAB.
 
 ## LabVIEW:
+
+# Self-testing
+1. All script got `test script` capability. E.g. `test infosetnumber`. One can self-test all scripts
+   at once by using:
+
+        octave _selftest_scripts_octave.m
+    This does not work in Matlab.
+1. Do thorough test by running:
+
+        infolib_test.m
+    in both GNU Octave and Matlab
+1. LabVIEW got a thorough test by using
+
+        LabVIEW_VIs/Private/Testing/Complex Test.vi
+
+# Known issues
+## GNU Octave
+1. (minor) Test No 50 of `infolib_test.m` is bad during parsing and writing. Parsing got issues reading some
+   special characters, writing creates too large indentation.
+
+## Matlab
+1. All UTF8 tests are disabled, Matlab cannot work with UTF8 properly.
+
+## LabVIEW
+15, 16, 27, 47, 48: LV cannot handle UTF8 characters
+43: (minor) fails if tests 47 and 48 are present in tmp.info, otherwise is ok.
+30: (minor) rounding error on 17th significant place
+34: LV cannot handle proper csv: cell "X;X" is considered as two cells because LV do not know apostroph enclosing
+36: (minor) rounding error on 7th decimal place of time stamp
