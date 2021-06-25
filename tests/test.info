@@ -59,8 +59,11 @@ Test matrix, mixed numbers and text with special characters read as strings     
                                                                                                         11; one;one; 12; two"two
                                                                                                         13; three;three; 14; fourNEWLINEfour
                                                                                                 where NEWLINE is a new line character
-Test matrix, time values                                                                        day 2002-02-22 time 12:12:12.123456Z; day 2002-02-22 time 13:12:12.123456Z
-                                                                                                day 2002-02-22 time 14:12:12.123456Z; day 2002-02-22 time 15:12:12.123456Z
+Test matrix, time values                                                                                day 2002-02-22 time 12:12:12.123456Z; day 2002-02-22 time 13:12:12.123456Z
+                                                                                                        day 2002-02-22 time 14:12:12.123456Z; day 2002-02-22 time 15:12:12.123456Z
+                                                                                                in time stamps:
+                                                                                                        1014379932.123456; 1014383532.123456
+                                                                                                        1014387132.123456; 1014390732.123456
 Key for section test                                                                            1
 Key for section test                                                                            2 - only if in section "Test section"
 Key for section test                                                                            3 - only if in section "Test section", subsection "Test subsection"
