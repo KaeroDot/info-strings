@@ -1,11 +1,13 @@
 [ProjectWindow_Data]
-ProjectExplorer.ClassicPosition[String] = "124,22,865,327"
+ProjectExplorer.ClassicPosition[String] = "84,42,825,347"
 
 [AB_Cache_{CC505C35-1224-47B4-A7C0-0E09A91C9C25}]
-Cache_Path[Path] = "/G/TEMP/AB_Cache_{CC505C35-1224-47B4-A7C0-0E09A91C9C25}.txt"
+Cache_Path[Path] Line0001 = "/C/Users/labina/AppData/Local/Temp/AB_Cache_{CC505"
+Cache_Path[Path] Line0002 = "C35-1224-47B4-A7C0-0E09A91C9C25}.txt"
 
 [AB_Cache_{9F039566-FC46-49C2-B190-468C78D86288}]
-Cache_Path[Path] = "/G/TEMP/AB_Cache_{9F039566-FC46-49C2-B190-468C78D86288}.txt"
+Cache_Path[Path] Line0001 = "/C/Users/labina/AppData/Local/Temp/AB_Cache_{9F039"
+Cache_Path[Path] Line0002 = "566-FC46-49C2-B190-468C78D86288}.txt"
 
 [AB_Cache_{1F6C6FF6-2584-4319-A7EC-8430AAE63371}]
 Cache_Path[Path] Line0001 = "/C/Users/labina/AppData/Local/Temp/AB_Cache_{1F6C6"

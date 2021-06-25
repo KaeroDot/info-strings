@@ -47,8 +47,8 @@
 				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{9F039566-FC46-49C2-B190-468C78D86288}</Property>
-				<Property Name="Bld_version.minor" Type="Int">6</Property>
-				<Property Name="Bld_version.patch" Type="Int">3</Property>
+				<Property Name="Bld_version.minor" Type="Int">7</Property>
+				<Property Name="Bld_version.patch" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">Destination Directory</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
@@ -56,7 +56,7 @@
 				<Property Name="Destination[1].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit sourcedist/data</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{BFDF3FD1-6F59-48C7-A306-E586D678339D}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{2186B5F6-AB08-4750-BC72-9767D815F433}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
@@ -80,8 +80,8 @@
 				<Property Name="Bld_localDestDir" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit</Property>
 				<Property Name="Bld_localDestDirType" Type="Str">relativeToProject</Property>
 				<Property Name="Bld_previewCacheID" Type="Str">{AA26BF06-549A-4358-8BBB-D1ACC0582C52}</Property>
-				<Property Name="Bld_version.minor" Type="Int">6</Property>
-				<Property Name="Bld_version.patch" Type="Int">3</Property>
+				<Property Name="Bld_version.minor" Type="Int">7</Property>
+				<Property Name="Bld_version.patch" Type="Int">1</Property>
 				<Property Name="Destination[0].destName" Type="Str">infolib.lvlibp</Property>
 				<Property Name="Destination[0].path" Type="Path">../builds/infolib-[VersionNumber] LV 20.0 32 bit/NI_AB_PROJECTNAME.lvlibp</Property>
 				<Property Name="Destination[0].path.type" Type="Str">relativeToProject</Property>
@@ -92,7 +92,7 @@
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
 				<Property Name="PackedLib_callersAdapt" Type="Bool">true</Property>
-				<Property Name="Source[0].itemID" Type="Str">{BFDF3FD1-6F59-48C7-A306-E586D678339D}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{2186B5F6-AB08-4750-BC72-9767D815F433}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/infolib.lvlib</Property>
