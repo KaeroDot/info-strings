@@ -292,6 +292,14 @@ Proper matrices
         2002-02-22T12:12:12.123456Z; 2002-02-22T13:12:12.123456Z
         2002-02-22T14:12:12.123456Z; 2002-02-22T15:12:12.123456Z
 #endmatrix:: Test matrix, time values
+   #startmatrix:: Test matrix, lousy format and spaces
+77;  8.8; NaN
+
+a;              999; 10
+        11; 12; 13
+
+
+        #endmatrix:: Test matrix, lousy format and spaces
 
 ----------------------------------------------------------------------------------------------------
 Proper sections

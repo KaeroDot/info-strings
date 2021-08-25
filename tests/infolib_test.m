@@ -236,6 +236,10 @@ k{val} = 'Test matrix, time values';
 v{val}   = [1014379932.123456, 1014379932.123456+1*3600; 1014379932.123456+2*3600, 1014379932.123456+3*3600];
 t{val}   = 'timematrix';
 s{val}   = {''};
+k{val} = 'Test matrix, lousy format and spaces';
+v{val}   = [77, 8.8, NaN; NaN, 999, 10; 11, 12, 13];
+t{val}   = 'matrix';
+s{val}   = {''};
 
 val = val + 1;
 k{val} = 'Key for section test';
