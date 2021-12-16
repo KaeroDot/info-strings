@@ -8,6 +8,9 @@
 ## Extension `.info` is added automatically if missing, this can be prevented by
 ## setting @var{autoextension} to zero.
 ##
+## Script always converts possible Windows line endings (CRLF) to LF, so infostr always 
+## contains LF line endings. When saving using infosve, OS dependent line ending is used.
+##
 ## Example:
 ## @example
 ## infostr = infoload('test_file')
@@ -17,7 +20,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 5.0
+## Version: 6.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes

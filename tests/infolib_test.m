@@ -7,7 +7,7 @@
 % 
 % ## Author: Martin Šíra <msiraATcmi.cz>
 % ## Created: 2019
-% ## Version: 0.1
+% ## Version: 0.2
 % ## Script quality:
 % ##   Tested: no
 % ##   Contains help: no
@@ -382,6 +382,87 @@ for j = 1:3
         tim{j} = toc;
 end % j = 1:2
 
+% test of standalone files %<<<1
+disp('Tests of standalone files:')
+testr_standalone = [];
+fn_temp = 'tmp.info';
+
+% test 1 - key %<<<2
+k = 'Test key';
+v = 'A';
+s = {};
+fn = 'test_standalone_key.info';
+
+infostr = infoload(fn);
+infostr2 = infoparse(infostr);
+r = infogettext(infostr, k, s);
+r2 = infogettext(infostr2, k, s);
+testr_standalone(end+1) = strcmp(v, r) & strcmp(v, r2);
+infostr = infosettext('', k, v);
+delete(fn_temp); infosave(infostr, fn_temp);
+infostr = infoload(fn_temp);
+t = infogettext(infostr, k);
+testr_standalone(end) = testr_standalone(end) + strcmp(v, r);
+if testr_standalone(end) disp('Test standalone key ok') else disp('Test standalone key BAD') end;
+
+% test 2 - matrix %<<<2
+k = 'Test matrix';
+v = [1.1 2.1 3.1; 4e4 -5e5 6e-6; 7.7e7 8.123456789e1 NaN];
+s = {};
+fn = 'test_standalone_matrix.info';
+
+infostr = infoload(fn);
+infostr2 = infoparse(infostr);
+r = infogetmatrix(infostr, k, s);
+r2 = infogetmatrix(infostr2, k, s);
+testr_standalone(end+1) = (numel(r) == numel(v)) & all(all( r == v | (isnan(v) & isnan(r)) ));
+testr_standalone(end) = testr_standalone(end) & (numel(r2) == numel(v)) & all(all( r2 == v | (isnan(v) & isnan(r2)) ));
+infostr = infosetmatrix('', k, v);
+delete(fn_temp); infosave(infostr, fn_temp);
+infostr = infoload(fn_temp);
+m = infogetmatrix(infostr, k);
+testr_standalone(end) = testr_standalone(end) & (numel(r) == numel(v)) & all(all( r == v | (isnan(v) & isnan(r)) ));
+if testr_standalone(end) disp('Test standalone matrix ok') else disp('Test standalone matrix BAD') end;
+
+% test 3 - time matrix %<<<2
+k = 'Test matrix, time values';
+v = [1014379932.123456, 1014379932.123456+1*3600; 1014379932.123456+2*3600, 1014379932.123456+3*3600];
+s = {};
+fn = 'test_standalone_matrixtime.info';
+
+infostr = infoload(fn);
+infostr2 = infoparse(infostr);
+r = infogettimematrix(infostr, k, s);
+r2 = infogettimematrix(infostr2, k, s);
+testr_standalone(end+1) = all(all(abs(r - v) < 0.5e-6));
+testr_standalone(end) = testr_standalone(end) & all(all(abs(r - v) < 0.5e-6));
+infostr = infosettimematrix('', k, v);
+delete(fn_temp); infosave(infostr, fn_temp);
+infostr = infoload(fn_temp);
+r = infogettimematrix(infostr, k);
+testr_standalone(end) = testr_standalone(end) & all(all(abs(r - v) < 0.5e-6));
+if testr_standalone(end) disp('Test standalone time matrix ok') else disp('Test standalone time matrix BAD') end;
+
+% test 4 - section-key %<<<2
+k = 'Key for section test';
+v = 2;
+s = {'Test section'};
+fn = 'test_standalone_sectionkey.info';
+
+infostr = infoload(fn);
+infostr2 = infoparse(infostr);
+r = infogetnumber(infostr, k, s);
+r2 = infogetnumber(infostr2, k, s);
+testr_standalone(end+1) = (numel(r) == numel(v)) & all(all( r == v | (isnan(v) & isnan(r)) ));
+testr_standalone(end) = testr_standalone(end) & (numel(r2) == numel(v)) & all(all( r2 == v | (isnan(v) & isnan(r2)) ));
+infostr = infosetnumber('', k, v);
+delete(fn_temp); infosave(infostr, fn_temp);
+infostr = infoload(fn_temp);
+m = infogetnumber(infostr, k);
+testr_standalone(end) = testr_standalone(end) & (numel(r) == numel(v)) & all(all( r == v | (isnan(v) & isnan(r)) ));
+if testr_standalone(end) disp('Test standalone section key ok') else disp('Test standalone section key BAD') end;
+
+% display results %<<<1
 disp('------------')
 disp(['Tests using regular expressions took ' num2str(tim{1}) ' s to finish.'])
 disp(['Number of bad tests: ' num2str(sum(testr(1,:) == 0))])
@@ -389,6 +470,7 @@ disp(['Tests using parsing took ' num2str(tim{2}) ' s to finish.'])
 disp(['Number of bad tests: ' num2str(sum(testr(2,:) == 0))])
 disp(['Tests using regular expressions of saved and loaded file took ' num2str(tim{3}) ' s to finish.'])
 disp(['Number of bad tests: ' num2str(sum(testr(3,:) == 0))])
+disp(['Number of bad standalone tests: ' num2str(sum(testr_standalone == 0))])
 
 allres = all(all(testr > 0));
 

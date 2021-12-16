@@ -1,0 +1,4 @@
+#startmatrix:: Test matrix, time values
+        2002-02-22T12:12:12.123456Z; 2002-02-22T13:12:12.123456Z
+        2002-02-22T14:12:12.123456Z; 2002-02-22T15:12:12.123456Z
+#endmatrix:: Test matrix, time values

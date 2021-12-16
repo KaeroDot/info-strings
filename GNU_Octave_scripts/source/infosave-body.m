@@ -47,6 +47,10 @@ function succes = infosave(infostr, filename, varargin) %<<<1
         if fid == -1
                 error(['infosavefile: error opening file `' filename '`'])
         endif
+        % convert LF line endings to CRLF if in windows OS
+        if ispc
+            infostr = strrep(infostr, char(10), [char(13) char(10)]);
+        end % if ispc
         fprintf(fid, '%s', infostr);
         fclose(fid);
 endfunction

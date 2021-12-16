@@ -40,6 +40,8 @@ function infostr = infoload(filename, varargin) %<<<1
                 error(['infoload: error opening file `' filename '`'])
         endif
         [infostr,count] = fread(fid, [1,inf], 'uint8=>char');  % s will be a character array, count has the number of bytes
+        % convert possible CRLF line endings to LF, so inside Octave/Matlab all strings are LF only:
+        infostr = strrep(infostr, [char(13) char(10)], char(10));
         fclose(fid);
 endfunction
 
