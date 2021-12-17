@@ -329,6 +329,13 @@ Key for section test:: 1
                 #endsection:: Test section 2
         #endsection:: Test section 2
 #endsection:: Test section 2
+#startsection:: Test section reversed 1
+        #startsection:: Test section reversed 2
+                Key for section test reversed:: 3
+        #endsection:: Test section reversed 2
+        Key for section test reversed:: 2
+#endsection:: Test section reveresed 1
+Key for section test reversed:: 1
 #startsection:: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
         Key for section test:: 10
 #endsection:: Test section, nonletter characters in key !@#$%^&*()-=[]{};'"\'\"\:|,./<>?
