@@ -9,6 +9,9 @@
 ## is added automatically if missing, this can be prevented by setting @var{autoextension}
 ## to zero. If @var{overwrite} is set, existing file is overwritten.
 ##
+## Script save file with LF line endings when working in linux and converts LF line
+## endings to CRLF when working in Windows. infostr should always contain LF line endings.
+##
 ## Example:
 ## @example
 ## infosave('key:: val', 'test_file')
@@ -18,7 +21,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 5.0
+## Version: 6.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
@@ -77,6 +80,10 @@ function succes = infosave(infostr, filename, varargin) %<<<1
         if fid == -1
                 error(['infosavefile: error opening file `' filename '`'])
         endif
+        % convert LF line endings to CRLF if in windows OS
+        if ispc
+            infostr = strrep(infostr, char(10), [char(13) char(10)]);
+        end % if ispc
         fprintf(fid, '%s', infostr);
         fclose(fid);
 endfunction

@@ -8,6 +8,10 @@ function succes = infosave(infostr, filename, varargin)%<<<1
 %     prevented by setting AUTOEXTENSION to zero.  If OVERWRITE is set,
 %     existing file is overwritten.
 %
+%     Script save file with LF line endings when working in linux and
+%     converts LF line endings to CRLF when working in Windows.  infostr
+%     should always contain LF line endings.
+%
 %     Example:
 %          infosave('key:: val', 'test_file')
 %          infosave('key:: val', 'test_file_with_other_extension.txt', 0)
@@ -17,7 +21,7 @@ function succes = infosave(infostr, filename, varargin)%<<<1
 
 % Author: Martin Šíra <msiraATcmi.cz>
 % Created: 2014
-% Version: 5.0
+% Version: 6.0
 % Script quality:
 %   Tested: yes
 %   Contains help: yes
@@ -75,6 +79,10 @@ function succes = infosave(infostr, filename, varargin)%<<<1
         if fid == -1
                 error(['infosavefile: error opening file `' filename '`'])
         end
+        % convert LF line endings to CRLF if in windows OS
+        if ispc
+            infostr = strrep(infostr, char(10), [char(13) char(10)]);
+        end % if ispc
         fprintf(fid, '%s', infostr);
         fclose(fid);
 end

@@ -8,7 +8,7 @@
 %! section1subsection = sprintf('C:: c in subsection');
 %!assert(strcmp(infogetsection(infostr, 'section 1'), section1))
 %! [tmp, indx] = infogetsection(infostr, 'section 1');
-%!assert(indx == 283)
+%!assert(indx == 283) %XXX asi chyba? 284 je s \n, 283 bez \n
 %!assert(strcmp(infogetsection(infostr, 'section 2'), section2))
 %!assert(strcmp(infogetsection(infostr, 'subsection', {'section 1'}), section1subsection))
 %!assert(strcmp(infogetsection(infostr, {'section 1', 'subsection'}), section1subsection))

@@ -31,7 +31,7 @@
 
 ## Author: Martin Šíra <msiraATcmi.cz>
 ## Created: 2014
-## Version: 5.0
+## Version: 6.0
 ## Script quality:
 ##   Tested: yes
 ##   Contains help: yes
